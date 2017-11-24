@@ -178,16 +178,9 @@ public class Insert_Records {
 
 
 	public static void  insertData(String File,String storProcName ) throws SQLException, ParseException{
-	
-
-
 		CallableStatement cstmt = null;
 		PreparedStatement smt= null;
-
-
-
 		FileParser Fp = null;
-
 
 		String records = Fp.getFileContentAsString(File);
 		// System.out.print(unEscapeString(records));
@@ -196,25 +189,15 @@ public class Insert_Records {
 		ArrayList<ArrayList<String>> storeProcData = new ArrayList<ArrayList<String>>() ;
 
 		/*On each /n character split it to a new vector*/
-
-
 		ArrayList<String> oneLine  = new ArrayList<String>();  
-
-
 		StringBuilder oneRecord = new StringBuilder();
 
 		for (int i =0; i <= records.length()-1 ; ++i){
 			/*On each /n character split it to a new vector*/
 			if ( '\n' == records.charAt(i) ){
 				oneLine.add(oneRecord.toString());
-
 				ArrayList<String> newLine = new ArrayList<String>(oneLine);
-
 				storeProcData.add(newLine);
-				//	System.out.print(oneLine); 
-
-
-
 				oneLine.clear();
 				oneRecord.setLength(0);
 			}
@@ -228,11 +211,8 @@ public class Insert_Records {
 			}
 
 		}
-
-
-
-			storeProcData.remove(0);
-			//System.out.print(storeProcData);
+		storeProcData.remove(0);
+		//System.out.print(storeProcData);
 
 
 		//	Prepare Call for StoreProcedure
@@ -241,7 +221,7 @@ public class Insert_Records {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
+
 		if(DEBUG){
 			for (int i = 0 ;i <= storeProcData.size()-1; i++){
 				for (int j = 0 ;j <= storeProcData.get(0).size()-1; j++){
@@ -251,108 +231,107 @@ public class Insert_Records {
 				System.out.print("\n");
 			}
 		}
+	}
 
-		
-		
-		int k = 0;
+
+	public  void  HorsesInsertion(ArrayList<ArrayList<String>> storeProcData,CallableStatement cstmt) throws SQLException, ParseException{
+		int k=0;
 		int j=0;
-
 		for (int i = 0 ;i <= storeProcData.size()-1; i++){
-		
-				//ID INT
-				if(	(storeProcData.get(i).get(j).equals("")))
-					cstmt.setNull(++k,java.sql.Types.INTEGER);
-				else
-					cstmt.setInt(++k,Integer.parseInt(storeProcData.get(i).get(j)));
-				
-				j++;
-				
-				//NAME STRING
-				if(	(storeProcData.get(i).get(j).equals("")))
-					cstmt.setNull(++k,java.sql.Types.NCHAR);	
-				else
-					cstmt.setString(++k, (String)storeProcData.get(i).get(j));
-				j++;
-				
-				//SEX STRING
-				if(	(storeProcData.get(i).get(j).equals("")))
-					cstmt.setNull(++k,java.sql.Types.NCHAR);	
-				else
-					cstmt.setString(++k, storeProcData.get(i).get(j));
-				j++;
-				
-				//COLOR NAME STRING
-				if(	(storeProcData.get(i).get(j).equals("")))
-					cstmt.setNull(++k,java.sql.Types.NCHAR);	
-				else
-					cstmt.setString(++k,storeProcData.get(i).get(j));
-				j++;
-				
-				//DATE OF BIRTH DATE
-				if(	(storeProcData.get(i).get(j).equals("")))
-					cstmt.setNull(++k,java.sql.Types.DATE);
-				else{
+
+			//ID INT
+			if(	(storeProcData.get(i).get(j).equals("")))
+				cstmt.setNull(++k,java.sql.Types.INTEGER);
+			else
+				cstmt.setInt(++k,Integer.parseInt(storeProcData.get(i).get(j)));
+
+			j++;
+
+			//NAME STRING
+			if(	(storeProcData.get(i).get(j).equals("")))
+				cstmt.setNull(++k,java.sql.Types.NCHAR);	
+			else
+				cstmt.setString(++k, (String)storeProcData.get(i).get(j));
+			j++;
+
+			//SEX STRING
+			if(	(storeProcData.get(i).get(j).equals("")))
+				cstmt.setNull(++k,java.sql.Types.NCHAR);	
+			else
+				cstmt.setString(++k, storeProcData.get(i).get(j));
+			j++;
+
+			//COLOR NAME STRING
+			if(	(storeProcData.get(i).get(j).equals("")))
+				cstmt.setNull(++k,java.sql.Types.NCHAR);	
+			else
+				cstmt.setString(++k,storeProcData.get(i).get(j));
+			j++;
+
+			//DATE OF BIRTH DATE
+			if(	(storeProcData.get(i).get(j).equals("")))
+				cstmt.setNull(++k,java.sql.Types.DATE);
+			else{
 				//	System.out.println(storeProcData.get(i).get(j));
-					DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
-					java.util.Date startDate = df.parse((storeProcData.get(i).get(j)));
-					java.sql.Date sDate = convertUtilToSql(startDate);
-					cstmt.setDate(++k, sDate);
-				}
-				j++;
-				
-				//WEIGHT FLOAT 
-				if(	(storeProcData.get(i).get(j).equals("")))
-						cstmt.setNull(++k,java.sql.Types.NCHAR);
-				else
-					cstmt.setFloat(++k, Float.parseFloat((String)storeProcData.get(i).get(j)));
-				j++;
-				
-				//TRAINER ID CHAR
-				if(	(storeProcData.get(i).get(j).equals("")))
-					cstmt.setNull(++k,java.sql.Types.CHAR);
-				else
-					cstmt.setString(++k,storeProcData.get(i).get(j));
-				j++;
-				
-				//ONWER ID CHAR
-				if(	(storeProcData.get(i).get(j).equals("")))
-					cstmt.setNull(++k,java.sql.Types.CHAR);
-				else
-					cstmt.setString(++k,storeProcData.get(i).get(j));
-				j++;
-				
-				//BREEDER ID CHAR
-				if(	(storeProcData.get(i).get(j).equals("")))
-					cstmt.setNull(++k,java.sql.Types.CHAR);
-				else
-					cstmt.setString(++k,storeProcData.get(i).get(j));
-				j++;
-				
-				//DAD ID
-				if(	(storeProcData.get(i).get(j).equals("")))
-					cstmt.setNull(++k,java.sql.Types.INTEGER);
-				else
-					cstmt.setInt(++k, Integer.parseInt(storeProcData.get(i).get(j)));
-				j++;
-				
-				//MOTHER ID 
-				if(	(storeProcData.get(i).get(j).equals("")))
-					cstmt.setNull(++k,java.sql.Types.INTEGER);
-				else
-					cstmt.setInt(++k, Integer.parseInt(storeProcData.get(i).get(j)));
+				DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+				java.util.Date startDate = df.parse((storeProcData.get(i).get(j)));
+				java.sql.Date sDate = convertUtilToSql(startDate);
+				cstmt.setDate(++k, sDate);
+			}
+			j++;
 
-				cstmt.execute();
+			//WEIGHT FLOAT 
+			if(	(storeProcData.get(i).get(j).equals("")))
+				cstmt.setNull(++k,java.sql.Types.NCHAR);
+			else
+				cstmt.setFloat(++k, Float.parseFloat((String)storeProcData.get(i).get(j)));
+			j++;
 
-			//cstmt.addBatch();
+			//TRAINER ID CHAR
+			if(	(storeProcData.get(i).get(j).equals("")))
+				cstmt.setNull(++k,java.sql.Types.CHAR);
+			else
+				cstmt.setString(++k,storeProcData.get(i).get(j));
+			j++;
+
+			//ONWER ID CHAR
+			if(	(storeProcData.get(i).get(j).equals("")))
+				cstmt.setNull(++k,java.sql.Types.CHAR);
+			else
+				cstmt.setString(++k,storeProcData.get(i).get(j));
+			j++;
+
+			//BREEDER ID CHAR
+			if(	(storeProcData.get(i).get(j).equals("")))
+				cstmt.setNull(++k,java.sql.Types.CHAR);
+			else
+				cstmt.setString(++k,storeProcData.get(i).get(j));
+			j++;
+
+			//DAD ID
+			if(	(storeProcData.get(i).get(j).equals("")))
+				cstmt.setNull(++k,java.sql.Types.INTEGER);
+			else
+				cstmt.setInt(++k, Integer.parseInt(storeProcData.get(i).get(j)));
+			j++;
+
+			//MOTHER ID 
+			if(	(storeProcData.get(i).get(j).equals("")))
+				cstmt.setNull(++k,java.sql.Types.INTEGER);
+			else
+				cstmt.setInt(++k, Integer.parseInt(storeProcData.get(i).get(j)));
+
+			cstmt.execute();
+
 			k=0;
 			j=0;
 		}
-	//	cstmt.executeQuery();
+
 		cstmt.close();
 
 	}
 
-
+	
 	private static java.sql.Date convertUtilToSql(java.util.Date uDate) {
 		java.sql.Date sDate = new java.sql.Date(uDate.getTime());
 		return sDate;

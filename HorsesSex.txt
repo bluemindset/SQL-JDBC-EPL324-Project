@@ -1,9 +1,0 @@
-HORSE_SEX
-stallion 
-mare
-gelding
-colt
-filly
-foal
-yearling
-rig

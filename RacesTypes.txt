@@ -1,4 +1,0 @@
-RACE_TYPE
-Simple
-Cup
-Other

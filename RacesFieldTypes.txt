@@ -1,5 +1,0 @@
-FIELD_TYPE
-Grass
-Sand
-Synthetic
-Other

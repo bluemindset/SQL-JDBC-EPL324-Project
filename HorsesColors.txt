@@ -1,9 +1,0 @@
-HORSE_COLOR
-Dark Bay
-Roan
-Brown
-Black
-Chestnut
-Bay
-Grey
-Dark-Bay-Grey
