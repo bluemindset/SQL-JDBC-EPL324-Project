@@ -3,13 +3,14 @@ Store Procedure for adding horsesHorses
 */
 Drop PROCEDURE dbo.horseInsert
 
-CREATE PROCEDURE dbo.horseInsert @id int, @name varchar(25),@sex varchar(20),
-@color varchar(15), @date_of_birth date ,@cur_weight float, @Trainer int,
+CREATE PROCEDURE dbo.horseInsert @id int, @name nvarchar(25),@sex nvarchar(20),
+@color nvarchar(15), @date_of_birth date ,@cur_weight float, @Trainer int,
 @Owner int,@Breeder int ,@Father_ID int ,@MOTHER_ID int
 		   
 		   
 AS
 
+SET IDENTITY_INSERT  dbo.Horse ON
 
 
 SET NOCOUNT ON
@@ -42,7 +43,10 @@ INSERT INTO [dbo].[HORSE]
 		   ,@Father_ID
 		   ,@MOTHER_ID
 		   )
+
 GO
+
+SET IDENTITY_INSERT  dbo.Horse OFF
 
 
 /*

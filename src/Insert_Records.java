@@ -177,15 +177,99 @@ public class Insert_Records {
 	 */
 
 
-	public static void  insertData(String File,String storProcName ) throws SQLException, ParseException{
-		CallableStatement cstmt = null;
-		PreparedStatement smt= null;
-		FileParser Fp = null;
+	public static void  insert() throws SQLException, ParseException{
+	
+		/*HORSES*/
+		String fileHorses = "DataTables/Horses.txt";
+		String recordsHorses = FileParser.getFileContentAsString(fileHorses);
+		String HorseStorProcVal= "{call dbo.horseInsert(?,?,?,?,?,?,?,?,?,?,?)}";
+		HorsesInsertion(insertData(recordsHorses), HorseStorProcVal);
 
-		String records = Fp.getFileContentAsString(File);
-		// System.out.print(unEscapeString(records));
+		/*TRAINERS*/
+		String fileTrainers="DataTables/Trainer.txt";
+		String recordsTrainers = FileParser.getFileContentAsString(fileTrainers);
+		String TrainersStorProcVal= "{call dbo.TrainersInsert(?,?,?,?,?,?,?,?,?,?,?)}";
+	//	TrainersInsertion(insertData(recordsTrainers), TrainersStorProcVal);
 
-		//	 System.out.println(records);
+		
+		/*BREEDERS*/
+		String fileBreeders="DataTables/Breeders.txt";
+		String recordsBreeders = FileParser.getFileContentAsString(fileBreeders);
+		String BreedersStorProcVal= "{call dbo.Insert(?,?,?,?,?,?,?,?,?,?,?)}";
+	//	BreedersInsertion(insertData(recordsTrainers), TrainersStorProcVal);
+
+		
+		/*RACES*/
+		String fileRaces="DataTables/Races.txt";
+		String recordsRaces = FileParser.getFileContentAsString(fileRaces);
+		String RacesStorProcVal= "{call dbo.horseInsert(?,?,?,?,?,?,?,?,?,?,?)}";
+
+		
+		/*OWNERS*/
+		String fileOwners="DataTables/Owners.txt";
+		String recordsOwners = FileParser.getFileContentAsString(fileOwners);
+		String OwnersStorProcVal= "{call dbo.horseInsert(?,?,?,?,?,?,?,?,?,?,?)}";
+
+		
+		
+		/*MEETINGS*/
+		String fileMeetings = "DataTables/Meetings.txt";
+		String MeetingsStorProcVal= "{call dbo.horseInsert(?,?,?,?,?,?,?,?,?,?,?)}";
+		String recordsMeetings = FileParser.getFileContentAsString(fileMeetings);
+
+		
+		
+		/*JOCKEYS*/
+		String fileJockeys = "DataTables/Jockeys.txt";
+		String recordsJockeys = FileParser.getFileContentAsString(fileJockeys);
+		String JockeysStorProcVal= "{call dbo.horseInsert(?,?,?,?,?,?,?,?,?,?,?)}";
+
+		
+		/*HORSE SEX*/
+		String fileHorsesSex="DataTables/HorsesSex.txt";
+		String HorsesSexStorProcVal= "{call dbo.horseInsert(?,?,?,?,?,?,?,?,?,?,?)}";
+		String recordsHorsesSex = FileParser.getFileContentAsString(fileHorsesSex);
+
+		
+		/*FAMILIES*/
+		String fileFamilies = "DataTables/Families.txt";
+		String recordsFamilies = FileParser.getFileContentAsString(fileFamilies);
+		String FamiliesStorProcVal= "{call dbo.FamiliesInsert(?)}";
+		FamilyInsertion(insertData(recordsFamilies), FamiliesStorProcVal);
+
+		
+		/*RACE DISTANCE*/
+		String fileRacesDistances = "DataTables/RacesDistances.txt";
+		String recordsRaceDistances = FileParser.getFileContentAsString(fileRacesDistances);
+		String RaceDistancesStorProcVal= "{call dbo.horseInsert(?,?,?,?,?,?,?,?,?,?,?)}";
+
+		
+		/*HORSE COLOR*/
+		String fileHorsesColor = "DataTables/HorsesColors.txt";
+		String recordsHorseColor = FileParser.getFileContentAsString(fileHorsesColor);
+		String HorseColorStorProcVal= "{call dbo.horseInsert(?,?,?,?,?,?,?,?,?,?,?)}";
+
+		
+		/*RACE RESULT*/
+		String fileRacesResults = "DataTables/RacesResults.txt";
+		
+		
+		
+		/*--RACES TYPES --*/
+		String fileRacesTypes = "DataTables/RacesTypes.txt";
+		String RaceTypesStorProcVal= "{call dbo.RaceTypesInsert(?,?,?,?,?,?,?,?,?,?,?)}";
+		String recordsRaceTypes = FileParser.getFileContentAsString(fileRacesTypes);
+
+		
+		/*RACE FIELD TYPE*/
+		String fileRacesFieldTypes = "DataTables/RacesFieldTypes.txt";
+		
+		
+		
+	}
+	public static ArrayList<ArrayList<String>>insertData(String  records) throws SQLException, ParseException{
+		
+		
 		ArrayList<ArrayList<String>> storeProcData = new ArrayList<ArrayList<String>>() ;
 
 		/*On each /n character split it to a new vector*/
@@ -215,13 +299,6 @@ public class Insert_Records {
 		//System.out.print(storeProcData);
 
 
-		//	Prepare Call for StoreProcedure
-		try{
-			cstmt = conn.prepareCall (storProcName);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-
 		if(DEBUG){
 			for (int i = 0 ;i <= storeProcData.size()-1; i++){
 				for (int j = 0 ;j <= storeProcData.get(0).size()-1; j++){
@@ -231,12 +308,59 @@ public class Insert_Records {
 				System.out.print("\n");
 			}
 		}
+			return storeProcData;
+			
+		
+	}
+	
+
+	
+	
+
+	
+	public static void 	FamilyInsertion(ArrayList<ArrayList<String>> storeProcData,String storProcName) throws SQLException, ParseException{
+		int k=0;
+		int j=0;
+		
+		
+		CallableStatement cstmt = null;
+		//	Prepare Call for StoreProcedure
+		try{
+			cstmt = conn.prepareCall (storProcName);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+		for (int i = 0 ;i <= storeProcData.size()-1; i++){
+
+			//ID INT
+			if(	(storeProcData.get(i).get(j).equals("")))
+				cstmt.setNull(k,java.sql.Types.NCHAR);
+			else
+				cstmt.setString(k,storeProcData.get(i).get(j));
+
+
+			cstmt.execute();
+			k=0;
+			
+		}
+		cstmt.close();
 	}
 
 
-	public  void  HorsesInsertion(ArrayList<ArrayList<String>> storeProcData,CallableStatement cstmt) throws SQLException, ParseException{
+	public static void  HorsesInsertion(ArrayList<ArrayList<String>> storeProcData,String storProcName) throws SQLException, ParseException{
 		int k=0;
 		int j=0;
+		
+		
+		CallableStatement cstmt = null;
+		//	Prepare Call for StoreProcedure
+		try{
+			cstmt = conn.prepareCall (storProcName);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		for (int i = 0 ;i <= storeProcData.size()-1; i++){
 
 			//ID INT
@@ -367,8 +491,6 @@ public class Insert_Records {
 
 		Vector<Vector<String>> Table = new Vector<Vector<String>>();
 
-		String HorseStorProcVal= "{call dbo.horseInsert(?,?,?,?,?,?,?,?,?,?,?)}";
-		String HorseStorProcVal1= "{call dbo.horseInsert(?,?,?)}";
 
 		Insert_Records anObj = new Insert_Records();
 		conn = anObj.getDBConnection();
@@ -377,7 +499,7 @@ public class Insert_Records {
 			return;
 		}
 
-		insertData("HorsesMod.txt",HorseStorProcVal);
+		insert();
 
 	}
 
