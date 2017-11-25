@@ -70,8 +70,8 @@ CREATE TABLE [dbo].[MEETING](
 	[id][int] IDENTITY(1,1) NOT NULL,
 	[date][date] NOT NULL,
 	--USER-CHANGES--
-	[created_by][char](6) NOT NULL,
-	[date_created][date] NOT NULL,
+	[created_by][char](6)  NULL,
+	[date_created][date]  NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_MEETING] PRIMARY KEY (id ASC)
@@ -90,12 +90,12 @@ CREATE TABLE [dbo].[RACE](
 	[prize_3][money]  NULL,
 	[total_winnings] AS ([prize_1]+[prize_2]+[prize_3]),  -- CALCULATED --
 	-- FOREIGN KEYS--
-	[race_type][nvarchar](25) NOT NULL,
-	[field_type][nvarchar](25) NOT NULL,
-	[meeting_id] [int] NOT NULL,
+	[race_type][nvarchar](25)  NULL,
+	[field_type][nvarchar](25)  NULL,
+	[meeting_id] [int]  NOT NULL,
 	--USER-CHANGES--
-	[created_by][char](6) NOT NULL,
-	[date_created][date] NOT NULL,
+	[created_by][char](6)  NULL,
+	[date_created][date]  NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL ,
 	CONSTRAINT [PK_RACE] PRIMARY KEY ([race_id] ASC, [meeting_id] ASC)
@@ -107,8 +107,8 @@ CREATE TABLE [dbo].[RACE](
 CREATE TABLE [dbo].[RACE_DISTANCE](
 	[distance][int] NOT NULL,
 	--USER-CHANGES--
-	[created_by][char](6) NOT NULL,
-	[date_created][date] NOT NULL,
+	[created_by][char](6) NULL,
+	[date_created][date]  NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_RACE_DISTANCE] PRIMARY KEY ([distance] ASC) 
@@ -118,8 +118,8 @@ CREATE TABLE [dbo].[RACE_DISTANCE](
 CREATE TABLE [dbo].[RACE_TYPE](
 	[type][nvarchar](25) NOT NULL,
 	--USER-CHANGES--
-	[created_by][char](6) NOT NULL,
-	[date_created][date] NOT NULL,
+	[created_by][char](6)  NULL,
+	[date_created][date]  NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_RACE_TYPE] PRIMARY KEY ([type] ASC)
@@ -164,8 +164,8 @@ CREATE TABLE [dbo].[TRAINER](
 	[last_name][nvarchar](25)  NULL,
 	[compressed_name] AS cast(SUBSTRING([first_name],1,1)+'.'+[last_name] AS [nvarchar](15)),
 	--USER-CHANGES--
-	[created_by][char](6) NOT NULL,
-	[date_created][date] NOT NULL,
+	[created_by][char](6)  NULL,
+	[date_created][date] NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_TRAINER] PRIMARY KEY ([id] ASC)
@@ -178,8 +178,8 @@ CREATE TABLE [dbo].[BREEDER](
 	[last_name][nvarchar](25)  NULL,
 	[compressed_name] AS cast(SUBSTRING([first_name],1,1)+'.'+[last_name] AS [nvarchar](15)),
 	--USER-CHANGES--
-	[created_by][char](6) NOT NULL,
-	[date_created][date] NOT NULL,
+	[created_by][char](6) NULL,
+	[date_created][date] NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_BREEDER] PRIMARY KEY ([id] ASC),
@@ -195,9 +195,10 @@ CREATE TABLE [dbo].[OWNER](
 	[title][nvarchar](5)  NULL,
 	--FOREIGN KEY--
 	[family_id][int] NOT NULL,
+	[onwer_family][nvarchar](20)  NULL,
 	--USER-CHANGES--
-	[created_by][char](6) NOT NULL,
-	[date_created][date]NOT NULL ,
+	[created_by][char](6)  NULL,
+	[date_created][date] NULL ,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_OWNER] PRIMARY KEY ([id] ASC)
@@ -208,10 +209,10 @@ CREATE TABLE [dbo].[FAMILY](
 	[id][int] NOT NULL,
 	[name][nvarchar](25) ,
 	[compressed_name] AS cast([name] AS [nvarchar](15)),
-	[no_of_owners][int] NOT NULL,
+	[no_of_owners][int] NULL,
 	--USER-CHANGES--
-	[created_by][char](6) NOT NULL ,
-	[date_created][date] NOT NULL,
+	[created_by][char](6)  NULL ,
+	[date_created][date]  NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_FAMILY] PRIMARY KEY ([id] ASC)
@@ -230,4 +231,26 @@ CREATE TABLE [dbo].[SYSTEM_USER](
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_USER] PRIMARY KEY ([id] ASC)
+)
+
+----------------------------NEW TABLES-------------------------------------------------
+--HORSE SEX--
+CREATE TABLE [dbo].[HORSE_SEX](
+	[horse_sex][nvarchar](15) NOT NULL
+	
+)
+
+--RACE RESULTS--
+CREATE TABLE [dbo].[RACE_RESULTS](
+	[meeting_date][nvarchar](15) NOT NULL,
+	[race_time][time] NULL,
+	[horse][char](6) NULL,
+	[jockey][char](6) NULL,
+	[trainer][char](6) NULL,
+	[start_pos][smallint] NULL,
+	[finish_pos][smallint] NULL,
+)
+--RACE FIELDS--
+CREATE TABLE [dbo].[RACE_FIELDS](
+	[field][nvarchar](15) NOT NULL,
 )

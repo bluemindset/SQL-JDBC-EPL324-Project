@@ -280,6 +280,24 @@ GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SYSTEM_USER]') AND type in (N'U'))
 DROP TABLE [dbo].[SYSTEM_USER]
 GO
+-- DROP HORSE_SEX
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[HORSE_SEX]') AND type in (N'U'))
+DROP TABLE [dbo].[HORSE_SEX]
+GO
+
+-- DROP RACE_RESULTS
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RACE_RESULTS]') AND type in (N'U'))
+DROP TABLE [dbo].[RACE_RESULTS]
+GO
+
+-- DROP RACE_FIELDS
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RACE_FIELDS]') AND type in (N'U'))
+DROP TABLE [dbo].[RACE_FIELDS]
+GO
+
+
+
+
 
 
 
