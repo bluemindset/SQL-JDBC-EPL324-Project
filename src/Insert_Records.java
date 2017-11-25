@@ -26,8 +26,8 @@ public class Insert_Records {
 	 * @return The connection object to be used.
 	 */
 	private Connection getDBConnection() {
-		//	String dbConnString = "jdbc:sqlserver://apollo.in.cs.ucy.ac.cy:1433;databaseName=sioann12;user=sioann12;password=cRaVasPa6uhu;";
-		String dbConnString = "jdbc:sqlserver://\\DOCTOR\\SQLEXPRESS:1433;databaseName=master;integratedSecurity=true;user=DOCTOR\\stefanos";
+		String dbConnString = "jdbc:sqlserver://apollo.in.cs.ucy.ac.cy:1433;databaseName=sioann12;user=sioann12;password=cRaVasPa6uhu;";
+		//String dbConnString = "jdbc:sqlserver://\\DOCTOR\\SQLEXPRESS:1433;databaseName=master;integratedSecurity=true;user=DOCTOR\\stefanos";
 
 		if (!dbDriverLoaded)
 			try {
@@ -55,127 +55,6 @@ public class Insert_Records {
 
 
 
-	/**
-	 * A method that INSERTS a new row in the sample table (giving values to Col1 and Col2)
-	 *
-	 */
-	public void insertSample() {
-		// Query to be executed.
-		String query = "INSERT INTO " + "SAMPLE (Col1, Col2) " + "VALUES ('Col1Value', 35694999);";
-		try {
-			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE,
-					ResultSet.CLOSE_CURSORS_AT_COMMIT);
-			stmt.executeUpdate(query);
-		} catch (SQLException e) {
-			System.out.print("Got error: ");
-			System.out.print(e.getErrorCode());
-			System.out.print("\nSQL State: ");
-			System.out.println(e.getSQLState());
-			System.out.println(e.getMessage());
-		}
-	}
-
-
-
-
-	/**
-	 * A generic method that executes a store procedure that may have IN and OUT parameters of String type
-	 *
-	 * @param storProcName
-	 *            The name of the database stored procedure to call
-	 * @param storeProcINParams
-	 *            A {@link Vector} containing the values (as {@link String} objects) of all IN parameters for the stored
-	 *            procedure to be call
-	 * @param getOUTParameter
-	 *            Indicates whether we the stored procedure has an OUT parameter
-	 * @return A {@link ResultSet} object containing the results of the executed stored procedure
-	 */
-	public ResultSet executeStoreProc(String storProcName, Vector storeProcINParams, boolean getOUTParameter) {
-		ResultSet rs = null;
-		int i = 0;
-
-		try {
-			CallableStatement cs = conn.prepareCall(storProcName);
-			// Note that storProcName value must follow the JDBC escape syntax
-			// e.g. "{? = storProc(?,?)}"
-			if (storeProcINParams != null) {
-				for (Iterator iterator = storeProcINParams.iterator(); iterator.hasNext();) {
-					cs.setString(++i, (String) iterator.next());
-				}
-			}
-			if (getOUTParameter) {
-				cs.registerOutParameter(++i, java.sql.Types.NVARCHAR);
-			}
-			rs = cs.executeQuery();
-
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		return rs;
-	}
-
-
-	/*
-		public static void input_data() throws IOException, SQLException {
-
-			List<String> files = new ArrayList<String>();
-
-			files.add("Horses.txt");
-			files.add("Trainer.txt");
-			files.add("RaceTypes.txt");
-			files.add("Horses.txt");
-			files.add("Breeders.txt");
-			files.add("Races.txt");
-			files.add("Owners.txt");
-			files.add("Meetings.txt");
-			files.add("Jockeys.txt");
-			files.add("HorsesSex.txt");
-			files.add("Fanilies.txt");
-			files.add("RacesDistances.txt");
-			files.add("HorsesColor.txt");
-
-
-			CallableStatement cstmt = null;
-			cstmt = conn.prepareCall ("{call dbo.GetManager(?, ?)}");
-
-
-
-			ArrayList<String> lines = (ArrayList<String>) Files.readAllLines(file, Charset.defaultCharset());
-			ArrayList<String []> columns = new ArrayList<>();	
-
-
-			for(String line : lines){
-			    columns.add(line.split("  "));
-			}
-
-			for(String [] s : columns){ 
-			    System.out.println(Arrays.toString(s));
-			}
-
-
-
-		//	cstmt.setInt(1, x);
-			cstmt.registerOutParameter(2, java.sql.Types.INTEGER);
-			cstmt.execute();
-			System.out.println("MANAGER ID: " + cstmt.getInt(2));
-			cstmt.close();
-
-
-		}
-
-		/*
-		public static String unEscapeString(String s){
-		    StringBuilder sb = new StringBuilder();
-		    for (int i=0; i<s.length(); i++)
-		        switch (s.charAt(i)){
-		            case '\n': sb.append("\\n"); break;
-		            case '\t': sb.append("\\t"); break;
-		            // ... rest of escape characters
-		            default: sb.append(s.charAt(i));
-		        }
-		    return sb.toString();
-		}
-	 */
 
 
 	public static void  insert() throws SQLException, ParseException{
