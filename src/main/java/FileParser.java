@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 
 class FileParser {
@@ -28,5 +25,9 @@ class FileParser {
             ex.printStackTrace();
         }
         return fileString.toString();
+    }
+
+    static Reader getReaderForFile(String fileName) throws FileNotFoundException {
+         return new BufferedReader(new FileReader(fileName));
     }
 }
