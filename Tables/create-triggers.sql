@@ -43,7 +43,7 @@ BEGIN
 	UPDATE	[dbo].[HORSE_COLOR]
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[color_name] IN (SELECT [color_name] FROM inserted)
 END
 ELSE
 --A current employee has been updated
@@ -51,7 +51,7 @@ BEGIN
 	UPDATE	[dbo].[HORSE_COLOR]
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[color_name] IN (SELECT [color_name] FROM inserted)
 END
 GO
 
@@ -99,7 +99,7 @@ BEGIN
 	UPDATE	[dbo].[MEETING]
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[datem] IN (SELECT [datem] FROM inserted)
 END
 ELSE
 --A current employee has been updated
@@ -107,7 +107,7 @@ BEGIN
 	UPDATE	[dbo].[MEETING]
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[datem] IN (SELECT [datem] FROM inserted)
 END
 GO
 
@@ -128,7 +128,7 @@ BEGIN
 	UPDATE	[dbo].[RACE]
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[race_time], [meeting_date] IN (SELECT [race_time], [meeting_date] FROM inserted)
 END
 ELSE
 --A current employee has been updated
@@ -136,7 +136,7 @@ BEGIN
 	UPDATE	[dbo].[RACE]
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[race_time], [meeting_date] IN (SELECT [race_time], [meeting_date] FROM inserted)
 END
 GO
 
@@ -156,7 +156,7 @@ BEGIN
 	UPDATE	[dbo].[RACE_DISTANCE]
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[distance] IN (SELECT [distance] FROM inserted)
 END
 ELSE
 --A current employee has been updated
@@ -164,7 +164,7 @@ BEGIN
 	UPDATE	[dbo].[RACE_DISTANCE]
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[distance] IN (SELECT [distance] FROM inserted)
 END
 GO
 
@@ -185,7 +185,7 @@ BEGIN
 	UPDATE	[dbo].[RACE_TYPE]
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[type] IN (SELECT [type] FROM inserted)
 END
 ELSE
 --A current employee has been updated
@@ -193,7 +193,7 @@ BEGIN
 	UPDATE	[dbo].[RACE_TYPE]
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[type] IN (SELECT [type] FROM inserted)
 END
 GO
 
@@ -215,7 +215,7 @@ BEGIN
 	UPDATE	[dbo].[FIELD_TYPE]
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[type] IN (SELECT [type] FROM inserted)
 END
 ELSE
 --A current employee has been updated
@@ -223,7 +223,7 @@ BEGIN
 	UPDATE	[dbo].[FIELD_TYPE]
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[type] IN (SELECT [type] FROM inserted)
 END
 GO
 
@@ -245,12 +245,44 @@ BEGIN
 	UPDATE	[dbo].[PARTICIPATION]
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[race_time], [meeting_date], [horse_id], [jockey_id], [trainer_id] IN (SELECT [race_time], [meeting_date], [horse_id], [jockey_id], [trainer_id] FROM inserted)
 END
 ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[PARTICIPATION]
+	SET		[updated_by]=USER,
+			[date_updated]=GETDATE()
+	WHERE	[race_time], [meeting_date], [horse_id], [jockey_id], [trainer_id] IN (SELECT [race_time], [meeting_date], [horse_id], [jockey_id], [trainer_id] FROM inserted)
+END
+GO
+
+
+
+
+
+--Trigger for USER in TRAINER
+IF OBJECT_ID ('[tr_USER_TRAINER]', 'TR') IS NOT NULL
+	DROP TRIGGER [tr_USER_TRAINER]
+GO
+CREATE TRIGGER [tr_USER_TRAINER] ON [dbo].[TRAINER]
+AFTER INSERT, UPDATE
+AS
+DECLARE @countDeleted int
+SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+
+IF @countDeleted=0
+--A new employee has been inserted
+BEGIN
+	UPDATE	[dbo].[TRAINER]
+	SET		[created_by]=USER,
+			[date_created]=GETDATE()
+	WHERE	[id] IN (SELECT [id] FROM inserted)
+END
+ELSE
+--A current employee has been updated
+BEGIN
+	UPDATE	[dbo].[TRAINER]
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
@@ -342,6 +374,35 @@ ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[FAMILY]
+	SET		[updated_by]=USER,
+			[date_updated]=GETDATE()
+	WHERE	[id] IN (SELECT [id] FROM inserted)
+END
+GO
+
+
+--Trigger for USER in SYSTEM_USER
+IF OBJECT_ID ('[tr_USER_SYSTEM_USER]', 'TR') IS NOT NULL
+	DROP TRIGGER [tr_USER_SYSTEM_USER]
+GO
+CREATE TRIGGER [tr_USER_SYSTEM_USER] ON [dbo].[SYSTEM_USER]
+AFTER INSERT, UPDATE
+AS
+DECLARE @countDeleted int
+SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+
+IF @countDeleted=0
+--A new employee has been inserted
+BEGIN
+	UPDATE	[dbo].[SYSTEM_USER]
+	SET		[created_by]=USER,
+			[date_created]=GETDATE()
+	WHERE	[id] IN (SELECT [id] FROM inserted)
+END
+ELSE
+--A current employee has been updated
+BEGIN
+	UPDATE	[dbo].[SYSTEM_USER]
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
