@@ -1,5 +1,10 @@
-IF OBJECT_ID ( 'selectHorsesLike', 'P' ) IS NOT NULL
-    DROP PROCEDURE selectHorsesLike;
+--	Q1	
+USE ACHRYS16
+GO
+IF EXISTS(SELECT 1 FROM sys.procedures 
+          WHERE Name = 'selectHorsesLike')
+
+DROP PROCEDURE selectHorsesLike
 GO
 CREATE PROCEDURE selectHorsesLike
 @inputName nvarchar(25)
@@ -9,6 +14,16 @@ BEGIN
 	SELECT *
 	FROM HORSE H
 	WHERE SOUNDEX(H.name) = SOUNDEX(@inputName)
-END;
--- EXEC selectHorsesLike('Jimmy');
+	OR
+	H.name like '%'+@inputName+'%'
+END
+
+SELECT *
+FROM HORSE
+insert into [HORSE] ([name]) VALUES ('ANNITA HOURSE');
+insert into [HORSE] ([name]) VALUES ('SLOW HOURSE');
+insert into [HORSE] ([name]) VALUES ('FAST HOURSE');
+insert into [HORSE] ([name]) VALUES ('FAST');
+
+--selectHorsesLike 
 
