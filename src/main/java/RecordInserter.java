@@ -858,35 +858,34 @@ public class RecordInserter {
      * @param storProcName The name of the stored procedure.
      * @return The callable statement based on the stored procedure.
      */
-    private CallableStatement getCallableStatementFromProcedureName(String storProcName) {
-        CallableStatement cstmt = null;
-        //	Prepare Call for StoreProcedure
-        try {
-            cstmt = conn.prepareCall(storProcName);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return cstmt;
+    private CallableStatement getCallableStatementFromProcedureName(String storProcName) throws SQLException {
+        return conn.prepareCall(storProcName);
     }
 
     /**
-     * Ignore constraints until its insertion is done.
+     * Execute a simple stored procedure without inputs.
+     * @param storProcName The name of the stored procedure.
+     */
+    private void callSimpleProcedure( String storProcName) throws SQLException {
+        try(CallableStatement cstmt = conn.prepareCall(storProcName)){
+            cstmt.execute();
+        }
+    }
+
+    /**
+     * Ignore constraints.
+     * (To be used until insertion is done.)
      */
     private void ignoreConstraints() throws SQLException {
-        String storedProcName = "{call ignoreConstraints()}";
-        CallableStatement cstmt = getCallableStatementFromProcedureName(storedProcName);
-        cstmt.execute();
-        cstmt.close();
+        callSimpleProcedure ("{call ignoreConstraints()}");
     }
 
     /**
-     * Ignore constraints until its insertion is done.
+     * Stop ignoring constraints.
+     * (To be used to stop ignoring constraints after insertion is done.)
      */
     private void stopIgnoringConstraints() throws SQLException {
-        String storedProcName = "{call stopIgnoringConstraints()}";
-        CallableStatement cstmt = getCallableStatementFromProcedureName(storedProcName);
-        cstmt.execute();
-        cstmt.close();
+        callSimpleProcedure ("{call stopIgnoringConstraints()}");
     }
 
     public static void main(String[] args) throws IOException, SQLException, ParseException {
