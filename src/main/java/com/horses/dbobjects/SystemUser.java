@@ -17,28 +17,24 @@ public class SystemUser {
         return id;
     }
 
-    public String getUsername() {
-        return username;
-    }
+    public String getUsername() { return username; }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public String getFirstName() { return firstName; }
 
-    public String getLastName() {
-        return lastName;
-    }
+    public String getLastName() { return lastName; }
 
-    public SystemUserRole getRole() {
-        return role;
-    }
+    public String getPassword() { return password; }
+
+    public SystemUserRole getRole() { return role; }
+
 
     private String username;
+    private String password;
     private String firstName;
     private String lastName;
     private SystemUserRole role;
 
-    public SystemUser(String id, String username, String firstName,String lastName, SystemUserRole role) {
+    public SystemUser(String id, String username, String password, String firstName,String lastName, SystemUserRole role) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;

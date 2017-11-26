@@ -12,12 +12,16 @@ import com.horses.dbobjects.SystemUserRole;
 
 public class App {
     private static final String USERNAME = "cchadj01";
-    private static final String PASSWORD = "whatever";
+    private static final String DEFAULT_PASS = "123456";
+    private static final String PASSWORD = DEFAULT_PASS;
 
 
     private static void insertSystemAdmins(RecordInserter ri) {
         List<SystemUser> systemUsers = new ArrayList<>();
-        systemUsers.add(new SystemUser("123456","cchadj01", "chadj", "tomis", SystemUserRole.SA));
+        systemUsers.add(new SystemUser("123456","cchadj01", DEFAULT_PASS,"tomis", "what", SystemUserRole.SA));
+        systemUsers.add(new SystemUser("987423","achrys16", DEFAULT_PASS,"antria", "ever", SystemUserRole.SA));
+        systemUsers.add(new SystemUser("548512","ntzior01", DEFAULT_PASS,"ntzior", "plz", SystemUserRole.SA));
+        systemUsers.add(new SystemUser("258456","sioan01", DEFAULT_PASS,"O STEFOS", "O POLLYS", SystemUserRole.SA));
 
         try {
             ri.insertSystemUsers(systemUsers);
@@ -45,13 +49,16 @@ public class App {
 
         SchemaCreator schemaCreator = new SchemaCreator(connectionManager);
         schemaCreator.setDropDbFile("Tables/drop-db.sql");
+        schemaCreator.dropSchema();
         schemaCreator.setCreateTablesFile("Tables/create-tables.sql");
+
         schemaCreator.setCreateForeignKeysFile("Tables/create-foreign-keys.sql");
         schemaCreator.setCreateDomainsFile("Tables/create-domains.sql");
         schemaCreator.setCreateTriggersFile("Tables/create-triggers.sql");
         schemaCreator.createSchema();
 
         RecordInserter recordInserter = new RecordInserter(connectionManager);
+        insertSystemAdmins(recordInserter);
         recordInserter.insert();
 
         connectionManager.closeConnection();

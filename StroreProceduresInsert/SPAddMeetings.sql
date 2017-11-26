@@ -10,7 +10,7 @@ SET NOCOUNT ON
 
 INSERT INTO [dbo].[MEETING]
 			(		
-			   [date]	
+			   [datem]
 			)
 
      VALUES

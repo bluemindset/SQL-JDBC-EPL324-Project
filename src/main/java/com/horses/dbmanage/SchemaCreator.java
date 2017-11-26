@@ -1,8 +1,6 @@
 package com.horses.dbmanage;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -106,15 +104,34 @@ public class SchemaCreator {
     public static void main(String args[]) throws FileNotFoundException {
         //final String DEFAULT_DB_CONNSTRING = "jdbc:sqlserver://\\DOCTOR\\SQLEXPRESS:1433;databaseName=master;integratedSecurity=true;user=DOCTOR\\stefanos";
         final String DEFAULT_DB_CONNSTRING = "jdbc:sqlserver://localhost:1433;databaseName=Horses;user=SA;password=Password123;";
-        SchemaCreator schemaCreator = new SchemaCreator(new ConnectionManager(DEFAULT_DB_CONNSTRING));
+//        SchemaCreator schemaCreator = new SchemaCreator(new ConnectionManager(DEFAULT_DB_CONNSTRING));
+//
+//        schemaCreator.setDropDbFile("Tables/drop-db.sql");
+//        schemaCreator.setCreateTablesFile("Tables/create-tables.sql");
+//        schemaCreator.setCreateForeignKeysFile("Tables/create-foreign-keys.sql");
+//        schemaCreator.setCreateDomainsFile("Tables/create-domains.sql");
+//        schemaCreator.setCreateTriggersFile("Tables/create-triggers.sql");
 
+
+
+
+        PrintStream out = new PrintStream(new FileOutputStream("./console-output/output.txt"));
+        System.setOut(out);
+        //String dbConnString = "jdbc:sqlserver://apollo.in.cs.ucy.ac.cy:1433;databaseName="+USERNAME+";user="+USERNAME+";password="+PASSWORD+";";
+        //String dbConnString = "jdbc:sqlserver://\\DOCTOR\\SQLEXPRESS:1433;databaseName=master;integratedSecurity=true;user=DOCTOR\\stefanos";
+        String dbConnString = "jdbc:sqlserver://localhost:1433;databaseName=Horses;user=SA;password=Password123;";
+        ConnectionManager connectionManager = new ConnectionManager(dbConnString);
+
+        SchemaCreator schemaCreator = new SchemaCreator(connectionManager);
         schemaCreator.setDropDbFile("Tables/drop-db.sql");
+        schemaCreator.dropSchema();
         schemaCreator.setCreateTablesFile("Tables/create-tables.sql");
-        schemaCreator.setCreateForeignKeysFile("Tables/create-foreign-keys.sql");
-        schemaCreator.setCreateDomainsFile("Tables/create-domains.sql");
-        schemaCreator.setCreateTriggersFile("Tables/create-triggers.sql");
+        schemaCreator.createTables();
+        //schemaCreator.createSchema();
+
+        connectionManager.closeConnection();
+
 
         //schemaCreator.dropSchema();
-        schemaCreator.createSchema();
     }
 }

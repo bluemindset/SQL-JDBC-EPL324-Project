@@ -521,7 +521,7 @@ public class Insert_Records {
 			if(	(storeProcData.get(i).get(j).equals("")))
 				cstmt.setNull(++k,java.sql.Types.DATE);
 			else{
-				DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+				DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 				java.util.Date jDate = df.parse((storeProcData.get(i).get(j)));
 				java.sql.Date sDate = convertUtilToSql(jDate);
 				cstmt.setDate(++k, sDate);

@@ -21,11 +21,10 @@ public class RecordInserter {
 
     RecordInserter(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
+        conn = connectionManager.getDBConnection();
     }
 
     void insert() throws SQLException, ParseException {
-        conn = connectionManager.getDBConnection();
-
         //Used to ignore foreign key constraints until inserts are over with.
         ignoreConstraints();
 
@@ -50,7 +49,7 @@ public class RecordInserter {
 		/*RACES*/
         String fileRaces = "DataTables/Races.txt";
         String recordsRaces = FileParser.getFileContentAsString(fileRaces);
-        String RacesStorProcVal = "{call dbo.racesInsert(?,?,?,?,?,?,?,?,?)}";
+        String RacesStorProcVal = "{call dbo.racesInsert(?,?,?,?,?,?,?,?)}";
         RacesInsertion(insertData(recordsRaces), RacesStorProcVal);
 
 		/*OWNERS*/
@@ -115,8 +114,6 @@ public class RecordInserter {
 
         //Constraints must be respected again.
         stopIgnoringConstraints();
-
-        connectionManager.closeConnection();
     }
 
     private ArrayList<ArrayList<String>> insertData(String records) throws SQLException, ParseException {
@@ -223,7 +220,7 @@ public class RecordInserter {
             if ((storeProcData.get(i).get(j).equals("")))
                 cstmt.setNull(++k, Types.DATE);
             else {
-                DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 java.util.Date jDate = df.parse((storeProcData.get(i).get(j)));
                 java.sql.Date sDate = convertUtilToSql(jDate);
                 cstmt.setDate(++k, sDate);
@@ -426,12 +423,13 @@ public class RecordInserter {
             if ((storeProcData.get(i).get(j).equals("")))
                 cstmt.setNull(++k, Types.DATE);
             else {
-                DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 java.util.Date jDate = df.parse((storeProcData.get(i).get(j)));
                 java.sql.Date sDate = convertUtilToSql(jDate);
                 cstmt.setDate(++k, sDate);
-            }
 
+            System.out.println("Date " + sDate);
+            }
             cstmt.execute();
             k = 0;
 
@@ -527,7 +525,7 @@ public class RecordInserter {
             if ((storeProcData.get(i).get(j).equals("")))
                 cstmt.setNull(++k, Types.DATE);
             else {
-                DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 java.util.Date jDate = df.parse((storeProcData.get(i).get(j)));
                 java.sql.Date sDate = convertUtilToSql(jDate);
                 cstmt.setDate(++k, sDate);
@@ -586,16 +584,14 @@ public class RecordInserter {
             else
                 cstmt.setDouble(++k, Double.parseDouble(storeProcData.get(i).get(j)));
 
-
-            //MEETING ID ***SOS*** APLOS COUNTER
-            cstmt.setInt(++k, i);
-
             cstmt.execute();
             k = 0;
             j = 0;
 
         }
-        cstmt.close();
+        if (cstmt != null) {
+            cstmt.close();
+        }
     }
 
 
@@ -771,7 +767,7 @@ public class RecordInserter {
                 cstmt.setNull(++k, Types.DATE);
             else {
                 //	System.out.println(storeProcData.get(i).get(j));
-                DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 java.util.Date startDate = df.parse((storeProcData.get(i).get(j)));
                 java.sql.Date sDate = convertUtilToSql(startDate);
                 cstmt.setDate(++k, sDate);
@@ -912,7 +908,14 @@ public class RecordInserter {
         ConnectionManager connectionManager = new ConnectionManager(DEFAULT_DB_CONNSTRING);
 
         RecordInserter recordInserter = new RecordInserter(connectionManager);
-        recordInserter.insert();
+        //recordInserter.insert();
+
+
+        /*MEETINGS*/
+        String fileMeetings = "DataTables/Meetings.txt";
+        String MeetingsStorProcVal = "{call dbo.meetingsInsert(?)}";
+        String recordsMeetings = FileParser.getFileContentAsString(fileMeetings);
+        recordInserter.meetingsInsertion(recordInserter.insertData(recordsMeetings), MeetingsStorProcVal);
 
         connectionManager.closeConnection();
     }

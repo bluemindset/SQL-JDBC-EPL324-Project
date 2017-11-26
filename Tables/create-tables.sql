@@ -68,21 +68,19 @@ GO
 
 --MEETING
 CREATE TABLE [dbo].[MEETING](
-	[id][int] IDENTITY(1,1) NOT NULL,
-	[date][date] NOT NULL,
+	[datem][date] NOT NULL,
 	--USER-CHANGES--
 	[created_by][char](6)  NULL,
 	[date_created][date]  NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
-	CONSTRAINT [PK_MEETING] PRIMARY KEY (id ASC)
+	CONSTRAINT [PK_MEETING] PRIMARY KEY (datem ASC)
 )
 --insert into [MEETING] ([date]) VALUES ('12-7-1998')
 GO
 --RACE
 CREATE TABLE [dbo].[RACE](
 	[race_id][int] NOT NULL IDENTITY(1,1),
-	[date][date]  NULL,
 	[time][time]  NULL,
 	[distance][int]  NULL,
 	[prize_1][money]  NULL,
@@ -92,13 +90,13 @@ CREATE TABLE [dbo].[RACE](
 	-- FOREIGN KEYS--
 	[race_type][nvarchar](25)  NULL,
 	[field_type][nvarchar](25)  NULL,
-	[meeting_id] [int]  NOT NULL,
+	[meeting_date][date] NOT NULL,
 	--USER-CHANGES--
 	[created_by][char](6)  NULL,
 	[date_created][date]  NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL ,
-	CONSTRAINT [PK_RACE] PRIMARY KEY ([race_id] ASC, [meeting_id] ASC)
+	CONSTRAINT [PK_RACE] PRIMARY KEY ([race_id] ASC, [meeting_date] ASC)
 )
 GO
 
@@ -142,7 +140,7 @@ GO
 CREATE TABLE [dbo].[PARTICIPATION](
 	-- FOREIGN KEYS + PK--
 	[race_id][int] NOT NULL,
-	[meeting_id][int] NOT NULL,
+	[meeting_date][date] NOT NULL,
 	[horse_id][int] NOT NULL,
 	[jockey_id][char](6) NOT NULL,
 	[trainer_id][char](6) NOT NULL,
@@ -156,7 +154,7 @@ CREATE TABLE [dbo].[PARTICIPATION](
 	[date_created][date] NOT NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
-	CONSTRAINT [PK_PARTICIPATION] PRIMARY KEY ([race_id] ASC, [meeting_id] ASC, [horse_id] ASC, [jockey_id] ASC, [trainer_id] ASC)
+	CONSTRAINT [PK_PARTICIPATION] PRIMARY KEY ([race_id] ASC, [meeting_date] ASC, [horse_id] ASC, [jockey_id] ASC, [trainer_id] ASC)
 )
 GO
 --TRAINER
@@ -229,8 +227,8 @@ CREATE TABLE [dbo].[SYSTEM_USER](
 	[last_name][nvarchar](25)  NULL,
 	[role][char](2)  NULL,
 		--USER-CHANGES--
-	[created_by][char](6) NOT NULL,
-	[date_created][date] NOT NULL,
+	[created_by][char](6) NULL,
+	[date_created][date] NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_USER] PRIMARY KEY ([id] ASC)
