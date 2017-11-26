@@ -110,7 +110,7 @@ public class RecordInserter {
         raceFieldInsertion(insertData(recordsRaceField), RaceFieldStorProcVal);
 
         //Constraints must be respected again.
-        //stopIgnoringConstraints();
+        stopIgnoringConstraints();
 
         connectionManager.closeConnection();
     }
