@@ -80,8 +80,7 @@ CREATE TABLE [dbo].[MEETING](
 GO
 --RACE
 CREATE TABLE [dbo].[RACE](
-	[race_id][int] NOT NULL IDENTITY(1,1),
-	[time][time]  NULL,
+	[race_time][time] NOT NULL,
 	[distance][int]  NULL,
 	[prize_1][money]  NULL,
 	[prize_2][money]  NULL,
@@ -96,7 +95,7 @@ CREATE TABLE [dbo].[RACE](
 	[date_created][date]  NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL ,
-	CONSTRAINT [PK_RACE] PRIMARY KEY ([race_id] ASC, [meeting_date] ASC)
+	CONSTRAINT [PK_RACE] PRIMARY KEY ([race_time] ASC, [meeting_date] ASC)
 )
 GO
 
@@ -139,7 +138,7 @@ GO
 --PARTICIPATION
 CREATE TABLE [dbo].[PARTICIPATION](
 	-- FOREIGN KEYS + PK--
-	[race_id][int] NOT NULL,
+	[race_time][time] NOT NULL,
 	[meeting_date][date] NOT NULL,
 	[horse_id][int] NOT NULL,
 	[jockey_id][char](6) NOT NULL,
@@ -154,7 +153,7 @@ CREATE TABLE [dbo].[PARTICIPATION](
 	[date_created][date] NOT NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
-	CONSTRAINT [PK_PARTICIPATION] PRIMARY KEY ([race_id] ASC, [meeting_date] ASC, [horse_id] ASC, [jockey_id] ASC, [trainer_id] ASC)
+	CONSTRAINT [PK_PARTICIPATION] PRIMARY KEY ([race_time] ASC, [meeting_date] ASC, [horse_id] ASC, [jockey_id] ASC, [trainer_id] ASC)
 )
 GO
 --TRAINER

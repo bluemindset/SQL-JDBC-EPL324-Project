@@ -105,6 +105,7 @@ public class RecordInserter {
         String RaceFieldStorProcVal = "{call dbo.raceFieldInsert(?)}";
         String recordsRaceField = FileParser.getFileContentAsString(fileRacesFields);
         raceFieldInsertion(insertData(recordsRaceField), RaceFieldStorProcVal);
+
         //TODO make participation
         /*RACE RESULT*/
         String fileRacesResults = "DataTables/RacesResults.txt";

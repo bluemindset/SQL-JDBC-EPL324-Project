@@ -145,7 +145,7 @@ GO
 
 -- PARTICIPATION
 ALTER TABLE [dbo].[PARTICIPATION] WITH CHECK ADD CONSTRAINT [FK_PARTICIPATION_RACE]
-FOREIGN KEY ([race_id],[meeting_date]) REFERENCES [dbo].[RACE]([race_id],[meeting_date])
+FOREIGN KEY ([race_time],[meeting_date]) REFERENCES [dbo].[RACE]([race_time],[meeting_date])
 GO
 ALTER TABLE [dbo].[PARTICIPATION] WITH CHECK ADD CONSTRAINT [FK_PARTICIPATION_HORSE]
 FOREIGN KEY ([horse_id]) REFERENCES [dbo].[HORSE]([id])
