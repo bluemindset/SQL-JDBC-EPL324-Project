@@ -12,11 +12,14 @@ public class App {
      * 2.Vale username kai password pou sou edwke o panchriss ( sto USERNAME kai PASSWORD tou app).
      * 3.Trekse tin main() tou APP.
      *
+     * Prosoxi Den yparxei eleghos constraint. Prp prwta na dimiourgithoun ta triggers gia ola ta tables.
+     * 
+     *
      */
     public static void main(String args[]) throws SQLException, ParseException, FileNotFoundException {
-        String dbConnString = "jdbc:sqlserver://apollo.in.cs.ucy.ac.cy:1433;databaseName="+USERNAME+";user="+USERNAME+";password="+PASSWORD+";";
+        //String dbConnString = "jdbc:sqlserver://apollo.in.cs.ucy.ac.cy:1433;databaseName="+USERNAME+";user="+USERNAME+";password="+PASSWORD+";";
         //String dbConnString = "jdbc:sqlserver://\\DOCTOR\\SQLEXPRESS:1433;databaseName=master;integratedSecurity=true;user=DOCTOR\\stefanos";
-        //String dbConnString = "jdbc:sqlserver://localhost:1433;databaseName=Horses;user=SA;password=Password123;";
+        String dbConnString = "jdbc:sqlserver://localhost:1433;databaseName=Horses;user=SA;password=Password123;";
         ConnectionManager connectionManager = new ConnectionManager(dbConnString);
 
         SchemaCreator schemaCreator = new SchemaCreator(connectionManager);
