@@ -1,5 +1,5 @@
-/*
- * Slightly modified version of the com.ibatis.common.jdbc.ScriptRunner class
+package com.horses.dbmanage;/*
+ * Slightly modified version of the com.ibatis.common.jdbc.com.horses.dbmanage.ScriptRunner class
  * from the iBATIS Apache project. Only removed dependency on Resource class
  * and a constructor
  */
@@ -44,7 +44,7 @@ public class ScriptRunner {
     private boolean fullLineDelimiter = false;
 
     /**
-     * Default constructor
+     * com.horses.dbmanage.Default constructor
      */
     public ScriptRunner(Connection connection, boolean autoCommit,
                         boolean stopOnError) {

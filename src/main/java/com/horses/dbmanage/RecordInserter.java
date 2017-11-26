@@ -1,3 +1,7 @@
+package com.horses.dbmanage;
+
+import com.horses.dbobjects.SystemUser;
+import com.horses.dbobjects.SystemUserRole;
 
 import java.io.*;
 import java.sql.*;
@@ -136,7 +140,7 @@ public class RecordInserter {
                 oneLine.add(oneRecord.toString());
                 oneRecord.setLength(0);
             } else {
-				/*On each /t character split it to a new line*/
+                /*On each /t character split it to a new line*/
                 oneRecord.append(records.charAt(i));
             }
 
@@ -853,8 +857,15 @@ public class RecordInserter {
         return sb.toString();
     }
 
+    void insertSystemUsers(List<SystemUser> users) throws SQLException {
+        for (SystemUser su : users) {
+                try (CallableStatement cstmt = su.getCallableStatement(conn)) {
+                    cstmt.execute();
+                }
+        }
+    }
+
     /**
-     *
      * @param storProcName The name of the stored procedure.
      * @return The callable statement based on the stored procedure.
      */
@@ -864,10 +875,11 @@ public class RecordInserter {
 
     /**
      * Execute a simple stored procedure without inputs.
+     *
      * @param storProcName The name of the stored procedure.
      */
-    private void callSimpleProcedure( String storProcName) throws SQLException {
-        try(CallableStatement cstmt = conn.prepareCall(storProcName)){
+    private void callSimpleProcedure(String storProcName) throws SQLException {
+        try (CallableStatement cstmt = conn.prepareCall(storProcName)) {
             cstmt.execute();
         }
     }
@@ -877,7 +889,7 @@ public class RecordInserter {
      * (To be used until insertion is done.)
      */
     private void ignoreConstraints() throws SQLException {
-        callSimpleProcedure ("{call ignoreConstraints()}");
+        callSimpleProcedure("{call ignoreConstraints()}");
     }
 
     /**
@@ -885,7 +897,13 @@ public class RecordInserter {
      * (To be used to stop ignoring constraints after insertion is done.)
      */
     private void stopIgnoringConstraints() throws SQLException {
-        callSimpleProcedure ("{call stopIgnoringConstraints()}");
+        try(CallableStatement cstmt = getCallableStatementFromProcedureName("{call stopIgnoringConstraints(?)}")){
+            cstmt.registerOutParameter(1, Types.BIT);
+            cstmt.execute();
+            Boolean isSuccessful = cstmt.getBoolean(1);
+            if(!isSuccessful)
+                System.err.println("Prepei na sasoume ta kleidia. Vsk prp na valoume atoma stous System User");
+        };
     }
 
     public static void main(String[] args) throws IOException, SQLException, ParseException {

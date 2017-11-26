@@ -1,9 +1,8 @@
+package com.horses.dbmanage;
 
 import java.io.*;
 import java.sql.*;
 import java.util.*;
-
-import org.omg.PortableInterceptor.SUCCESSFUL;
 
 public class Default {
 	private static boolean dbDriverLoaded = false;

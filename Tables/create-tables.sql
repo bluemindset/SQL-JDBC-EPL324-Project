@@ -224,7 +224,7 @@ GO
 --SYSTEM_USER
 CREATE TABLE [dbo].[SYSTEM_USER](
 	[id][char](6) NOT NULL,
-	[username][nvarchar](25)  NULL,
+	[username][nvarchar](25) UNIQUE NOT NULL,
 	[first_name][nvarchar](25) NULL,
 	[last_name][nvarchar](25)  NULL,
 	[role][char](2)  NULL,
