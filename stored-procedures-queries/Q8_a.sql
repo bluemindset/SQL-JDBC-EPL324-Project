@@ -1,3 +1,6 @@
+IF OBJECT_ID ( 'query8_a', 'P' ) IS NOT NULL
+  DROP PROCEDURE query8_a
+GO
 CREATE PROCEDURE query8_a
 AS 
 BEGIN 

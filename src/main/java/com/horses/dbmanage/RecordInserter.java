@@ -94,12 +94,6 @@ public class RecordInserter {
         String HorseColorStorProcVal = "{call dbo.horseColorInsert(?)}";
         horseColorInsertion(insertData(recordsHorseColor), HorseColorStorProcVal);
 
-		/*RACE RESULT*/
-        String fileRacesResults = "DataTables/RacesResults.txt";
-        String recordsRaceResults = FileParser.getFileContentAsString(fileRacesResults);
-        String RaceResultsStorProcVal = "{call dbo.RaceResultsInsert(?,?,?,?,?,?,?)}";
-        racesResultInsertion(insertData(recordsRaceResults), RaceResultsStorProcVal);
-
 		/*--RACES TYPES --*/
         String fileRacesTypes = "DataTables/RacesTypes.txt";
         String RaceTypesStorProcVal = "{call dbo.raceTypeInsert(?)}";
@@ -111,6 +105,12 @@ public class RecordInserter {
         String RaceFieldStorProcVal = "{call dbo.raceFieldInsert(?)}";
         String recordsRaceField = FileParser.getFileContentAsString(fileRacesFields);
         raceFieldInsertion(insertData(recordsRaceField), RaceFieldStorProcVal);
+        //TODO make participation
+        /*RACE RESULT*/
+        String fileRacesResults = "DataTables/RacesResults.txt";
+        String recordsRaceResults = FileParser.getFileContentAsString(fileRacesResults);
+        String RaceResultsStorProcVal = "{call dbo.RaceResultsInsert(?,?,?,?,?,?,?)}";
+        racesResultInsertion(insertData(recordsRaceResults), RaceResultsStorProcVal);
 
         //Constraints must be respected again.
         stopIgnoringConstraints();
