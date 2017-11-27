@@ -24,7 +24,7 @@ public class RecordInserter {
         conn = connectionManager.getDBConnection();
     }
 
-    void insert() throws SQLException, ParseException {
+    void insert() throws SQLException, ParseException, IOException {
         //Used to ignore foreign key constraints until inserts are over with.
         ignoreConstraints();
 
@@ -100,18 +100,20 @@ public class RecordInserter {
         String recordsRaceTypes = FileParser.getFileContentAsString(fileRacesTypes);
         raceTypesInsertion(insertData(recordsRaceTypes), RaceTypesStorProcVal);
 
-		/*RACE FIELD TYPE*/
-        String fileRacesFields = "DataTables/RacesFieldTypes.txt";
-        String RaceFieldStorProcVal = "{call dbo.raceFieldInsert(?)}";
-        String recordsRaceField = FileParser.getFileContentAsString(fileRacesFields);
-        raceFieldInsertion(insertData(recordsRaceField), RaceFieldStorProcVal);
+//		/*RACE FIELD TYPE*/
+//        String fileRacesFields = "DataTables/RacesFieldTypes.txt";
+//        String RaceFieldStorProcVal = "{call dbo.raceFieldInsert(?)}";
+//        String recordsRaceField = FileParser.getFileContentAsString(fileRacesFields);
+//        raceFieldInsertion(insertData(recordsRaceField), RaceFieldStorProcVal);
 
-        //TODO make participation
+        fieldTypeInsertion();
+
+        participationInsertion();
         /*RACE RESULT*/
-        String fileRacesResults = "DataTables/RacesResults.txt";
-        String recordsRaceResults = FileParser.getFileContentAsString(fileRacesResults);
-        String RaceResultsStorProcVal = "{call dbo.RaceResultsInsert(?,?,?,?,?,?,?)}";
-        racesResultInsertion(insertData(recordsRaceResults), RaceResultsStorProcVal);
+//        String fileRacesResults = "DataTables/RacesResults.txt";
+//        String recordsRaceResults = FileParser.getFileContentAsString(fileRacesResults);
+//        String RaceResultsStorProcVal = "{call dbo.RaceResultsInsert(?,?,?,?,?,?,?)}";
+//        racesResultInsertion(insertData(recordsRaceResults), RaceResultsStorProcVal);
 
         //Constraints must be respected again.
         stopIgnoringConstraints();
@@ -169,7 +171,6 @@ public class RecordInserter {
         CallableStatement cstmt = getCallableStatementFromProcedureName(storProcName);
 
         for (int i = 0; i <= storeProcData.size() - 1; i++) {
-
             //RACE FIELD
             if ((storeProcData.get(i).get(j).equals("")))
                 cstmt.setNull(++k, Types.NCHAR);
@@ -429,7 +430,7 @@ public class RecordInserter {
                 java.sql.Date sDate = convertUtilToSql(jDate);
                 cstmt.setDate(++k, sDate);
 
-            System.out.println("Date " + sDate);
+                System.out.println("Date " + sDate);
             }
             cstmt.execute();
             k = 0;
@@ -718,7 +719,59 @@ public class RecordInserter {
         cstmt.close();
     }
 
+    void participationInsertion() throws IOException, SQLException, ParseException {
+        List<String[]> lines = new ArrayList<>();
+        String[] strings = null;
+        try (BufferedReader br = new BufferedReader(new FileReader("DataTables/RacesResults.txt"))) {
+            String line;
+            br.readLine();
+            while ((line = br.readLine()) != null) {
+                strings = line.split("\t");
+                lines.add(strings);
+                System.out.println("<" + line +">");
+            }
+        }
 
+        for (String[] line : lines) {
+            try (CallableStatement cstmt = getCallableStatementFromProcedureName("{call dbo.participationInsert(?,?,?,?,?,?,?)}")) {
+                cstmt.setTime(1, Time.valueOf(line[1]));
+
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                java.util.Date startDate = df.parse(line[0]);
+                java.sql.Date sDate = convertUtilToSql(startDate);
+                cstmt.setDate(1, sDate);
+                //3 horse id
+                cstmt.setInt(3, Integer.parseInt(line[2]));
+                //4 jockey id
+                cstmt.setInt(4, Integer.parseInt(line[3]));
+                //5 trainer id
+                cstmt.setInt(5, Integer.parseInt(line[4]));
+                //6 start pos
+                cstmt.setInt(5, Integer.parseInt(line[5]));
+                //7 end post
+                cstmt.setInt(5, Integer.parseInt(line[6]));
+            }
+        }
+    }
+
+    void fieldTypeInsertion() throws IOException, SQLException, ParseException {
+        List<String[]> lines = new ArrayList<>();
+        String[] strings = null;
+        try (BufferedReader br = new BufferedReader(new FileReader("DataTables/RacesFieldTypes.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                strings = line.split("\n");
+                lines.add(strings);
+            }
+        }
+
+        for (String[] line : lines) {
+            try (CallableStatement cstmt = getCallableStatementFromProcedureName("{call fieldTypeInsert(?)}")) {
+                cstmt.setString(1, line[0]);
+                cstmt.execute();
+            }
+        }
+    }
     void HorsesInsertion(ArrayList<ArrayList<String>> storeProcData, String storProcName) throws SQLException, ParseException {
         int k = 0;
         int j = 0;
@@ -856,9 +909,9 @@ public class RecordInserter {
 
     void insertSystemUsers(List<SystemUser> users) throws SQLException {
         for (SystemUser su : users) {
-                try (CallableStatement cstmt = su.getCallableStatement(conn)) {
-                    cstmt.execute();
-                }
+            try (CallableStatement cstmt = su.getCallableStatement(conn)) {
+                cstmt.execute();
+            }
         }
     }
 
@@ -894,13 +947,14 @@ public class RecordInserter {
      * (To be used to stop ignoring constraints after insertion is done.)
      */
     private void stopIgnoringConstraints() throws SQLException {
-        try(CallableStatement cstmt = getCallableStatementFromProcedureName("{call stopIgnoringConstraints(?)}")){
+        try (CallableStatement cstmt = getCallableStatementFromProcedureName("{call stopIgnoringConstraints(?)}")) {
             cstmt.registerOutParameter(1, Types.BIT);
             cstmt.execute();
             Boolean isSuccessful = cstmt.getBoolean(1);
-            if(!isSuccessful)
+            if (!isSuccessful)
                 System.err.println("Prepei na sasoume ta kleidia. Vsk prp na valoume atoma stous System User");
-        };
+        }
+        ;
     }
 
     public static void main(String[] args) throws IOException, SQLException, ParseException {

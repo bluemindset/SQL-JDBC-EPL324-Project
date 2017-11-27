@@ -61,7 +61,7 @@ public class SchemaCreator {
         createTables();
         createForeignKeys();
         createDomains();
-        createTriggers();
+        //createTriggers();
         createStoredProcedures();
 
         connectionManager.closeConnection();

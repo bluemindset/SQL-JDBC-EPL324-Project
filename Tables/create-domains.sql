@@ -12,7 +12,7 @@ GO
 ALTER TABLE [dbo].[OWNER] 
 ADD CONSTRAINT [OWNER_TITLE_DOMAIN]
 CHECK(
-	title IN ( 'Mr.','Dr.','Miss', 'Mrs')
+	title IN ( 'Mr.','Dr.','Miss.', 'Mrs.')
 )
 GO
 --USER_ROLE DOMAIN

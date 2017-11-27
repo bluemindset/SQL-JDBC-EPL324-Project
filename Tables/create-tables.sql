@@ -128,8 +128,8 @@ GO
 CREATE TABLE [dbo].[FIELD_TYPE](
 	[type][nvarchar](25) NOT NULL,
 	--USER-CHANGES--
-	[created_by][char](6) NOT NULL ,
-	[date_created][date] NOT NULL,
+	[created_by][char](6) NULL ,
+	[date_created][date] NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_FIELD_TYPE] PRIMARY KEY ([type] ASC)

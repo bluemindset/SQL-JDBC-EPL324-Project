@@ -2,6 +2,7 @@ package com.horses.dbmanage;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -39,7 +40,7 @@ public class App {
      * Prp prwta na dimiourgithoun ta triggers gia ola ta tables.
      * To console output vgainei sto /console-output/output.txt
      */
-    public static void main(String args[]) throws SQLException, ParseException, FileNotFoundException {
+    public static void main(String args[]) throws SQLException, ParseException, IOException {
         PrintStream out = new PrintStream(new FileOutputStream("./console-output/output.txt"));
         System.setOut(out);
         //String dbConnString = "jdbc:sqlserver://apollo.in.cs.ucy.ac.cy:1433;databaseName="+USERNAME+";user="+USERNAME+";password="+PASSWORD+";";
