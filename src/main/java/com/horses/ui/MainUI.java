@@ -9,6 +9,8 @@ public class MainUI {
 		 controller.addUserType("R1 - DATA USER");
 		 controller.addUserType("SA - SYSTEM ADMINISTRATOR");
 		 controller.updateView();
+		 
+		 //HI
 	}
 
 }
