@@ -5,7 +5,7 @@ CREATE PROCEDURE query8_a
 AS
 	BEGIN
 		SELECT
-			H.id,
+			H.id, H.name,
 			SUM(CASE WHEN P.end_pos = 1 THEN 1 ELSE 0 END) AS countFirstPositions,
 			SUM(CASE WHEN P.end_pos = 2 THEN 1 ELSE 0 END) AS countSecondPositions,
 			SUM(CASE WHEN P.end_pos = 3 THEN 1 ELSE 0 END) AS countThirdPositions,
@@ -14,8 +14,8 @@ AS
 			SUM(P.winnings) AS totalWinnings
 		FROM PARTICIPATION P,HORSE H
 		WHERE H.id = P.horse_id
-		GROUP BY H.id
-		ORDER BY totalWinnings ASC
+		GROUP BY H.id, H.name
+		ORDER BY totalWinnings DESC
 	END;
 
 --EXEC query8_a
