@@ -2,26 +2,23 @@ IF OBJECT_ID ( 'selectRacesByMeetingDate', 'P' ) IS NOT NULL
     DROP PROCEDURE selectRacesByMeetingDate;
 GO
 CREATE PROCEDURE selectRacesByMeetingDate
-@meetingDate DATETIME
+@meetingDate DATE
 AS 
 BEGIN 
-	
 	SELECT *
 	FROM MEETING M, RACE R, PARTICIPATION P
 	WHERE M.[datem] = R.[meeting_date] 
-	AND R.race_id=P.race_id
+	AND R.race_time = P.race_time
 	AND M.[datem] = @meetingDate
-	AND CONVERT(TIME, R.[time]) = CONVERT(TIME, @meetingDate)
+	AND CONVERT(DATE, R.meeting_date) = CONVERT(DATE, @meetingDate)
 	ORDER BY P.end_pos DESC
 END;
 
-SELECT *
-FROM MEETING
+--SELECT *
+--FROM MEETING
 
+--SELECT *
+--FROM RACE
 
-SELECT *
-FROM RACE
-
-
-EXEC selectRacesByMeetingDate '8-1-2010 00:00:00'
+--EXEC selectRacesByMeetingDate '2010-01-08'
 --How to compare dates? What is the format for dates ?

@@ -14,6 +14,9 @@ import java.util.Date;
  * Created by tomis on 26/11/2017.
  */
 public class QueryExecutor {
+    private static final String USERNAME = "cchadj01";
+    private static final String DEFAULT_PASS = "s3agazuhespU";
+    private static final String PASSWORD = DEFAULT_PASS;
     private ConnectionManager connectionManager;
     private Connection conn;
     QueryExecutor(ConnectionManager cm) {
@@ -52,16 +55,32 @@ public class QueryExecutor {
                 rs.close();
         }
     }
+    
+    void executeQuery8b() throws SQLException {
+    	ResultSet rs = null;
+        try (CallableStatement cstmt = conn.prepareCall("{call query8_c}")) {
+            cstmt.executeQuery();
+             rs = cstmt.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getInt(1));
+            }
+        } finally {
+            if(rs != null)
+                rs.close();
+        }
+    }
 
     public static void main(String args[]) throws SQLException, ParseException {
-        String dbConnString = "jdbc:sqlserver://localhost:1433;databaseName=Horses;user=SA;password=Password123;";
+        String dbConnString = "jdbc:sqlserver://apollo.in.cs.ucy.ac.cy:1433;databaseName="+USERNAME+";user="+USERNAME+";password="+PASSWORD+";";
+
         QueryExecutor qe = new QueryExecutor(new ConnectionManager(dbConnString));
-        //Q1
-        qe.selectHorsesLike("Horse");
-        //Q2
-        Date d = (new SimpleDateFormat("yyyy-MM-dd")).parse("2010-01-08");
-        System.out.println(d.getTime());
-        qe.selectRacesByMeetingDate(d);
+//        //Q1
+//        qe.selectHorsesLike("Horse");
+//        //Q2
+//        Date d = (new SimpleDateFormat("yyyy-MM-dd")).parse("2010-01-08");
+//        System.out.println(d.getTime());
+//        qe.selectRacesByMeetingDate(d);
+        qe.executeQuery8b();
 
 
     }
