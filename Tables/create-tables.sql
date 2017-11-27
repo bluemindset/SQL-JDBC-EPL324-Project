@@ -240,20 +240,3 @@ CREATE TABLE [dbo].[HORSE_SEX](
 
 )
 GO
-
---RACE RESULTS--
-CREATE TABLE [dbo].[RACE_RESULTS](
-	[meeting_date][nvarchar](15) NOT NULL,
-	[race_time][time] NULL,
-	[horse][char](6) NULL,
-	[jockey][char](6) NULL,
-	[trainer][char](6) NULL,
-	[start_pos][smallint] NULL,
-	[finish_pos][smallint] NULL,
-)
-GO
---RACE FIELDS--
-CREATE TABLE [dbo].[RACE_FIELDS](
-	[field][nvarchar](15) NOT NULL,
-)
-GO
