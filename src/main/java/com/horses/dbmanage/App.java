@@ -15,8 +15,7 @@ public class App {
     private static final String USERNAME = "cchadj01";
     private static final String DEFAULT_PASS = "123456";
     private static final String PASSWORD = DEFAULT_PASS;
-
-
+    
     private static void insertSystemAdmins(RecordInserter ri) {
         List<SystemUser> systemUsers = new ArrayList<>();
         systemUsers.add(new SystemUser("123456","cchadj01", DEFAULT_PASS,"tomis", "what", SystemUserRole.SA));
