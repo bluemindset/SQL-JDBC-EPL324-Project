@@ -6,7 +6,7 @@ CREATE PROCEDURE query8_c
 AS 
 BEGIN
 	SET NOCOUNT ON
-
+	--asdsasdasadsa
 	--CREATE TABLE #FATHERS (father_horse_id INT, countFirstPositions INT, 
 	--					   countSecondPositions INT, countThirdPositions INT, 
 	--					   totalWinnings MONEY
