@@ -193,7 +193,7 @@ CREATE TABLE [dbo].[OWNER](
 	[uniform][nvarchar](50)  NULL,
 	[title][nvarchar](5)  NULL,
 	--FOREIGN KEY--
-	[family_id][int] NOT NULL,
+	[family_id][int] NULL,
 	[onwer_family][nvarchar](20)  NULL,
 	--USER-CHANGES--
 	[created_by][char](6)  NULL,

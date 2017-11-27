@@ -55,7 +55,7 @@ public class RecordInserter {
 		/*OWNERS*/
         String fileOwners = "DataTables/Owners.txt";
         String recordsOwners = FileParser.getFileContentAsString(fileOwners);
-        String OwnersStorProcVal = "{call dbo.onwersInsert(?,?,?,?,?,?,?)}";
+        String OwnersStorProcVal = "{call dbo.onwersInsert(?,?,?,?,?,?)}";
         onwersInsertion(insertData(recordsOwners), OwnersStorProcVal);
 
 		/*MEETINGS*/
@@ -444,7 +444,6 @@ public class RecordInserter {
         int k = 0;
         int j = 0;
 
-
         CallableStatement cstmt = null;
         //	Prepare Call for StoreProcedure
         try {
@@ -496,13 +495,9 @@ public class RecordInserter {
             else
                 cstmt.setString(++k, storeProcData.get(i).get(j));
 
-            //FAMILY ID ***SOS*** APLOS COUNTER
-            cstmt.setInt(++k, i);
-
             cstmt.execute();
             k = 0;
             j = 0;
-
         }
         cstmt.close();
     }
