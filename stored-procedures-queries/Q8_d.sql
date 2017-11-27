@@ -85,4 +85,4 @@ AS
   END
 GO
 --DECLARE cursor
-EXEC query8_c;
+--EXEC query8_c;
