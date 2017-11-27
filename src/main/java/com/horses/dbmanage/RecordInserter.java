@@ -947,14 +947,15 @@ public class RecordInserter {
      * (To be used to stop ignoring constraints after insertion is done.)
      */
     private void stopIgnoringConstraints() throws SQLException {
-        try (CallableStatement cstmt = getCallableStatementFromProcedureName("{call stopIgnoringConstraints(?)}")) {
-            cstmt.registerOutParameter(1, Types.BIT);
+        try (CallableStatement cstmt = getCallableStatementFromProcedureName("{call stopIgnoringConstraints(?,?)}")) {
+            cstmt.registerOutParameter(1, Types.NCHAR);
+            cstmt.registerOutParameter(2, Types.BIT);
             cstmt.execute();
-            Boolean isSuccessful = cstmt.getBoolean(1);
+            String errorMsg = cstmt.getString(2);
+            Boolean isSuccessful = cstmt.getBoolean(2);
             if (!isSuccessful)
-                System.err.println("Prepei na sasoume ta kleidia. Vsk prp na valoume atoma stous System User");
+                System.err.println("Yarxei error sta insertions.\n " + errorMsg);
         }
-        ;
     }
 
     public static void main(String[] args) throws IOException, SQLException, ParseException {
