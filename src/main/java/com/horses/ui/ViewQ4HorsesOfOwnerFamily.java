@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ViewQ4HorsesOfOwnerFamily extends JDialog {
 
@@ -45,7 +47,7 @@ public class ViewQ4HorsesOfOwnerFamily extends JDialog {
 		}
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(139, 23, 205, 20);
+		comboBox.setBounds(150, 23, 205, 20);
 		contentPanel.add(comboBox);
 		
 		JLabel lblPleaseSelectA = new JLabel("Please select a family:");
@@ -53,7 +55,14 @@ public class ViewQ4HorsesOfOwnerFamily extends JDialog {
 		contentPanel.add(lblPleaseSelectA);
 		{
 			JButton cancelButton = new JButton("BACK");
-			cancelButton.setBounds(374, 22, 59, 23);
+			cancelButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+					ViewMainQView window = new ViewMainQView();
+					window.frmQueries.setVisible(true);
+				}
+			});
+			cancelButton.setBounds(365, 22, 68, 23);
 			contentPanel.add(cancelButton);
 			cancelButton.setActionCommand("Cancel");
 		}

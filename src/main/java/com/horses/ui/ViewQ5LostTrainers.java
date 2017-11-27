@@ -8,6 +8,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ViewQ5LostTrainers extends JDialog {
 
@@ -55,6 +57,13 @@ public class ViewQ5LostTrainers extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("BACK");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+						ViewMainQView window = new ViewMainQView();
+						window.frmQueries.setVisible(true);
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
