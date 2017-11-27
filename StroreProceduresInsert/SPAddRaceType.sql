@@ -1,4 +1,4 @@
-IF OBJECT_ID(dbo.raceTypeInsert ) IS NOT NULL
+IF OBJECT_ID('dbo.raceTypeInsert', 'P' ) IS NOT NULL
   Drop PROCEDURE dbo.raceTypeInsert
 GO
 CREATE PROCEDURE dbo.raceTypeInsert @type nvarchar(15)
