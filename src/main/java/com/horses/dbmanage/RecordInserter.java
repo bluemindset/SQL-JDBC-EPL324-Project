@@ -729,22 +729,25 @@ public class RecordInserter {
 
         for (String[] line : lines) {
             try (CallableStatement cstmt = getCallableStatementFromProcedureName("{call dbo.participationInsert(?,?,?,?,?,?,?)}")) {
+                //1 race_time
                 cstmt.setTime(1, Time.valueOf(line[1]));
 
                 DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 java.util.Date startDate = df.parse(line[0]);
                 java.sql.Date sDate = convertUtilToSql(startDate);
-                cstmt.setDate(1, sDate);
+                //2 meeting_date
+                cstmt.setDate(2, sDate);
                 //3 horse id
                 cstmt.setInt(3, Integer.parseInt(line[2]));
                 //4 jockey id
-                cstmt.setInt(4, Integer.parseInt(line[3]));
+                cstmt.setString(4, line[3]);
                 //5 trainer id
-                cstmt.setInt(5, Integer.parseInt(line[4]));
+                cstmt.setString(5, line[4]);
                 //6 start pos
-                cstmt.setInt(5, Integer.parseInt(line[5]));
+                cstmt.setInt(6, Integer.parseInt(line[5]));
                 //7 end post
-                cstmt.setInt(5, Integer.parseInt(line[6]));
+                cstmt.setInt(7, Integer.parseInt(line[6]));
+                cstmt.execute();
             }
         }
     }

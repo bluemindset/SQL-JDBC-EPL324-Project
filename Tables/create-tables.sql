@@ -65,7 +65,6 @@ CREATE TABLE [dbo].[JOCKEY](
 --SET [first_name] = 'Bfdydrdrdrydryd'
 --WHERE [id]='548915';
 GO
-
 --MEETING
 CREATE TABLE [dbo].[MEETING](
 	[datem][date] NOT NULL,
@@ -144,13 +143,13 @@ CREATE TABLE [dbo].[PARTICIPATION](
 	[jockey_id][char](6) NOT NULL,
 	[trainer_id][char](6) NOT NULL,
 	[cur_horse_weight][tinyint] NOT NULL ,
-	[cur_horse_age][tinyint] NOT NULL,
+	[cur_horse_age][tinyint] NULL,
 	[star_pos][int] NOT NULL,
 	[end_pos][int] NOT NULL,
-	[winnings][tinyint] NOT NULL,
+	[winnings][MONEY] NOT NULL,
 	--USER-CHANGES--
-	[created_by][char](6) NOT NULL,
-	[date_created][date] NOT NULL,
+	[created_by][char](6) NULL,
+	[date_created][date] NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_PARTICIPATION] PRIMARY KEY ([race_time] ASC, [meeting_date] ASC, [horse_id] ASC, [jockey_id] ASC, [trainer_id] ASC)
