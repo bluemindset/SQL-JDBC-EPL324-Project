@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -63,7 +64,20 @@ public class ViewChooseUser {
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(comboBox.getSelectedIndex() == 0){
+					frmChooseAUser.dispose();
+					ViewR1UserLogin window = new ViewR1UserLogin(model);
+					window.frmSystemUserSign.setVisible(true);
+				}
+				else if(comboBox.getSelectedIndex() == 1){
+					frmChooseAUser.dispose();
+					
+//TODO
+				}
+				//else{
+				//	JOptionPane.showMessageDialog(frmChooseAUser,
+				//		    "Error! Please select an option!");
+				//}
 				
 			}
 		});
