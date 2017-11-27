@@ -7,10 +7,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ViewQ1HorseList {
 
-	private JFrame frmHorseNameList;
+	public JFrame frmHorseNameList;
 	private JTextField textField;
 	private JTable table;
 
@@ -61,6 +63,13 @@ public class ViewQ1HorseList {
 		frmHorseNameList.getContentPane().add(btnOk);
 		
 		JButton btnBack = new JButton("BACK");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmHorseNameList.dispose();
+				ViewMainQView window = new ViewMainQView();
+				window.frmQueries.setVisible(true);
+			}
+		});
 		btnBack.setBounds(317, 40, 89, 23);
 		frmHorseNameList.getContentPane().add(btnBack);
 		

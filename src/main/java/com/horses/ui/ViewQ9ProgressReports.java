@@ -125,7 +125,6 @@ public class ViewQ9ProgressReports extends JDialog {
 						dispose();
 						ViewMainQView mv = new ViewMainQView();
 						mv.frmQueries.setVisible(true);
-						
 					}
 				});
 				cancelButton.setActionCommand("Cancel");

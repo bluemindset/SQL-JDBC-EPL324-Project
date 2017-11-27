@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ViewQ3HorseAgeList extends JDialog {
 
@@ -55,6 +57,13 @@ public class ViewQ3HorseAgeList extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("BACK");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+						ViewMainQView window = new ViewMainQView();
+						window.frmQueries.setVisible(true);
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
@@ -71,28 +80,28 @@ public class ViewQ3HorseAgeList extends JDialog {
 		}
 		{
 			JLabel lblOrEnterA = new JLabel("OR Enter a specific bound:");
-			lblOrEnterA.setBounds(10, 76, 142, 14);
+			lblOrEnterA.setBounds(10, 76, 163, 14);
 			contentPanel.add(lblOrEnterA);
 		}
 		{
 			JLabel lblMinimum = new JLabel("MINIMUM:");
-			lblMinimum.setBounds(148, 76, 66, 14);
+			lblMinimum.setBounds(167, 76, 66, 14);
 			contentPanel.add(lblMinimum);
 		}
 		{
 			JLabel lblMaximum = new JLabel("MAXIMUM:");
-			lblMaximum.setBounds(148, 101, 75, 14);
+			lblMaximum.setBounds(167, 101, 75, 14);
 			contentPanel.add(lblMaximum);
 		}
 		{
 			textField = new JTextField();
-			textField.setBounds(210, 73, 86, 20);
+			textField.setBounds(236, 73, 86, 20);
 			contentPanel.add(textField);
 			textField.setColumns(10);
 		}
 		{
 			textField_1 = new JTextField();
-			textField_1.setBounds(210, 98, 86, 20);
+			textField_1.setBounds(236, 98, 86, 20);
 			contentPanel.add(textField_1);
 			textField_1.setColumns(10);
 		}
@@ -107,7 +116,7 @@ public class ViewQ3HorseAgeList extends JDialog {
 		panel.add(button);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(148, 8, 86, 20);
+		textField_2.setBounds(210, 8, 86, 20);
 		contentPanel.add(textField_2);
 		textField_2.setColumns(10);
 	}
