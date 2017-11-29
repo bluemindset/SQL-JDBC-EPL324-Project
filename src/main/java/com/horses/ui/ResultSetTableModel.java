@@ -17,7 +17,8 @@ public class ResultSetTableModel extends AbstractTableModel {
         try {
             connection = DriverManager.getConnection(Config.connection_url, Config.DATABASE_USER_ID, Config.DATABASE_PASSWORD);
         } catch (SQLException sex) {
-            System.out.println(sex.getMessage());
+        	sex.printStackTrace();
+            System.err.println(sex.getMessage());
         }
     }
 
@@ -53,7 +54,8 @@ public class ResultSetTableModel extends AbstractTableModel {
             String className = metaData.getColumnClassName(column + 1);
             return Class.forName(className);
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println(ex.getMessage());
+        	ex.printStackTrace();
+            System.err.println(ex.getMessage());
         }
 
         return Object.class;
@@ -68,6 +70,7 @@ public class ResultSetTableModel extends AbstractTableModel {
         try {
             return metaData.getColumnCount();
         } catch (SQLException sex) {
+        	sex.printStackTrace();
             System.out.println(sex.getMessage());
         }
 
@@ -83,6 +86,7 @@ public class ResultSetTableModel extends AbstractTableModel {
         try {
             return metaData.getColumnName(column + 1);
         } catch (SQLException sex) {
+        	sex.printStackTrace();
             System.out.println(sex.getMessage());
         }
 
@@ -109,6 +113,7 @@ public class ResultSetTableModel extends AbstractTableModel {
             resultSet.absolute(row + 1);
             return resultSet.getObject(column + 1);
         } catch (SQLException sex) {
+        	sex.printStackTrace();
             System.out.println(sex.getMessage());
         }
 
@@ -122,6 +127,7 @@ public class ResultSetTableModel extends AbstractTableModel {
                 statement.close();
                 connection.close();
             } catch (SQLException sex) {
+            	sex.printStackTrace();
                 System.out.println(sex.getMessage());
             } finally {
                 connectedToDatabase = false;
