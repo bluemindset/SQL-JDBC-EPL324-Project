@@ -215,7 +215,7 @@ public class QueryExecutor {
         boolean Q9A_oneHorse = false;
         boolean Q9A_allHorses = false;
 
-      // qe.executeQuery9(false,false,true);
+    //  qe.executeQuery9(false,false,true);
       //  qe.executeQuery9(false,true,false);
         //   qe.executeQuery9(true,false,false);
 
