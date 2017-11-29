@@ -2,7 +2,7 @@ IF OBJECT_ID('countHorsesByAgeProc', 'P') IS NOT NULL
 		DROP PROCEDURE countHorsesByAgeProc;
 GO
 CREATE PROCEDURE countHorsesByAgeProc
---If max age is 0 maxAge is not taken into consideration.
+--If max age is 0 maxAge is not taken into consideration and
 --(Horses that are shown are from @minAge to MAX_HORSE_AGE
 @minAge  AS INTEGER , @maxAge	AS INTEGER
 AS

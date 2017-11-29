@@ -1,5 +1,7 @@
 IF OBJECT_ID (N'dbo.countHorsesByAge', N'FN') IS NOT NULL  
-    DROP FUNCTION countHorsesByAge;  
+    DROP FUNCTION countHorsesByAge;
+IF OBJECT_ID (N'dbo.countHorsesByAge', N'P') IS NOT NULL
+		DROP PROC countHorsesByAge;
 GO
 CREATE Function countHorsesByAge
 (
@@ -46,7 +48,7 @@ returns @Data Table
     RETURN
  END
 GO
-
+SELECT * FROM countHorsesByAge (0, 25);
 --SELECT * FROM countHorsesByAge (0,1000)
 -- 1000 apla giaa ena max pu piani to integer 
 
