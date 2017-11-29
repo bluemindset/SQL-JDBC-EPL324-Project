@@ -11,7 +11,7 @@ BEGIN
 	SET NOCOUNT ON
 
 
-SET @horseid = 100;
+
 DECLARE @horsett table(horse_id int, meeting_date date,distance int,end_pos int);
 
 DECLARE @horset table(horse_id int, meeting_date date,distance int,end_pos int);
