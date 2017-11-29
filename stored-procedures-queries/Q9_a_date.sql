@@ -1,17 +1,15 @@
-IF OBJECT_ID (N'Query9', N'P')IS NOT NULL  
+IF OBJECT_ID (N'Query9_a_Date', N'P')IS NOT NULL  
     DROP PROCEDURE Query9_a_Date;  
 GO
-CREATE PROCEDURE Query9_a_Date
-
+CREATE PROCEDURE Query9_a_Date @meeting_date_of_current_race date, @time_of_current_race time
 
 AS 
 BEGIN
 
 	SET NOCOUNT ON
-
-
- DECLARE @meeting_date_of_current_race date = '2010-01-29' ;
- DECLARE @time_of_current_race time = '19:00:00';
+--TEST FOR
+--'2010-01-29' 
+--'19:00:00'
  DECLARE @I int  = 0 ; 
  DECLARE @eighthorse table(horse int);
  DECLARE @horset table(horse_id int, meeting_date date,distance int,end_pos int, pos1 int,pos2 int,pos3 int);
@@ -154,6 +152,6 @@ DEALLOCATE HorseCursor2;
 
 
 END
-GO
 
-EXECUTE Query9_a_Date;
+GO
+--EXECUTE Query9_a_Date;	
