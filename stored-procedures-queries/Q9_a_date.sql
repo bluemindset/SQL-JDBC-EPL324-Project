@@ -14,7 +14,10 @@ BEGIN
  DECLARE @time_of_current_race time = '19:00:00';
  DECLARE @I int  = 0 ; 
  DECLARE @eighthorse table(horse int);
- DECLARE @horset table(horse_id int, meeting_date date,distance int,end_pos int, pos1 int,pos2 int,pos3 int,all_pos int);
+ DECLARE @horset table(horse_id int, meeting_date date,distance int,end_pos int, pos1 int,pos2 int,pos3 int);
+  DECLARE @horset2 table(horse_id int, meeting_date date,distance int,end_pos int, pos1 int,pos2 int,pos3 int,all_pos int,perc money);
+
+
  DECLARE @HorseCursor CURSOR;
  DECLARE @HorseIt int;
  DECLARE @allpositions int;
@@ -74,68 +77,81 @@ INSERT INTO @eighthorse
 
     CLOSE @HorseCursor ;
     DEALLOCATE @HorseCursor;
-	SELECT * FROM @horset
-
-	DECLARE @PART  table(part int,horse_id int);
-		
-
-
-
-	SELECT COUNT( h.horse_id) AS all_part,horse_id
-	FROM @horset h
-	GROUP BY h.horse_id
 	
-	
-
 
 	Declare @horse_idt int;
 	Declare @pos1t int;
 	Declare @pos2t int;
 	Declare @pos3t int;
-	Declare @xa int;
-	Declare @c int;
-	SET @xa= 1;
+	Declare @pos1tf int;
+	Declare @pos2tf int;
+	Declare @pos3tf int;
+	Declare @meeting_datet date;
+	Declare @distancet int;
+	Declare @end_post int;
+	Declare @all_post int;
+	Declare @perc money;
+	Declare @same_horse int;
+	Declare @c float;
+
+	SET @pos1tf =0 ;
+	SET @pos2tf =0 ;
+	SET @pos3tf = 0;
 	SET @c = 0;
+	SET @perc = 0;
 	Declare HorseCursor2  CURSOR FOR
-    select horse_id,pos1,pos2,pos3 from @horset
+    select * from @horset
 
 	OPEN HorseCursor2 
     FETCH NEXT FROM HorseCursor2 
-    INTO @horse_idt,@pos1t,@pos2t,@pos3t
-	PRINT 'HORSE START'	
-   SET @xa = @horse_idt;
+    INTO @horse_idt,@meeting_datet,@distancet,@end_post,@pos1t,@pos2t,@pos3t
+		
+   SET @same_horse = @horse_idt;
+ 
     WHILE @@FETCH_STATUS = 0  
     BEGIN  
-
-
 	  
-		IF @xa = @horse_idt
+		IF @same_horse = @horse_idt
+			BEGIN
 			SET @c= @c+1
-				
+			
+			  IF @pos1t = 1 SET @pos1tf =@pos1tf+1
+			   ELSE IF @pos2t = 1 SET @pos2tf=@pos2tf+1
+				ELSE IF  @pos3t = 1 SET @pos3tf=@pos3tf+1
+			 
+			END
 		ELSE
 			BEGIN
-				SET @c= 1
-				PRINT 'HORSE START'
-			END
+			SET @c= 1
+			SET @pos1tf=0 
+			SET @pos2tf=0
+			SET @pos3tf=0
+			 IF @pos1t = 1 SET @pos1tf =@pos1tf+1
+			   ELSE IF @pos2t = 1 SET @pos2tf=@pos2tf+1
+				ELSE IF  @pos3t = 1 SET @pos3tf=@pos3tf+1
+
 			
-			PRINT CONVERT(VARCHAR(10), @horse_idt) + '    '+CONVERT(varchar(10),@c)
-			SET @xa = @horse_idt;
+			END
+			SET @perc =@pos1tf/@c
+			
+			Insert INTO @horset2
+			SELECT @horse_idt , @meeting_datet ,@distancet ,@end_post, @pos1tf ,@pos2tf,@pos3tf
+			,@c ,@perc
+
+			SET @same_horse = @horse_idt;
     
 	FETCH NEXT FROM HorseCursor2 
-    INTO @horse_idt,@pos1t,@pos2t,@pos3t
+    INTO @horse_idt,@meeting_datet,@distancet,@end_post,@pos1t,@pos2t,@pos3t
 		
 		end;
   
 CLOSE HorseCursor2;  
 DEALLOCATE HorseCursor2; 
-
-
-
 	
+
+	Select   * from @horset2 h
 	
-	SELECT h.horse_id,h.meeting_date,h.distance,h.end_pos,h.pos1,h.pos2,h.pos3,p.part
-	FROM @horset h ,@PART p
-	where h.horse_id= p.horse_id
+
 
 END
 GO
