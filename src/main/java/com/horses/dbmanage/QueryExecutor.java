@@ -1,13 +1,15 @@
 package com.horses.dbmanage;
+import javafx.beans.binding.IntegerBinding;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
+import java.util.function.BinaryOperator;
 
 /**
  * !APLA GIA ELEGHO TWN QUERIES!
@@ -55,7 +57,7 @@ public class QueryExecutor {
                 rs.close();
         }
     }
-    
+
     void executeQuery8b() throws SQLException {
     	ResultSet rs = null;
         try (CallableStatement cstmt = conn.prepareCall("{call query8_c}")) {
@@ -70,8 +72,135 @@ public class QueryExecutor {
         }
     }
 
+    public void executeQuery9(boolean meeting,boolean oneHorse,boolean allHorses) throws SQLException {
+
+        if (meeting) {
+            System.out.println("Please insert Date and Time of Race");
+            Scanner reader = new Scanner(System.in);  // Reading from System.in
+            String d = reader.nextLine();
+            String t = reader.nextLine();
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat tf = new SimpleDateFormat("HH:mm:ss");
+            Date dateRace;
+            java.sql.Date dateInsert = null;
+            java.sql.Time timeInsert = null;
+            java.util.Date  runTime ;
+            try {
+                dateRace = df.parse(d);
+                runTime = tf.parse(t);
+                dateInsert = RecordInserter.convertUtilToSql(dateRace);
+                timeInsert = RecordInserter.convertUtilToSqlTime(runTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            executeQuery9_aDate(dateInsert,timeInsert);
+            return;
+        }
+        if (oneHorse) {
+            System.out.println("Please enter HORSE ID ");
+            Scanner reader = new Scanner(System.in);  // Reading from System.in
+            int n = reader.nextInt();
+            reader.close();
+            executeQuery9_aHorse(n);
+            return;
+        }
+        if (allHorses) {
+            System.out.println("Statement for all horses");
+            executeQuery9_allHorse();
+        }
+
+    }
+
+
+    public void     executeQuery9_allHorse()throws SQLException {
+
+
+        CallableStatement cstmt = conn.prepareCall("{call Query9_a_allHorses}");
+
+
+        cstmt.execute();
+
+        ResultSet rs = cstmt.getResultSet();
+
+
+        int horse = 0;
+        while (rs.next()) {
+            if (rs.getInt(1) == horse)
+                System.out.println(rs.getString(1) + "\t\t\t\t" + rs.getString(2) + "\t\t\t" + rs.getString(3) + "\t\t\t" +rs.getString(4) + "\t\t\t\t"
+                        + rs.getString(5) + "\t\t\t" + rs.getString(6)+"\t\t\t" + rs.getString(7)+"\t\t\t" + rs.getString(8)+"\t\t\t" + rs.getString(9));
+            else {
+                System.out.println("\nSTART HORSE\t\tMEETING DATE|\t\tDISTANCE|\t\tEND POS \t\t|POS1\t\t|POS2\t\tPOS3|\t\tTIMES|\t\tPERCENT%" + "\n");
+                System.out.println(rs.getString(1) + "\t\t\t\t" + rs.getString(2) + "\t\t\t" + rs.getString(3) + "\t\t\t" +rs.getString(4) + "\t\t\t\t"
+                        + rs.getString(5) + "\t\t\t" + rs.getString(6)+"\t\t\t" + rs.getString(7)+"\t\t\t" + rs.getString(8)+"\t\t\t" + rs.getString(9));
+                horse = rs.getInt(1);
+            }
+        }
+        rs.close();
+        cstmt.close();
+    }
+
+
+    public void executeQuery9_aDate(java.sql.Date racedate,java.sql.Time timedate)throws SQLException {
+
+        CallableStatement cstmt = conn.prepareCall("{call Query9_a_Date(?,?)}");
+        cstmt.setDate(1,racedate);
+        cstmt.setTime(2,timedate);
+
+        cstmt.execute();
+
+        ResultSet rs = cstmt.getResultSet();
+
+
+        int horse = 0;
+
+        while (rs.next()) {
+            if (rs.getInt(1) == horse)
+                System.out.println(rs.getString(1) + "\t\t\t\t" + rs.getString(2) + "\t\t\t" + rs.getString(3) + "\t\t\t" + rs.getString(4) + "\t\t\t\t"
+                        + rs.getString(5) + "\t\t\t" + rs.getString(6) + "\t\t\t" + rs.getString(7) + "\t\t\t" + rs.getString(8) + "\t\t\t" + rs.getString(9));
+            else {
+                System.out.println("\nSTART HORSE\t\tMEETING DATE|\t\tDISTANCE|\t\tEND POS \t\t|POS1\t\t|POS2\t\tPOS3|\t\tTIMES|\t\tPERCENT%" + "\n");
+                System.out.println(rs.getString(1) + "\t\t\t\t" + rs.getString(2) + "\t\t\t" + rs.getString(3) + "\t\t\t" + rs.getString(4) + "\t\t\t\t"
+                        + rs.getString(5) + "\t\t\t" + rs.getString(6) + "\t\t\t" + rs.getString(7) + "\t\t\t" + rs.getString(8) + "\t\t\t" + rs.getString(9));
+                horse = rs.getInt(1);
+            }
+        }
+        rs.close();
+        cstmt.close();
+    }
+
+
+    void executeQuery9_aHorse(int horseId) throws SQLException {
+
+
+        CallableStatement cstmt = conn.prepareCall("{call Query9_a_oneHorse(?)}");
+        cstmt.setInt(1,horseId);
+
+
+        cstmt.execute();
+
+        ResultSet rs = cstmt.getResultSet();
+
+
+        System.out.println("\nSTART HORSE\t\tMEETING DATE|\t\tDISTANCE|\t\tEND POS \t\t|POS1\t\t|POS2\t\tPOS3|\t\tTIMES|\t\tPERCENT%" + "\n");
+        while (rs.next()) {
+
+
+                System.out.println(rs.getString(1) + "\t\t\t\t" + rs.getString(2) + "\t\t\t" + rs.getString(3) + "\t\t\t" +rs.getString(4) + "\t\t\t\t"
+                        + rs.getString(5) + "\t\t\t" + rs.getString(6)+"\t\t\t" + rs.getString(7)+"\t\t\t" + rs.getString(8)+"\t\t\t" + rs.getString(9));
+
+
+        }
+        rs.close();
+        cstmt.close();
+    }
+
+
+
+
+
     public static void main(String args[]) throws SQLException, ParseException {
-        String dbConnString = "jdbc:sqlserver://apollo.in.cs.ucy.ac.cy:1433;databaseName="+USERNAME+";user="+USERNAME+";password="+PASSWORD+";";
+//        String dbConnString = "jdbc:sqlserver://apollo.in.cs.ucy.ac.cy:1433;databaseName="+USERNAME+";user="+USERNAME+";password="+PASSWORD+";";
+        String dbConnString = "jdbc:sqlserver://\\DOCTOR\\SQLEXPRESS:1433;databaseName=master;integratedSecurity=true;user=DOCTOR\\stefanos";
 
         QueryExecutor qe = new QueryExecutor(new ConnectionManager(dbConnString));
 //        //Q1
@@ -80,8 +209,15 @@ public class QueryExecutor {
 //        Date d = (new SimpleDateFormat("yyyy-MM-dd")).parse("2010-01-08");
 //        System.out.println(d.getTime());
 //        qe.selectRacesByMeetingDate(d);
-        qe.executeQuery8b();
+        //qe.executeQuery8b();
 
+        boolean Q9A_date = false;
+        boolean Q9A_oneHorse = false;
+        boolean Q9A_allHorses = false;
+
+      // qe.executeQuery9(false,false,true);
+      //  qe.executeQuery9(false,true,false);
+        //   qe.executeQuery9(true,false,false);
 
     }
 }

@@ -878,12 +878,12 @@ public class RecordInserter {
     }
 
 
-    private static java.sql.Date convertUtilToSql(java.util.Date uDate) {
+    public static java.sql.Date convertUtilToSql(java.util.Date uDate) {
         java.sql.Date sDate = new java.sql.Date(uDate.getTime());
         return sDate;
     }
 
-    private static Time convertUtilToSqlTime(java.util.Date uDate) {
+    public static Time convertUtilToSqlTime(java.util.Date uDate) {
         Time tDate = new Time(uDate.getTime());
         return tDate;
     }
