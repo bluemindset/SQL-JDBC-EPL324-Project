@@ -1,7 +1,7 @@
 IF OBJECT_ID (N'Query9', N'P')IS NOT NULL  
-    DROP PROCEDURE Query9_a_date;  
+    DROP PROCEDURE Query9_a_Date;  
 GO
-CREATE PROCEDURE Query9_a_date
+CREATE PROCEDURE Query9_a_Date
 
 
 AS 
@@ -74,7 +74,7 @@ INSERT INTO @eighthorse
 	  
     END; 
 	
-
+	
     CLOSE @HorseCursor ;
     DEALLOCATE @HorseCursor;
 	
@@ -156,4 +156,4 @@ DEALLOCATE HorseCursor2;
 END
 GO
 
-EXECUTE Query9_a_date;
+EXECUTE Query9_a_Date;
