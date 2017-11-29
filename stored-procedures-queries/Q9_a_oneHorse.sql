@@ -1,8 +1,8 @@
-IF OBJECT_ID (N'Query9', N'P')IS NOT NULL  
+IF OBJECT_ID (N'Query9_a_oneHorse', N'P')IS NOT NULL  
     DROP PROCEDURE Query9_a_oneHorse;  
 
 GO
-CREATE PROCEDURE Query9_a_oneHorse
+CREATE PROCEDURE Query9_a_oneHorse  @horseid int
 
 
 AS 
@@ -10,7 +10,7 @@ BEGIN
 
 	SET NOCOUNT ON
 
-Declare @horseid int;
+
 SET @horseid = 100;
 DECLARE @horsett table(horse_id int, meeting_date date,distance int,end_pos int);
 
@@ -107,6 +107,4 @@ DEALLOCATE HorseCursor2;
 
 END
 
-Go
 
-EXECUTE Query9_a_oneHorse;
