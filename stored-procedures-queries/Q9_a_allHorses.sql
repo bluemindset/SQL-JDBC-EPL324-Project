@@ -1,4 +1,4 @@
-IF OBJECT_ID (N'Query9', N'P')IS NOT NULL  
+IF OBJECT_ID (N'Query9_a_allHorses', N'P')IS NOT NULL  
     DROP PROCEDURE Query9_a_allHorses;  
 
 GO
@@ -108,4 +108,4 @@ END
 
 Go
 
-EXECUTE Query9_a_allHorses;
+--EXECUTE Query9_a_allHorses;
