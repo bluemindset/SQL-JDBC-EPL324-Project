@@ -93,26 +93,34 @@ INSERT INTO @eighthorse
 	Declare @pos2t int;
 	Declare @pos3t int;
 	Declare @xa int;
+	Declare @c int;
 	SET @xa= 1;
+	SET @c = 0;
 	Declare HorseCursor2  CURSOR FOR
     select horse_id,pos1,pos2,pos3 from @horset
 
 	OPEN HorseCursor2 
     FETCH NEXT FROM HorseCursor2 
     INTO @horse_idt,@pos1t,@pos2t,@pos3t
-		
-   
+	PRINT 'HORSE START'	
+   SET @xa = @horse_idt;
     WHILE @@FETCH_STATUS = 0  
     BEGIN  
-		SET @xa = @xa+1
-        SELECT @xa,horseidt
-		where horseidt 
-       
-    
-	
 
+
+	  
+		IF @xa = @horse_idt
+			SET @c= @c+1
+				
+		ELSE
+			BEGIN
+				SET @c= 1
+				PRINT 'HORSE START'
+			END
+			
+			PRINT CONVERT(VARCHAR(10), @horse_idt) + '    '+CONVERT(varchar(10),@c)
+			SET @xa = @horse_idt;
     
-	
 	FETCH NEXT FROM HorseCursor2 
     INTO @horse_idt,@pos1t,@pos2t,@pos3t
 		
