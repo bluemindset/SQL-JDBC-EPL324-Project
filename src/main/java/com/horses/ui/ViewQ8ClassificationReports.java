@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 public class ViewQ8ClassificationReports extends JDialog {
 
@@ -86,9 +87,13 @@ public class ViewQ8ClassificationReports extends JDialog {
 			contentPanel.add(lblHorses);
 		}
 		{
-			table = new JTable();
-			table.setBounds(10, 98, 493, 113);
-			contentPanel.add(table);
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(10, 98, 493, 113);
+			contentPanel.add(scrollPane);
+			{
+				table = new JTable();
+				scrollPane.setViewportView(table);
+			}
 		}
 		{
 			JLabel lblRiders = new JLabel("b) RIDERS:");
@@ -96,9 +101,13 @@ public class ViewQ8ClassificationReports extends JDialog {
 			contentPanel.add(lblRiders);
 		}
 		{
-			table_1 = new JTable();
-			table_1.setBounds(10, 243, 493, 113);
-			contentPanel.add(table_1);
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(10, 243, 493, 113);
+			contentPanel.add(scrollPane);
+			{
+				table_1 = new JTable();
+				scrollPane.setViewportView(table_1);
+			}
 		}
 		{
 			JLabel lblNewLabel = new JLabel("c) HORSE FATHERS:");
@@ -106,9 +115,13 @@ public class ViewQ8ClassificationReports extends JDialog {
 			contentPanel.add(lblNewLabel);
 		}
 		{
-			table_2 = new JTable();
-			table_2.setBounds(10, 392, 493, 113);
-			contentPanel.add(table_2);
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(10, 392, 493, 113);
+			contentPanel.add(scrollPane);
+			{
+				table_2 = new JTable();
+				scrollPane.setViewportView(table_2);
+			}
 		}
 		{
 			JLabel lblDHorseGrandfathers = new JLabel("d) HORSE GRANDFATHERS:");
@@ -116,9 +129,13 @@ public class ViewQ8ClassificationReports extends JDialog {
 			contentPanel.add(lblDHorseGrandfathers);
 		}
 		{
-			table_3 = new JTable();
-			table_3.setBounds(10, 536, 493, 113);
-			contentPanel.add(table_3);
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(10, 536, 493, 113);
+			contentPanel.add(scrollPane);
+			{
+				table_3 = new JTable();
+				scrollPane.setViewportView(table_3);
+			}
 		}
 	}
 
