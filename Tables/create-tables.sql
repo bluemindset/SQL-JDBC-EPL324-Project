@@ -227,7 +227,7 @@ CREATE TABLE [dbo].[SYSTEM_USER](
 	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_USER] PRIMARY KEY ([id] ASC)
-
+)
 GO
 ----------------------------NEW TABLES-------------------------------------------------
 --HORSE SEX--

@@ -41,7 +41,7 @@ public class ViewQ2HorseRaceResults extends JDialog {
     private void loadRecords(String stringDate) throws SQLException  {
     	
     	System.out.println(stringDate);
-        String cstmtString = "{call selectHorsesLike(?)}";
+        String cstmtString = "{call selectRacesByMeetingDate(?)}";
         
         ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, stringDate);
         table.setModel(tableModel);

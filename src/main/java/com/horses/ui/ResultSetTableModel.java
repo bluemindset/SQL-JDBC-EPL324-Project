@@ -49,7 +49,7 @@ public class ResultSetTableModel extends AbstractTableModel {
     public ResultSetTableModel(String callableStatmentString, String horseName) throws SQLException {
     	this();
 
-    	CallableStatement cstmt = connection.prepareCall("{call selectHorsesLike(?)}", ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+    	CallableStatement cstmt = connection.prepareCall(callableStatmentString, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
     	cstmt.setString(1, horseName);
     	resultSet = cstmt.executeQuery();
     		
@@ -57,7 +57,6 @@ public class ResultSetTableModel extends AbstractTableModel {
     	resultSet.last();
     	numberOfRows = resultSet.getRow();
     	fireTableStructureChanged();
-
     }
     
     @Override
