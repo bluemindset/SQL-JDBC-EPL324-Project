@@ -2,6 +2,7 @@ package com.horses.ui;
 
 import java.awt.EventQueue;
 
+import java.sql.*;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -11,6 +12,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -44,7 +48,38 @@ public class ViewQ1HorseList {
     	String SearchhorseName = stringHorse;
     	System.out.println(SearchhorseName);
     	
-        String sql_stmt = "SELECT * FROM [dbo].[HORSE];";
+        String sql_stmt = "{call selectHorsesLike(?)}";
+        ResultSet rs = null;
+        Connection connection = DriverManager.getConnection(Config.connection_url, Config.DATABASE_USER_ID, Config.DATABASE_PASSWORD);
+        try (CallableStatement cstmt = connection.prepareCall(sql_stmt)) {
+            cstmt.setNString(1, SearchhorseName);
+            rs = cstmt.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getString(2));
+            }
+        } finally {
+            if(rs != null)
+                rs.close();
+        }
+        
+//        SetDatabaseURL();
+//        Connection connection = DriverManager.getConnection(Config.connection_url, Config.DATABASE_USER_ID, Config.DATABASE_PASSWORD);
+//
+//        //Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+//        
+//        boolean connectedToDatabase = true;
+//        if (!connectedToDatabase) {
+//            throw new IllegalStateException("Not Connected to Database");
+//        }
+//
+//        ResultSet resultSet = statement.executeQuery(query);
+//        ResultSetMetaData metaData = resultSet.getMetaData();
+//        resultSet.last();
+//        int numberOfRows = resultSet.getRow();
+//
+//        fireTableStructureChanged();
+//        
+//        
         
         ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
         tableHorses.setModel(tableModel);
