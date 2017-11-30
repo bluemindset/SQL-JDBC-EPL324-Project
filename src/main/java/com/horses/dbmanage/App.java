@@ -12,8 +12,8 @@ import com.horses.dbobjects.SystemUser;
 import com.horses.dbobjects.SystemUserRole;
 
 public class App {
-    private static final String USERNAME = "cchadj01";
-    private static final String DEFAULT_PASS = "s3agazuhespU";
+    private static final String USERNAME = "achrys16";
+    private static final String DEFAULT_PASS = "g7P5UchuqAda";
     private static final String PASSWORD = DEFAULT_PASS;
     
     private static void insertSystemAdmins(RecordInserter ri) {
