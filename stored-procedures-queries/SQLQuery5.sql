@@ -11,7 +11,18 @@ WHERE T.ID NOT IN (
 		FROM PARTICIPATION P
 		WHERE P.trainer_id= T.id AND P.end_pos !='1'
 		)
+
+--   select DISTINCT T.id,T.compressed_name
+--   FROM TRAINER T, PARTICIPATION P
+--   WHERE T.id = P.trainer_id AND P.end_pos != '1';
 END;
 
-exec selectTrainerWithNo1winnings;
+-- SELECT trainer_id
+-- FROM PARTICIPATION P, TRAINER T
+-- WHERE P.trainer_id= T.id AND P.end_pos ='1'
+--
+-- SELECT COUNT(*)
+-- FROM PARTICIPATION P
+-- WHERE P.end_pos ='1';
+--exec selectTrainerWithNo1winnings;
 
