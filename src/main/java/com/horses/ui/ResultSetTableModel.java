@@ -97,6 +97,22 @@ public class ResultSetTableModel extends AbstractTableModel {
     	fireTableStructureChanged();
 	}
 
+	/**
+	 * FOR QUERY 8
+	 * @param cstmtString
+	 * @param year
+	 */
+	public ResultSetTableModel(String cstmtString, int year)throws SQLException {
+    	this();
+    	CallableStatement cstmt = connection.prepareCall(cstmtString, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+    	cstmt.setInt(1, year);
+    	resultSet = cstmt.executeQuery();
+    	metaData = resultSet.getMetaData();
+    	resultSet.last();
+    	numberOfRows = resultSet.getRow();
+    	fireTableStructureChanged();
+	}
+
 	@Override
     public Class getColumnClass(int column) throws IllegalStateException {
         if (!connectedToDatabase) {

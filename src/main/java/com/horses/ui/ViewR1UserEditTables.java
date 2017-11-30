@@ -10,7 +10,9 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
@@ -97,16 +99,32 @@ public class ViewR1UserEditTables {
     }
 
     private void updateRecord() throws SQLException {
-//        String sql_stmt = "UPDATE employees SET full_name = '" + txtFullName.getText() + "'";
-//        sql_stmt += ",gender = '" + cboGender.getSelectedItem().toString() + "'";
-//        sql_stmt += ",department = '" + txtDepartment.getText() + "'";
-//        sql_stmt += ",position = '" + txtPosition.getText() + "'";
-//        sql_stmt += ",salary = '" + txtSalary.getText() + "'";
-//        sql_stmt += " WHERE employee_id = '" + txtEmployeeId.getText() + "'";
-//
-//        DBUtilities dbUtilities = new DBUtilities();
-//
-//        dbUtilities.ExecuteSQLStatement(sql_stmt);
+    	
+        Date date1 = null;
+        try {
+			date1 = new SimpleDateFormat("dd/MM/yyyy").parse(formattedTextField.getText());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}  
+    	
+        String sql_stmt = "UPDATE [dbo].[HORSE] SET [name] = '" + textFieldName.getText() + "'";
+        sql_stmt += ",[cur_weight] = '" + textFieldWeight.getText() + "'";
+        sql_stmt += ",[date_of_birth] = '" + date1.getTime() + "'";
+        sql_stmt += ",[sex] = '" + comboBoxSex.getSelectedItem().toString() + "'";
+        sql_stmt += ",[is_purebred] = '" + checkBoxIsPurebred.isSelected() + "'";
+        sql_stmt += ",[record] = '" + textFieldRecord.getText() + "'";
+        sql_stmt += ",[origin_country] = '" + textFieldOriginCountry.getText() + "'";
+        sql_stmt += ",[mama_id] = '" + comboBoxMom.getSelectedItem().toString() + "'";
+        sql_stmt += ",[dad_id] = '" + comboBoxDad.getSelectedItem().toString() + "'";
+        sql_stmt += ",[jockey_id] = '" + comboBoxJockey.getSelectedItem().toString() + "'";
+        sql_stmt += ",[breeder_id] = '" + comboBoxBreeder.getSelectedItem().toString() + "'";
+        sql_stmt += ",[color_name] = '" + comboBoxColor.getSelectedItem().toString() + "'";
+        sql_stmt += ",[trainer_id] = '" + comboBoxTrainer.getSelectedItem().toString() + "'";
+        sql_stmt += ",[owner_id] = '" + comboBoxOwner.getSelectedItem().toString() + "'";
+        sql_stmt += " WHERE id = '" + textFieldID.getText() + "'";
+
+        DBUtilities dbUtilities = new DBUtilities();
+        dbUtilities.ExecuteSQLStatement(sql_stmt);
     }
 
     
@@ -135,7 +153,6 @@ public class ViewR1UserEditTables {
                     Object date_of_birth = tableHorses.getValueAt(tableHorses.getSelectedRow(), 4);
                     Object age = tableHorses.getValueAt(tableHorses.getSelectedRow(), 5);                    
                     Object sex = tableHorses.getValueAt(tableHorses.getSelectedRow(), 6);
-                 
                     Object is_purebred = tableHorses.getValueAt(tableHorses.getSelectedRow(), 7);
                     Object record = tableHorses.getValueAt(tableHorses.getSelectedRow(), 8);
                     Object origin_country = tableHorses.getValueAt(tableHorses.getSelectedRow(), 9);
@@ -146,8 +163,6 @@ public class ViewR1UserEditTables {
                     Object color_name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 14);
                     Object trainer_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 15);
                     Object owner_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 16);
-                    
-                    
                     
                     textFieldID.setText(id.toString());
 					textFieldName.setText(name.toString());
@@ -200,20 +215,11 @@ public class ViewR1UserEditTables {
 					} catch (NullPointerException e) {
 						textFieldRecord.setText(null);	
 					} 
-
-
-			    	
-			    	
-			    	comboBoxSex.setSelectedItem("");
-
-			    	comboBoxColor.setSelectedItem("");
-			    	comboBoxMom.setSelectedItem("");
-			    	comboBoxDad.setSelectedItem("");
-			    	comboBoxJockey.setSelectedItem("");
-			    	comboBoxBreeder.setSelectedItem("");
-			    	comboBoxTrainer.setSelectedItem("");
-			    	comboBoxOwner.setSelectedItem("");
-                    
+					try {
+						comboBoxJockey.setSelectedItem(jockey_id.toString());						
+					} catch ( NullPointerException e) {
+						comboBoxJockey.setSelectedItem(null);
+					}
                 }
             } catch (Exception ex) {
             	ex.printStackTrace();
@@ -316,12 +322,12 @@ public class ViewR1UserEditTables {
 		lblDateOfBirth.setBounds(10, 119, 100, 14);
 		panelHorseEditor.add(lblDateOfBirth);
 		
-		DateFormat format = new SimpleDateFormat("DD/MM/YYYY");
+		DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		formattedTextField = new JFormattedTextField(format);
 		formattedTextField.setBounds(95, 116, 86, 20);
 		panelHorseEditor.add(formattedTextField);
 		
-		JLabel label = new JLabel("format: (DD/MM/YYYY)");
+		JLabel label = new JLabel("format: (dd/MM/yyyy)");
 		label.setBounds(188, 119, 146, 14);
 		panelHorseEditor.add(label);
 		
@@ -386,6 +392,7 @@ public class ViewR1UserEditTables {
 		
 		// SET MOM ID COMBO BOX
 		comboBoxMom = new JComboBox();
+		comboBoxMom.insertItemAt("", 0);
 		try {
 		   	 String sql_stmt_mom = "SELECT * FROM [dbo].[HORSE];";
 		   	 ResultSetTableModel momCombo = new ResultSetTableModel(sql_stmt_mom);
@@ -402,6 +409,7 @@ public class ViewR1UserEditTables {
 		
 		// SET DAD ID COMBO BOX
 		comboBoxDad = new JComboBox();
+		comboBoxDad.insertItemAt("", 0);
 		try {
 		   	 String sql_stmt_dad = "SELECT * FROM [dbo].[HORSE];";
 		   	 ResultSetTableModel dadCombo = new ResultSetTableModel(sql_stmt_dad);
@@ -418,6 +426,7 @@ public class ViewR1UserEditTables {
 		
 		// SET JOCKEY ID COMBO BOX
 		comboBoxJockey = new JComboBox();
+		comboBoxJockey.insertItemAt("", 0);
 		try {
 		   	 String sql_stmt_jockey = "SELECT * FROM [dbo].[JOCKEY];";
 		   	 ResultSetTableModel jockeyCombo = new ResultSetTableModel(sql_stmt_jockey);
@@ -464,6 +473,7 @@ public class ViewR1UserEditTables {
 		panelHorseEditor.add(lblOwnerId);
 		
 		comboBoxBreeder = new JComboBox<>();
+		comboBoxBreeder.insertItemAt("", 0);
 		try {
 		   	 String sql_stmt_BREEDER = "SELECT * FROM [dbo].[BREEDER];";
 		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt_BREEDER);
@@ -478,6 +488,7 @@ public class ViewR1UserEditTables {
 		panelHorseEditor.add(comboBoxBreeder);
 		
 		comboBoxTrainer = new JComboBox<>();
+		comboBoxTrainer.insertItemAt("", 0);
 		try {
 	    	 String sql_stmt_Trainer = "SELECT * FROM [dbo].[TRAINER];";
 	    	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt_Trainer);
@@ -492,6 +503,7 @@ public class ViewR1UserEditTables {
 		panelHorseEditor.add(comboBoxTrainer);
 		
 		comboBoxOwner = new JComboBox<>();
+		comboBoxOwner.insertItemAt("", 0);
 		try {
 	    	 String sql_stmt_Owner = "SELECT * FROM [dbo].[OWNER];";
 	    	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt_Owner);
@@ -526,7 +538,17 @@ public class ViewR1UserEditTables {
 		btnAddNew.setBounds(10, 476, 89, 23);
 		panelHorses.add(btnAddNew);
 		
-		JButton btnEdit = new JButton("EDIT");
+		JButton btnEdit = new JButton("UPDATE");
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					updateRecord();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		btnEdit.setBounds(109, 476, 89, 23);
 		panelHorses.add(btnEdit);
 		
@@ -600,17 +622,11 @@ public class ViewR1UserEditTables {
 		});
 		btnBack.setBounds(662, 576, 89, 23);
 		frmEditTables.getContentPane().add(btnBack);
-		
 		try {
 			loadRecords();
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
 	}
-	
-	
-
-	
 }
