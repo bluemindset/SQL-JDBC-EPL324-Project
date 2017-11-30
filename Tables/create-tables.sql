@@ -21,7 +21,7 @@ CREATE TABLE [dbo].[HORSE](
 	[trainer_id][char](6)  NULL,
 	[owner_id][char](6)  NULL,
 	--USER-CHANGES--
-	[created_by][char](6)  NULL,
+	[created_by][char](8)  NULL,
 	[date_created][date]  NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
@@ -38,9 +38,9 @@ GO
 CREATE TABLE [dbo].[HORSE_COLOR](
 	[color_name][nvarchar](25)  NOT NULL,
 	--USER-CHANGES--
-	[created_by][char](6)  NULL,
+	[created_by][char](8)  NULL,
 	[date_created][date]  NULL,
-	[updated_by][char](6) NULL,
+	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_HORSE_COLOR] PRIMARY KEY (color_name ASC)
 )
@@ -59,18 +59,15 @@ CREATE TABLE [dbo].[JOCKEY](
 	[date_updated][date]  NULL,
 	CONSTRAINT [PK_JOCKEY] PRIMARY KEY (id ASC)
 )
---insert into [JOCKEY] ([id],[first_name],[last_name]) VALUES ('548915','Afdydrdrdrydryddrufryryet','ttttttttttttttttttttt')
---UPDATE [JOCKEY]
---SET [first_name] = 'Bfdydrdrdrydryd'
---WHERE [id]='548915';
+
 GO
 --MEETING
 CREATE TABLE [dbo].[MEETING](
 	[datem][date] NOT NULL,
 	--USER-CHANGES--
-	[created_by][char](6)  NULL,
+	[created_by][char](8)  NULL,
 	[date_created][date]  NULL,
-	[updated_by][char](6) NULL,
+	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_MEETING] PRIMARY KEY (datem ASC)
 )
@@ -89,9 +86,9 @@ CREATE TABLE [dbo].[RACE](
 	[field_type][nvarchar](25)  NULL,
 	[meeting_date][date] NOT NULL,
 	--USER-CHANGES--
-	[created_by][char](6)  NULL,
+	[created_by][char](8)  NULL,
 	[date_created][date]  NULL,
-	[updated_by][char](6) NULL,
+	[updated_by][char](8) NULL,
 	[date_updated][date] NULL ,
 	CONSTRAINT [PK_RACE] PRIMARY KEY ([race_time] ASC, [meeting_date] ASC)
 )
@@ -103,7 +100,7 @@ GO
 CREATE TABLE [dbo].[RACE_DISTANCE](
 	[distance][int] NOT NULL,
 	--USER-CHANGES--
-	[created_by][char](6) NULL,
+	[created_by][char](8) NULL,
 	[date_created][date]  NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
@@ -114,7 +111,7 @@ GO
 CREATE TABLE [dbo].[RACE_TYPE](
 	[type][nvarchar](25) NOT NULL,
 	--USER-CHANGES--
-	[created_by][char](6)  NULL,
+	[created_by][char](8)  NULL,
 	[date_created][date]  NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
@@ -126,9 +123,9 @@ GO
 CREATE TABLE [dbo].[FIELD_TYPE](
 	[type][nvarchar](25) NOT NULL,
 	--USER-CHANGES--
-	[created_by][char](6) NULL ,
+	[created_by][char](8) NULL ,
 	[date_created][date] NULL,
-	[updated_by][char](6) NULL,
+	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_FIELD_TYPE] PRIMARY KEY ([type] ASC)
 )
@@ -147,9 +144,9 @@ CREATE TABLE [dbo].[PARTICIPATION](
 	[end_pos][int] NOT NULL,
 	[winnings][MONEY] NOT NULL,
 	--USER-CHANGES--
-	[created_by][char](6) NULL,
+	[created_by][char](8) NULL,
 	[date_created][date] NULL,
-	[updated_by][char](6) NULL,
+	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_PARTICIPATION] PRIMARY KEY ([race_time] ASC, [meeting_date] ASC, [horse_id] ASC, [jockey_id] ASC, [trainer_id] ASC)
 )
@@ -161,7 +158,7 @@ CREATE TABLE [dbo].[TRAINER](
 	[last_name][nvarchar](25)  NULL,
 	[compressed_name] AS cast(SUBSTRING([first_name],1,1)+'.'+[last_name] AS [nvarchar](15)),
 	--USER-CHANGES--
-	[created_by][char](6)  NULL,
+	[created_by][char](8)  NULL,
 	[date_created][date] NULL,
 	[updated_by][char](6) NULL,
 	[date_updated][date] NULL,
@@ -175,9 +172,9 @@ CREATE TABLE [dbo].[BREEDER](
 	[last_name][nvarchar](25)  NULL,
 	[compressed_name] AS cast(SUBSTRING([first_name],1,1)+'.'+[last_name] AS [nvarchar](15)),
 	--USER-CHANGES--
-	[created_by][char](6) NULL,
+	[created_by][char](8) NULL,
 	[date_created][date] NULL,
-	[updated_by][char](6) NULL,
+	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_BREEDER] PRIMARY KEY ([id] ASC),
 )
@@ -194,9 +191,9 @@ CREATE TABLE [dbo].[OWNER](
 	[family_id][int] NULL,
 	[onwer_family][nvarchar](20)  NULL,
 	--USER-CHANGES--
-	[created_by][char](6)  NULL,
+	[created_by][char](8)  NULL,
 	[date_created][date] NULL ,
-	[updated_by][char](6) NULL,
+	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_OWNER] PRIMARY KEY ([id] ASC)
 )
@@ -209,25 +206,25 @@ CREATE TABLE [dbo].[FAMILY](
 	[compressed_name] AS cast([name] AS [nvarchar](15)),
 	[no_of_owners][int] NULL,
 	--USER-CHANGES--
-	[created_by][char](6)  NULL ,
+	[created_by][char](8)  NULL ,
 	[date_created][date]  NULL,
-	[updated_by][char](6) NULL,
+	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_FAMILY] PRIMARY KEY ([id] ASC)
 )
 GO
 --SYSTEM_USER
 CREATE TABLE [dbo].[SYSTEM_USER](
-	[id][char](6) NOT NULL,
+	[id][char](8) NOT NULL,
 	[username][nvarchar](25) UNIQUE NOT NULL,
 	[passwordUser] [nvarchar](50) NULL,
 	[first_name][nvarchar](25) NULL,
 	[last_name][nvarchar](25)  NULL,
 	[role][char](2)  NULL,
 		--USER-CHANGES--
-	[created_by][char](6) NULL,
+	[created_by][char](8) NULL,
 	[date_created][date] NULL,
-	[updated_by][char](6) NULL,
+	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_USER] PRIMARY KEY ([id] ASC)
 )

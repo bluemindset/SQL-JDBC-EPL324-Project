@@ -128,7 +128,7 @@ BEGIN
 	UPDATE	[dbo].[RACE]
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
-	WHERE	[race_time], [meeting_date] IN (SELECT [race_time], [meeting_date] FROM inserted)
+	WHERE	[race_time] IN (SELECT [race_time] FROM inserted) AND [meeting_date] IN (SELECT [meeting_date] FROM inserted)
 END
 ELSE
 --A current employee has been updated
@@ -136,7 +136,7 @@ BEGIN
 	UPDATE	[dbo].[RACE]
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
-	WHERE	[race_time], [meeting_date] IN (SELECT [race_time], [meeting_date] FROM inserted)
+	WHERE	[race_time] IN (SELECT [race_time] FROM inserted) AND [meeting_date] IN (SELECT [meeting_date] FROM inserted)
 END
 GO
 
@@ -245,7 +245,11 @@ BEGIN
 	UPDATE	[dbo].[PARTICIPATION]
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
-	WHERE	[race_time], [meeting_date], [horse_id], [jockey_id], [trainer_id] IN (SELECT [race_time], [meeting_date], [horse_id], [jockey_id], [trainer_id] FROM inserted)
+	WHERE	[race_time]IN (SELECT [race_time]FROM inserted) AND 
+			[meeting_date] IN (SELECT [meeting_date] FROM inserted) AND 
+			 [horse_id] IN (SELECT  [horse_id] FROM inserted) AND
+			 [jockey_id] IN (SELECT  [jockey_id] FROM inserted) AND
+			 [trainer_id]  IN(SELECT  [jockey_id] FROM inserted)
 END
 ELSE
 --A current employee has been updated
@@ -253,7 +257,11 @@ BEGIN
 	UPDATE	[dbo].[PARTICIPATION]
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
-	WHERE	[race_time], [meeting_date], [horse_id], [jockey_id], [trainer_id] IN (SELECT [race_time], [meeting_date], [horse_id], [jockey_id], [trainer_id] FROM inserted)
+	WHERE	[race_time]IN (SELECT [race_time]FROM inserted) AND 
+			[meeting_date] IN (SELECT [meeting_date] FROM inserted) AND 
+			 [horse_id] IN (SELECT  [horse_id] FROM inserted) AND
+			 [jockey_id] IN (SELECT  [jockey_id] FROM inserted) AND
+			 [trainer_id]  IN(SELECT  [jockey_id] FROM inserted)
 END
 GO
 
