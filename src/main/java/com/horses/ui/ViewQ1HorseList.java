@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 public class ViewQ1HorseList {
 
@@ -196,9 +197,12 @@ public class ViewQ1HorseList {
 		btnBack.setBounds(317, 40, 89, 23);
 		frmHorseNameList.getContentPane().add(btnBack);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 98, 406, 338);
+		frmHorseNameList.getContentPane().add(scrollPane);
+		
 		tableHorses = new JTable();
-		tableHorses.setBounds(10, 98, 406, 338);
-		frmHorseNameList.getContentPane().add(tableHorses);
+		scrollPane.setViewportView(tableHorses);
 		
 
 	}
