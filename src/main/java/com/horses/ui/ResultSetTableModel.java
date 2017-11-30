@@ -30,10 +30,9 @@ public class ResultSetTableModel extends AbstractTableModel {
         metaData = resultSet.getMetaData();
         resultSet.last();
         numberOfRows = resultSet.getRow();
-
         fireTableStructureChanged();
-
     }
+    
     private  ResultSetTableModel() throws SQLException {
         SetDatabaseURL();
         connection = DriverManager.getConnection(Config.connection_url, Config.DATABASE_USER_ID, Config.DATABASE_PASSWORD);
@@ -49,15 +48,15 @@ public class ResultSetTableModel extends AbstractTableModel {
 
     public ResultSetTableModel(String callableStatmentString, String horseName) throws SQLException {
     	this();
-    	try(CallableStatement cstmt = connection.prepareCall("{call selectHorsesLike(?)}")){
-    		cstmt.setString(1, horseName);
-    		resultSet = cstmt.executeQuery();
-    		metaData = resultSet.getMetaData();
-    		resultSet.last();
-    		numberOfRows = resultSet.getRow();
-    		fireTableStructureChanged();
-    	};
-    			
+
+    	CallableStatement cstmt = connection.prepareCall("{call selectHorsesLike(?)}", ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+    	cstmt.setString(1, horseName);
+    	resultSet = cstmt.executeQuery();
+    		
+    	metaData = resultSet.getMetaData();
+    	resultSet.last();
+    	numberOfRows = resultSet.getRow();
+    	fireTableStructureChanged();
 
     }
     
