@@ -49,30 +49,30 @@ public class ViewQ1HorseList {
         
         ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, stringHorse);
         tableHorses.setModel(tableModel);
-        tableHorses.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-            try {
-                if (tableHorses.getSelectedRow() >= 0) {
-                	
-                    Object id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 0);
-                    Object name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 1);
-                    Object compressed_name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 2);
-                    Object cur_weight = tableHorses.getValueAt(tableHorses.getSelectedRow(), 3);
-                    Object date_of_birth = tableHorses.getValueAt(tableHorses.getSelectedRow(), 4);
-                    Object age = tableHorses.getValueAt(tableHorses.getSelectedRow(), 5);                    
-                    Object sex = tableHorses.getValueAt(tableHorses.getSelectedRow(), 6);
-                 
-                    Object is_purebred = tableHorses.getValueAt(tableHorses.getSelectedRow(), 7);
-                    Object record = tableHorses.getValueAt(tableHorses.getSelectedRow(), 8);
-                    Object origin_country = tableHorses.getValueAt(tableHorses.getSelectedRow(), 9);
-                    Object mama_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 10);
-                    Object dad_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 11); 
-                    Object jockey_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 12);
-                    Object breeder_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 13);
-                    Object color_name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 14);
-                    Object trainer_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 15);
-                    Object owner_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 16);
-                    
-                    
+//        tableHorses.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+//            try {
+//                if (tableHorses.getSelectedRow() >= 0) {
+//                	
+//                    Object id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 0);
+//                    Object name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 1);
+//                    Object compressed_name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 2);
+//                    Object cur_weight = tableHorses.getValueAt(tableHorses.getSelectedRow(), 3);
+//                    Object date_of_birth = tableHorses.getValueAt(tableHorses.getSelectedRow(), 4);
+//                    Object age = tableHorses.getValueAt(tableHorses.getSelectedRow(), 5);                    
+//                    Object sex = tableHorses.getValueAt(tableHorses.getSelectedRow(), 6);
+//                 
+//                    Object is_purebred = tableHorses.getValueAt(tableHorses.getSelectedRow(), 7);
+//                    Object record = tableHorses.getValueAt(tableHorses.getSelectedRow(), 8);
+//                    Object origin_country = tableHorses.getValueAt(tableHorses.getSelectedRow(), 9);
+//                    Object mama_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 10);
+//                    Object dad_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 11); 
+//                    Object jockey_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 12);
+//                    Object breeder_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 13);
+//                    Object color_name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 14);
+//                    Object trainer_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 15);
+//                    Object owner_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 16);
+//                    
+//                    
 //                    
 //                    textFieldID.setText(id.toString());
 //					textFieldName.setText(name.toString());
@@ -125,18 +125,15 @@ public class ViewQ1HorseList {
 //					} catch (NullPointerException e) {
 //						textFieldRecord.setText(null);	
 //					} 
-//
-//
-//			    	
-			    	
-
-                    
-                }
-            } catch (Exception ex) {
-            	ex.printStackTrace();
-                System.out.println(ex.getMessage());
-            }
-        });
+//      
+//                }
+//            } catch (Exception ex) {
+//            	ex.printStackTrace();
+//                System.out.println(ex.getMessage());
+//            }
+//        });
+        
+        
         DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
         rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
         tableHorses.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
