@@ -37,14 +37,10 @@ public class ViewQ4HorsesOfOwnerFamily extends JDialog {
 		}
 	}
 
-    private void loadRecords(String str) throws SQLException  {
-    	
-    	System.out.println(str);
-        String cstmtString = "{call selectHorsesGroupedByFamily(?)}";
-        ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, str);
+    private void loadRecords() throws SQLException  {
+        String cstmtString = "{call selectHorsesGroupedByFamily}";
+        ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString);
         table.setModel(tableModel);
-
-        
         DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
         rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
         table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
@@ -69,34 +65,6 @@ public class ViewQ4HorsesOfOwnerFamily extends JDialog {
 			table = new JTable();
 			scrollPane.setViewportView(table);
 		}
-		
-		JComboBox comboBox = new JComboBox();
-		try {
-	    	 String sql_stmt = "SELECT [name] FROM [dbo].[FAMILY];";
-	    	 ResultSetTableModel combo = new ResultSetTableModel(sql_stmt);
-	    	 for(int i=0; i< combo.getRowCount(); i++){
-	    		 String s = (combo.getValueAt(i, 0).toString());
-	    		 comboBox.addItem(s);
-	    	 }
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		comboBox.addActionListener (new ActionListener () {
-		    public void actionPerformed(ActionEvent e) {
-		    	try {
-					loadRecords(comboBox.getSelectedItem().toString());
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				} 	
-		    }
-		});
-		comboBox.setBounds(150, 23, 205, 20);
-		contentPanel.add(comboBox);
-		
-		JLabel lblPleaseSelectA = new JLabel("Please select a family:");
-		lblPleaseSelectA.setBounds(10, 26, 179, 14);
-		contentPanel.add(lblPleaseSelectA);
 		{
 			JButton cancelButton = new JButton("BACK");
 			cancelButton.addActionListener(new ActionListener() {
@@ -110,5 +78,18 @@ public class ViewQ4HorsesOfOwnerFamily extends JDialog {
 			contentPanel.add(cancelButton);
 			cancelButton.setActionCommand("Cancel");
 		}
+		
+		JButton btnSearch = new JButton("SEARCH");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					loadRecords();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} 	
+			}
+		});
+		btnSearch.setBounds(266, 22, 89, 23);
+		contentPanel.add(btnSearch);
 	}
 }
