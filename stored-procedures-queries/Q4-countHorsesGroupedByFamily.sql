@@ -15,10 +15,10 @@ AS
 -- 		SELECT * FROM [OWNER];
 --    SELECT * FROM FAMILY;
 
-		SELECT T.family_name, F.name AS family_name, SUM(T.countHorses) AS countFamilyHorses
+		SELECT F.name AS family_name, SUM(T.countHorses) AS countFamilyHorses
 		FROM #temp T, FAMILY F
 		WHERE T.family_name = F.name
-		GROUP BY T.family_name, F.name
+		GROUP BY F.name
     ORDER BY  countFamilyHorses DESC;
 
 		DROP TABLE #temp;

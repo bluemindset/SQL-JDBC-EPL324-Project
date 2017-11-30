@@ -11,10 +11,10 @@ BEGIN
 
   SELECT * FROM #temp ORDER BY onwer_family;
 
-  SELECT COUNT(*), onwer_family
-  FROM #temp
-  GROUP BY onwer_family
-  ORDER BY COUNT(*);
+--   SELECT COUNT(*), onwer_family
+--   FROM #temp
+--   GROUP BY onwer_family
+--   ORDER BY COUNT(*);
 
   DROP TABLE #temp;
 
