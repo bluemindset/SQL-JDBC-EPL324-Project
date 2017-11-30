@@ -3,7 +3,9 @@ package com.horses.ui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -42,8 +44,13 @@ public class ViewQ2HorseRaceResults extends JDialog {
     	
     	System.out.println(stringDate);
         String cstmtString = "{call selectRacesByMeetingDate(?)}";
-        
-        ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, stringDate);
+        Date date1 = null;
+        try {
+			date1 = new SimpleDateFormat("dd/MM/yyyy").parse(stringDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}  
+        ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, date1);
         table.setModel(tableModel);
 
         
@@ -70,7 +77,7 @@ public class ViewQ2HorseRaceResults extends JDialog {
 		lblPleaseEnter.setBounds(29, 14, 169, 14);
 		contentPanel.add(lblPleaseEnter);
 		
-			DateFormat format = new SimpleDateFormat("DD/MM/YYYY");
+			DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 			JFormattedTextField formattedTextField = new JFormattedTextField(format);
 			formattedTextField.setBounds(208, 8, 133, 26);
 			contentPanel.add(formattedTextField);
