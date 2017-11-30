@@ -59,10 +59,7 @@ CREATE TABLE [dbo].[JOCKEY](
 	[date_updated][date]  NULL,
 	CONSTRAINT [PK_JOCKEY] PRIMARY KEY (id ASC)
 )
---insert into [JOCKEY] ([id],[first_name],[last_name]) VALUES ('548915','Afdydrdrdrydryddrufryryet','ttttttttttttttttttttt')
---UPDATE [JOCKEY]
---SET [first_name] = 'Bfdydrdrdrydryd'
---WHERE [id]='548915';
+
 GO
 --MEETING
 CREATE TABLE [dbo].[MEETING](
@@ -231,7 +228,6 @@ CREATE TABLE [dbo].[SYSTEM_USER](
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_USER] PRIMARY KEY ([id] ASC)
 
-)
 GO
 ----------------------------NEW TABLES-------------------------------------------------
 --HORSE SEX--
