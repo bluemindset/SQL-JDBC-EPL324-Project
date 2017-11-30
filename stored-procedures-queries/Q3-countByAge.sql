@@ -20,5 +20,5 @@ BEGIN
 	WHERE H.age BETWEEN @minAge AND @maxAge
 	GROUP BY H.age
 END;
-EXEC countHorsesByAgeProc @minAge = 0, @maxAge =  25;
+-- EXEC countHorsesByAgeProc @minAge = 0, @maxAge =  20;
 

@@ -1,7 +1,5 @@
 --	Q1	
-USE ACHRYS16
-GO
-IF EXISTS(SELECT 1 FROM sys.procedures 
+IF EXISTS(SELECT 1 FROM sys.procedures
           WHERE Name = 'selectHorsesLike')
 
 DROP PROCEDURE selectHorsesLike
@@ -18,12 +16,5 @@ BEGIN
 	H.name like '%'+@inputName+'%'
 END
 
-SELECT *
-FROM HORSE
-insert into [HORSE] ([name]) VALUES ('ANNITA HOURSE');
-insert into [HORSE] ([name]) VALUES ('SLOW HOURSE');
-insert into [HORSE] ([name]) VALUES ('FAST HOURSE');
-insert into [HORSE] ([name]) VALUES ('FAST');
-
---selectHorsesLike 
+-- EXEC selectHorsesLike "900";
 
