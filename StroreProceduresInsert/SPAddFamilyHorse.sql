@@ -8,3 +8,7 @@ INSERT INTO [dbo].[FAMILY]
            ( [name] )
      VALUES (@name)
 GO
+
+EXEC familyHorseInsert @name = 'another horse family';
+
+SELECT * FROM FAMILY;

@@ -111,7 +111,6 @@ BEGIN
 END
 GO
 
-
 --Trigger for USER in RACE
 IF OBJECT_ID ('[tr_USER_RACE]', 'TR') IS NOT NULL
 	DROP TRIGGER [tr_USER_RACE]
@@ -168,7 +167,6 @@ BEGIN
 END
 GO
 
-
 --Trigger for USER in RACE_TYPE
 IF OBJECT_ID ('[tr_USER_RACE_TYPE]', 'TR') IS NOT NULL
 	DROP TRIGGER [tr_USER_RACE_TYPE]
@@ -197,8 +195,6 @@ BEGIN
 END
 GO
 
-
-
 --Trigger for USER in FIELD_TYPE
 IF OBJECT_ID ('[tr_USER_FIELD_TYPE]', 'TR') IS NOT NULL
 	DROP TRIGGER [tr_USER_FIELD_TYPE]
@@ -226,8 +222,6 @@ BEGIN
 	WHERE	[type] IN (SELECT [type] FROM inserted)
 END
 GO
-
-
 
 --Trigger for USER in PARTICIPATION
 IF OBJECT_ID ('[tr_USER_PARTICIPATION]', 'TR') IS NOT NULL
@@ -265,10 +259,6 @@ BEGIN
 END
 GO
 
-
-
-
-
 --Trigger for USER in TRAINER
 IF OBJECT_ID ('[tr_USER_TRAINER]', 'TR') IS NOT NULL
 	DROP TRIGGER [tr_USER_TRAINER]
@@ -296,9 +286,6 @@ BEGIN
 	WHERE	[id] IN (SELECT [id] FROM inserted)
 END
 GO
-
-
-
 
 --Trigger for USER in BREEDER
 IF OBJECT_ID ('[tr_USER_BREEDER]', 'TR') IS NOT NULL
@@ -328,8 +315,6 @@ BEGIN
 END
 GO
 
-
-
 --Trigger for USER in OWNER
 IF OBJECT_ID ('[tr_USER_OWNER]', 'TR') IS NOT NULL
 	DROP TRIGGER [tr_USER_OWNER]
@@ -358,7 +343,7 @@ BEGIN
 END
 GO
 
-
+--TODO DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 
 --Trigger for USER in FAMILY
 IF OBJECT_ID ('[tr_USER_FAMILY]', 'TR') IS NOT NULL
@@ -367,26 +352,44 @@ GO
 CREATE TRIGGER [tr_USER_FAMILY] ON [dbo].[FAMILY]
 AFTER INSERT, UPDATE
 AS
-DECLARE @countDeleted int
-SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+  BEGIN
+    DECLARE @countDeleted int
+    SET @countDeleted = (SELECT COUNT(*) FROM deleted)
 
-IF @countDeleted=0
---A new employee has been inserted
-BEGIN
-	UPDATE	[dbo].[FAMILY]
-	SET		[created_by]=USER,
-			[date_created]=GETDATE()
-	WHERE	[name] IN (SELECT [name] FROM inserted)
-END
-ELSE
---A current employee has been updated
-BEGIN
-	UPDATE	[dbo].[FAMILY]
-	SET		[updated_by]=USER,
-			[date_updated]=GETDATE()
-	WHERE	[name] IN (SELECT [name] FROM inserted)
-END
+    IF (@countDeleted=0)
+    --A new employee has been inserted
+    BEGIN
+      UPDATE	[dbo].[FAMILY]
+      SET		[created_by]=USER,
+          [date_created]=GETDATE()
+      WHERE	[name] IN (SELECT [name] FROM inserted);
+      EXEC insert_into_log_history 'I', 'FAMILY';
+    END
+    ELSE
+    --A current employee has been updated
+    BEGIN
+      UPDATE	[dbo].[FAMILY]
+      SET		[updated_by]=USER,
+          [date_updated]=GETDATE()
+      WHERE	[name] IN (SELECT [name] FROM inserted);
+      EXEC insert_into_log_history 'U', 'FAMILY';
+    END
+  END
 GO
+
+SELECT  * FROM FAMILY;
+GO
+UPDATE FAMILY SET FAMILY.name = 'asojdhjaskhask' WHERE FAMILY.name = 'Cork family';
+GO
+SELECT * FROM LOG_HISTORY;
+GO
+SELECT  * FROM FAMILY;
+GO
+EXEC familyHorseInsert 'Jaffar';
+GO
+SELECT  * FROM FAMILY;
+GO
+SELECT * FROM LOG_HISTORY;
 
 
 --Trigger for USER in SYSTEM_USER

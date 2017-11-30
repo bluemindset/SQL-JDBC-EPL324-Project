@@ -231,6 +231,15 @@ GO
 --HORSE SEX--
 CREATE TABLE [dbo].[HORSE_SEX](
 	[horse_sex][nvarchar](15) NOT NULL
-
+)
+GO
+CREATE TABLE [dbo].[LOG_HISTORY] (
+	[id]INT NOT NULL IDENTITY(1,1),
+	[action] CHAR(1),
+	[tmstmp] DATETIME,
+	[table_name] NVARCHAR(25),
+	--foreign keys--
+	[user_id] CHAR(8) NOT NULL,
+	CONSTRAINT [PK_LOG_HISTORY] PRIMARY KEY([id] ASC )
 )
 GO

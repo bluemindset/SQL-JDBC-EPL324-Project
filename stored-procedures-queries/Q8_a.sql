@@ -47,7 +47,7 @@ AS
 		DROP TABLE #TEMP;
 	END;
 
-EXEC query8_a 2011;
+EXEC query8_a 20;
 --SELECT *
 --FROM PARTICIPATION P,HORSE H
 --WHERE H.id = P.horse_id

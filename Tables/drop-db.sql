@@ -213,6 +213,11 @@ GO
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_SYSTEM_USER_USER_UPDATE]') AND parent_object_id = OBJECT_ID(N'[dbo].[SYSTEM_USER]'))
 ALTER TABLE [dbo].[SYSTEM_USER] DROP CONSTRAINT [FK_SYSTEM_USER_USER_UPDATE]
 GO
+
+--LOG_HISTORY
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_LOG_HISTORY_USERID]') AND parent_object_id = OBJECT_ID(N'[dbo].[LOG_HISTORY]'))
+  ALTER TABLE [dbo].[LOG_HISTORY] DROP CONSTRAINT [FK_LOG_HISTORY_USERID]
+GO
 -- ***********************************************************************************************************************************************************************
 ------ DROP TABLES ------ DROP TABLES ------ DROP TABLES ------ DROP TABLES ------ DROP TABLES ------ DROP TABLES ------ DROP TABLES ------ DROP TABLES ------ DROP TABLES
 
@@ -293,6 +298,10 @@ GO
 -- DROP RACE_FIELDS
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RACE_FIELDS]') AND type in (N'U'))
 DROP TABLE [dbo].[RACE_FIELDS]
+GO
+-- DROP LOG_HISTORY
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[LOG_HISTORY]') AND type in (N'U'))
+  DROP TABLE [dbo].[LOG_HISTORY]
 GO
 
 
