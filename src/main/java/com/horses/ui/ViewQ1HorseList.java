@@ -39,7 +39,6 @@ public class ViewQ1HorseList {
 		});
 	}
 
-	//
 	  
     private void loadRecords(String stringHorse) throws SQLException  {
     	
@@ -47,7 +46,7 @@ public class ViewQ1HorseList {
     	System.out.println(SearchhorseName);
     	
         String sql_stmt = "SELECT * FROM [dbo].[HORSE];";
-        
+
         ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
         tableHorses.setModel(tableModel);
         tableHorses.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
