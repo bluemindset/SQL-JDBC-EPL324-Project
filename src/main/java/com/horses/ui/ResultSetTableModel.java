@@ -1,6 +1,8 @@
 package com.horses.ui;
 
 import java.sql.*;
+import java.util.Date;
+
 import javax.swing.table.AbstractTableModel;
 
 public class ResultSetTableModel extends AbstractTableModel {
@@ -48,18 +50,27 @@ public class ResultSetTableModel extends AbstractTableModel {
 
     public ResultSetTableModel(String callableStatmentString, String horseName) throws SQLException {
     	this();
-
     	CallableStatement cstmt = connection.prepareCall(callableStatmentString, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
     	cstmt.setString(1, horseName);
     	resultSet = cstmt.executeQuery();
-    		
     	metaData = resultSet.getMetaData();
     	resultSet.last();
     	numberOfRows = resultSet.getRow();
     	fireTableStructureChanged();
     }
     
-    @Override
+    public ResultSetTableModel(String cstmtString, Date date1) throws SQLException{
+    	this();
+    	CallableStatement cstmt = connection.prepareCall(cstmtString, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+    	cstmt.setDate(1, new java.sql.Date(date1.getTime()));
+    	resultSet = cstmt.executeQuery();
+    	metaData = resultSet.getMetaData();
+    	resultSet.last();
+    	numberOfRows = resultSet.getRow();
+    	fireTableStructureChanged();
+	}
+
+	@Override
     public Class getColumnClass(int column) throws IllegalStateException {
         if (!connectedToDatabase) {
             throw new IllegalStateException("Not Connected to Database");
