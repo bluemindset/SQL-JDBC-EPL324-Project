@@ -1,6 +1,4 @@
 package com.horses.dbmanage;
-import javafx.beans.binding.IntegerBinding;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.text.DateFormat;
