@@ -7,9 +7,14 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 public class ViewQ5LostTrainers extends JDialog {
 
@@ -28,6 +33,16 @@ public class ViewQ5LostTrainers extends JDialog {
 			e.printStackTrace();
 		}
 	}
+	
+	private void loadRecords() throws SQLException  {
+        String cstmtString = "{call selectTrainerWithNo1winnings}";
+        ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString);
+        table.setModel(tableModel);
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+        table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    }
 
 	/**
 	 * Create the dialog.
@@ -40,9 +55,13 @@ public class ViewQ5LostTrainers extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			table = new JTable();
-			table.setBounds(10, 55, 414, 196);
-			contentPanel.add(table);
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(10, 55, 414, 196);
+			contentPanel.add(scrollPane);
+			{
+				table = new JTable();
+				scrollPane.setViewportView(table);
+			}
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -51,6 +70,15 @@ public class ViewQ5LostTrainers extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			{
 				JButton okButton = new JButton("SEARCH");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try {
+							loadRecords();
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						} 	
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
