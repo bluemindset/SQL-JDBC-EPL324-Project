@@ -39,15 +39,3 @@ BEGIN
 END;
 
 --EXEC selectHorsesThatParticipatedInAllMeetings
-
-select PARTICIPATION.meeting_date,* 
-from horse
-left join PARTICIPATION on horse.id=PARTICIPATION.horse_id
-where horse.id=2
-
-SELECT * FROM PARTICIPATION 
-ORDER BY PARTICIPATION.horse_id
-
-
-SELECT *
-FROM MEETING M

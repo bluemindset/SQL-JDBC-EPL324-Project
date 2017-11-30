@@ -1,28 +1,24 @@
---------------------------------------------------
---Q4
-IF OBJECT_ID('selectHorsesGroupedByFamily','P') IS NOT NULL
-	DROP PROCEDURE selectHorsesGroupedByFamily
+IF OBJECT_ID( 'selectHorsesGroupedByFamily' , 'P') IS NOT NULL
+		DROP PROCEDURE selectHorsesGroupedByFamily;
 GO
 CREATE PROCEDURE selectHorsesGroupedByFamily
-AS
-	BEGIN
-		SELECT COUNT(*) AS countHorses, O.id,F.family_id --INTO #temp
-		FROM HORSE H, [OWNER] O, FAMILY F
-		WHERE H.owner_id = O.id  AND O.f != '#N/A'
-		GROUP BY O.id, O.family_id
-		ORDER BY countHorses DESC;
+AS 
+BEGIN 
+	SELECT  H.id AS horseId, H.name AS horseName, O.onwer_family INTO #temp
+	FROM HORSE H, OWNER O
+  WHERE O.onwer_family!= '#N/A'  AND H.owner_id = O.id
+	GROUP BY O.id, O.onwer_family, H.id, H.name;
 
-		--SELECT * FROM #temp
-		--SELECT * FROM [OWNER]
-    SELECT * FROM FAMILY
+  SELECT * FROM #temp ORDER BY onwer_family;
 
-		SELECT T.family_id, F.name AS family_name, SUM(T.countHorses) AS countFamilyHorses
-		FROM #temp T, FAMILY F
-		WHERE T.family_id = F.id
-		GROUP BY T.family_id, F.name
+  SELECT COUNT(*), onwer_family
+  FROM #temp
+  GROUP BY onwer_family
+  ORDER BY COUNT(*);
 
-		DROP TABLE #temp
-	END
-GO
-EXEC selectHorsesGroupedByFamily
+  DROP TABLE #temp;
 
+END;
+
+EXEC selectHorsesGroupedByFamily;
+EXEC countHorsesGroupedByFamily;
