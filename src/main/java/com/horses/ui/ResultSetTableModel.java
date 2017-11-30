@@ -27,7 +27,6 @@ public class ResultSetTableModel extends AbstractTableModel {
 
     public ResultSetTableModel(String query) throws SQLException {
     	this();
-    	
         resultSet = statement.executeQuery(query);
         metaData = resultSet.getMetaData();
         resultSet.last();
@@ -38,16 +37,19 @@ public class ResultSetTableModel extends AbstractTableModel {
     private  ResultSetTableModel() throws SQLException {
         SetDatabaseURL();
         connection = DriverManager.getConnection(Config.connection_url, Config.DATABASE_USER_ID, Config.DATABASE_PASSWORD);
-
         statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-
         connectedToDatabase = true;
-
         if (!connectedToDatabase) {
             throw new IllegalStateException("Not Connected to Database");
         }
     }
 
+    /**
+     * FOR QUERY 1
+     * @param callableStatmentString
+     * @param horseName
+     * @throws SQLException
+     */
     public ResultSetTableModel(String callableStatmentString, String horseName) throws SQLException {
     	this();
     	CallableStatement cstmt = connection.prepareCall(callableStatmentString, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
@@ -59,10 +61,35 @@ public class ResultSetTableModel extends AbstractTableModel {
     	fireTableStructureChanged();
     }
     
+    /**
+     * FOR QUERY 2
+     * @param cstmtString
+     * @param date1
+     * @throws SQLException
+     */
     public ResultSetTableModel(String cstmtString, Date date1) throws SQLException{
     	this();
     	CallableStatement cstmt = connection.prepareCall(cstmtString, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
     	cstmt.setDate(1, new java.sql.Date(date1.getTime()));
+    	resultSet = cstmt.executeQuery();
+    	metaData = resultSet.getMetaData();
+    	resultSet.last();
+    	numberOfRows = resultSet.getRow();
+    	fireTableStructureChanged();
+	}
+
+    /**
+     * FOR QUERY 3
+     * @param cstmtString
+     * @param minimum
+     * @param maximum
+     * @throws SQLException
+     */
+	public ResultSetTableModel(String cstmtString, int minimum, int maximum) throws SQLException{
+    	this();
+    	CallableStatement cstmt = connection.prepareCall(cstmtString, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+    	cstmt.setInt(1, minimum);
+    	cstmt.setInt(2, maximum);
     	resultSet = cstmt.executeQuery();
     	metaData = resultSet.getMetaData();
     	resultSet.last();
