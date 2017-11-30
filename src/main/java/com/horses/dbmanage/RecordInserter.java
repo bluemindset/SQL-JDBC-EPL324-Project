@@ -79,7 +79,7 @@ public class RecordInserter {
 		/*FAMILIES*/
         String fileFamilies = "DataTables/Families.txt";
         String recordsFamilies = FileParser.getFileContentAsString(fileFamilies);
-        String FamiliesStorProcVal = "{call dbo.familyHorseInsert(?,?)}";
+        String FamiliesStorProcVal = "{call dbo.familyHorseInsert(?)}";
         familyInsertion(insertData(recordsFamilies), FamiliesStorProcVal);
 
 		/*RACE DISTANCE*/
@@ -684,7 +684,6 @@ public class RecordInserter {
         int k = 0;
         int j = 0;
 
-
         CallableStatement cstmt = null;
         //	Prepare Call for StoreProcedure
         try {
@@ -694,24 +693,14 @@ public class RecordInserter {
         }
 
         for (int i = 0; i <= storeProcData.size() - 1; i++) {
-
-            //ID INT
-            cstmt.setInt(++k, i);
-
-
             //FAMILY NAME
             if ((storeProcData.get(i).get(j).equals("")))
                 cstmt.setNull(++k, Types.NCHAR);
             else
                 cstmt.setString(++k, storeProcData.get(i).get(j));
-
-
             cstmt.execute();
             k = 0;
-
-
         }
-        cstmt.close();
     }
 
     void participationInsertion() throws IOException, SQLException, ParseException {

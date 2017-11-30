@@ -188,8 +188,7 @@ CREATE TABLE [dbo].[OWNER](
 	[uniform][nvarchar](50)  NULL,
 	[title][nvarchar](5)  NULL,
 	--FOREIGN KEY--
-	[family_id][int] NULL,
-	[onwer_family][nvarchar](20)  NULL,
+	[onwer_family][nvarchar](35)  NULL,
 	--USER-CHANGES--
 	[created_by][char](8)  NULL,
 	[date_created][date] NULL ,
@@ -201,8 +200,7 @@ GO
 
 --FAMILY
 CREATE TABLE [dbo].[FAMILY](
-	[id][int] NOT NULL,
-	[name][nvarchar](25) ,
+	[name][nvarchar](35) ,
 	[compressed_name] AS cast([name] AS [nvarchar](15)),
 	[no_of_owners][int] NULL,
 	--USER-CHANGES--
@@ -210,7 +208,7 @@ CREATE TABLE [dbo].[FAMILY](
 	[date_created][date]  NULL,
 	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
-	CONSTRAINT [PK_FAMILY] PRIMARY KEY ([id] ASC)
+	CONSTRAINT [PK_FAMILY] PRIMARY KEY ([name] ASC)
 )
 GO
 --SYSTEM_USER

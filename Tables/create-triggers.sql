@@ -376,7 +376,7 @@ BEGIN
 	UPDATE	[dbo].[FAMILY]
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[name] IN (SELECT [name] FROM inserted)
 END
 ELSE
 --A current employee has been updated
@@ -384,7 +384,7 @@ BEGIN
 	UPDATE	[dbo].[FAMILY]
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
+	WHERE	[name] IN (SELECT [name] FROM inserted)
 END
 GO
 
