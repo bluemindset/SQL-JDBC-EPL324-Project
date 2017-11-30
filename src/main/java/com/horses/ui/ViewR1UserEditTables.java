@@ -546,6 +546,7 @@ public class ViewR1UserEditTables {
 			        }
 			}
 		});
+		//
 		btnDelete.setVisible(false);
 		btnDelete.setBounds(208, 476, 89, 23);
 		panelHorses.add(btnDelete);

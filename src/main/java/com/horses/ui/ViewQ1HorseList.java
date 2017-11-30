@@ -37,7 +37,7 @@ public class ViewQ1HorseList {
 		});
 	}
 
-	
+	//
 	  
     private void loadRecords(String stringHorse) throws SQLException  {
     	
