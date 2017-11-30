@@ -2,6 +2,7 @@ package com.horses.ui;
 
 import java.awt.EventQueue;
 
+import java.sql.*;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -11,6 +12,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,12 +44,10 @@ public class ViewQ1HorseList {
 	  
     private void loadRecords(String stringHorse) throws SQLException  {
     	
-    	String SearchhorseName = stringHorse;
-    	System.out.println(SearchhorseName);
-    	
-        String sql_stmt = "SELECT * FROM [dbo].[HORSE];";
-
-        ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
+    	System.out.println(stringHorse);
+        String cstmtString = "{call selectHorsesLike(?)}";
+        
+        ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, stringHorse);
         tableHorses.setModel(tableModel);
         tableHorses.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
             try {
