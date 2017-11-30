@@ -6,10 +6,11 @@ import javax.swing.table.AbstractTableModel;
 public class ResultSetTableModel extends AbstractTableModel {
 
     private Connection connection;
-    private final Statement statement;
+    private Statement statement;
     public ResultSet resultSet;
     private ResultSetMetaData metaData;
     private int numberOfRows;
+    private CallableStatement ctsmt;
 
     private boolean connectedToDatabase = false;
 
@@ -23,7 +24,16 @@ public class ResultSetTableModel extends AbstractTableModel {
     }
 
     public ResultSetTableModel(String query) throws SQLException {
-
+    	this();
+    	
+        resultSet = statement.executeQuery(query);
+        metaData = resultSet.getMetaData();
+        resultSet.last();
+        numberOfRows = resultSet.getRow();
+        fireTableStructureChanged();
+    }
+    
+    private  ResultSetTableModel() throws SQLException {
         SetDatabaseURL();
         connection = DriverManager.getConnection(Config.connection_url, Config.DATABASE_USER_ID, Config.DATABASE_PASSWORD);
 
@@ -34,16 +44,22 @@ public class ResultSetTableModel extends AbstractTableModel {
         if (!connectedToDatabase) {
             throw new IllegalStateException("Not Connected to Database");
         }
-
-        resultSet = statement.executeQuery(query);
-        metaData = resultSet.getMetaData();
-        resultSet.last();
-        numberOfRows = resultSet.getRow();
-
-        fireTableStructureChanged();
-
     }
 
+    public ResultSetTableModel(String callableStatmentString, String horseName) throws SQLException {
+    	this();
+
+    	CallableStatement cstmt = connection.prepareCall("{call selectHorsesLike(?)}", ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+    	cstmt.setString(1, horseName);
+    	resultSet = cstmt.executeQuery();
+    		
+    	metaData = resultSet.getMetaData();
+    	resultSet.last();
+    	numberOfRows = resultSet.getRow();
+    	fireTableStructureChanged();
+
+    }
+    
     @Override
     public Class getColumnClass(int column) throws IllegalStateException {
         if (!connectedToDatabase) {

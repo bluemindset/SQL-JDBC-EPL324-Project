@@ -2,6 +2,7 @@ package com.horses.ui;
 
 import java.awt.EventQueue;
 
+import java.sql.*;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -11,8 +12,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 public class ViewQ1HorseList {
 
@@ -36,41 +41,38 @@ public class ViewQ1HorseList {
 		});
 	}
 
-	
 	  
     private void loadRecords(String stringHorse) throws SQLException  {
     	
-    	String SearchhorseName = stringHorse;
-    	System.out.println(SearchhorseName);
-    	
-        String sql_stmt = "SELECT * FROM [dbo].[HORSE];";
+    	System.out.println(stringHorse);
+        String cstmtString = "{call selectHorsesLike(?)}";
         
-        ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
+        ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, stringHorse);
         tableHorses.setModel(tableModel);
-        tableHorses.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-            try {
-                if (tableHorses.getSelectedRow() >= 0) {
-                	
-                    Object id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 0);
-                    Object name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 1);
-                    Object compressed_name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 2);
-                    Object cur_weight = tableHorses.getValueAt(tableHorses.getSelectedRow(), 3);
-                    Object date_of_birth = tableHorses.getValueAt(tableHorses.getSelectedRow(), 4);
-                    Object age = tableHorses.getValueAt(tableHorses.getSelectedRow(), 5);                    
-                    Object sex = tableHorses.getValueAt(tableHorses.getSelectedRow(), 6);
-                 
-                    Object is_purebred = tableHorses.getValueAt(tableHorses.getSelectedRow(), 7);
-                    Object record = tableHorses.getValueAt(tableHorses.getSelectedRow(), 8);
-                    Object origin_country = tableHorses.getValueAt(tableHorses.getSelectedRow(), 9);
-                    Object mama_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 10);
-                    Object dad_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 11); 
-                    Object jockey_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 12);
-                    Object breeder_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 13);
-                    Object color_name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 14);
-                    Object trainer_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 15);
-                    Object owner_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 16);
-                    
-                    
+//        tableHorses.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+//            try {
+//                if (tableHorses.getSelectedRow() >= 0) {
+//                	
+//                    Object id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 0);
+//                    Object name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 1);
+//                    Object compressed_name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 2);
+//                    Object cur_weight = tableHorses.getValueAt(tableHorses.getSelectedRow(), 3);
+//                    Object date_of_birth = tableHorses.getValueAt(tableHorses.getSelectedRow(), 4);
+//                    Object age = tableHorses.getValueAt(tableHorses.getSelectedRow(), 5);                    
+//                    Object sex = tableHorses.getValueAt(tableHorses.getSelectedRow(), 6);
+//                 
+//                    Object is_purebred = tableHorses.getValueAt(tableHorses.getSelectedRow(), 7);
+//                    Object record = tableHorses.getValueAt(tableHorses.getSelectedRow(), 8);
+//                    Object origin_country = tableHorses.getValueAt(tableHorses.getSelectedRow(), 9);
+//                    Object mama_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 10);
+//                    Object dad_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 11); 
+//                    Object jockey_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 12);
+//                    Object breeder_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 13);
+//                    Object color_name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 14);
+//                    Object trainer_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 15);
+//                    Object owner_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 16);
+//                    
+//                    
 //                    
 //                    textFieldID.setText(id.toString());
 //					textFieldName.setText(name.toString());
@@ -123,18 +125,15 @@ public class ViewQ1HorseList {
 //					} catch (NullPointerException e) {
 //						textFieldRecord.setText(null);	
 //					} 
-//
-//
-//			    	
-			    	
-
-                    
-                }
-            } catch (Exception ex) {
-            	ex.printStackTrace();
-                System.out.println(ex.getMessage());
-            }
-        });
+//      
+//                }
+//            } catch (Exception ex) {
+//            	ex.printStackTrace();
+//                System.out.println(ex.getMessage());
+//            }
+//        });
+        
+        
         DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
         rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
         tableHorses.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
@@ -196,9 +195,12 @@ public class ViewQ1HorseList {
 		btnBack.setBounds(317, 40, 89, 23);
 		frmHorseNameList.getContentPane().add(btnBack);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 98, 406, 338);
+		frmHorseNameList.getContentPane().add(scrollPane);
+		
 		tableHorses = new JTable();
-		tableHorses.setBounds(10, 98, 406, 338);
-		frmHorseNameList.getContentPane().add(tableHorses);
+		scrollPane.setViewportView(tableHorses);
 		
 
 	}

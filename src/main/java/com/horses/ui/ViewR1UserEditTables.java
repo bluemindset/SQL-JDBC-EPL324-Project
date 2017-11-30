@@ -109,6 +109,7 @@ public class ViewR1UserEditTables {
 //        dbUtilities.ExecuteSQLStatement(sql_stmt);
     }
 
+    
     private void deleteRecord() throws SQLException {
         String sql_stmt = "DELETE FROM [dbo].[HORSE] WHERE [id] = '" + textFieldID.getText() + "'";
         DBUtilities dbUtilities = new DBUtilities();
@@ -545,6 +546,8 @@ public class ViewR1UserEditTables {
 			        }
 			}
 		});
+		//
+		btnDelete.setVisible(false);
 		btnDelete.setBounds(208, 476, 89, 23);
 		panelHorses.add(btnDelete);
 		
