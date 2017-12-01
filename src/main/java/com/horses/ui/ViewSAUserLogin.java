@@ -9,6 +9,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class ViewSAUserLogin {
 
@@ -75,7 +78,14 @@ public class ViewSAUserLogin {
 			public void actionPerformed(ActionEvent e) {
 				
 				//TODO LOGIN
-				
+				try {
+					Connection connection = DriverManager.getConnection(Config.connection_url, Config.DATABASE_USER_ID, Config.DATABASE_PASSWORD);
+
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
+
 				frmSystemAdminLogin.dispose();
 				ViewSAUserGUI window = new ViewSAUserGUI();
 				window.frmSystemAdminInterface.setVisible(true);

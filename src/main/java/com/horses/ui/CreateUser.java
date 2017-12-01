@@ -8,10 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.awt.event.ActionEvent;
 
 public class CreateUser {
@@ -24,7 +21,8 @@ public class CreateUser {
 	private Connection connection;
 	private JTextField lblFirstNameSignUp;
 	private JTextField txtLastNameSignUp;
-
+	private final int ID_LIMIT = 8,USERNAME_LIMIT = 25, PASSWORD_LIMIT =50, FIRSTNAME_LIMIT =25, LASTNAME_LIMIT = 25;
+	private final int DUPLICATE_PK = 1, DUPLICATE_USERNAME = 2, NO_ERROR = 0;
 	/**
 	 * Launch the application.
 	 */
@@ -48,9 +46,30 @@ public class CreateUser {
             String id = txtUserIdSignUp.getText();
            	String username = txtUsernameSignUp.getText();
            	String password = txtPasswordSignUp.getText();
+           	String firstName = lblFirstNameSignUp.getText();
+           	String lastName = txtLastNameSignUp.getText();
            	// @id char(6), @username NVARCHAR(25), @firstName NVARCHAR(25), @lastName NVARCHAR(25)
-           	try(CallableStatement cstmt = connection.prepareCall("{call insertR1User(?,?,?,?)}")) {
-
+           	try(CallableStatement cstmt = connection.prepareCall("{call insertR1User(?,?,?,?,?,?)}")) {
+           		//ERROR PARAMETER IF 1 duplicate id , if 2 duplicate PK if 0 all ok
+           		cstmt.registerOutParameter(6, Types.INTEGER);
+				cstmt.setString(1, id);
+				cstmt.setString(2, username);
+				cstmt.setString(3, password);
+				cstmt.setString(4, firstName);
+				cstmt.setString(5, lastName);
+				cstmt.execute();
+				if(cstmt.getInt(6) == NO_ERROR) {
+					System.out.println("No error");
+					frmCreateUser.dispose();
+					ViewR1UserLogin window = new ViewR1UserLogin();
+					window.frmSystemUserSign.setVisible(true);
+				}
+				else if (cstmt.getInt(6) == DUPLICATE_PK) {
+					System.out.println("DUPLICATE_PK");
+				}
+				else if ( cstmt.getInt(6) == DUPLICATE_USERNAME) {
+					System.out.println("DUPLICATE_USERNAME");
+				}
 			}
             
         } catch (SQLException sex) {
@@ -99,21 +118,25 @@ public class CreateUser {
 		txtUsernameSignUp = new JTextField();
 		txtUsernameSignUp.setColumns(10);
 		txtUsernameSignUp.setBounds(209, 12, 184, 20);
+		txtUsernameSignUp.setDocument( new JTextFieldLimit(USERNAME_LIMIT));
 		panel.add(txtUsernameSignUp);
 		
 		txtUserIdSignUp = new JTextField();
 		txtUserIdSignUp.setColumns(10);
 		txtUserIdSignUp.setBounds(209, 79, 184, 20);
+		txtUserIdSignUp.setDocument(new JTextFieldLimit(ID_LIMIT));
 		panel.add(txtUserIdSignUp);
 		
 		txtPasswordSignUp = new JTextField();
 		txtPasswordSignUp.setColumns(10);
 		txtPasswordSignUp.setBounds(209, 203, 184, 20);
+		txtPasswordSignUp.setDocument(new JTextFieldLimit(PASSWORD_LIMIT));
 		panel.add(txtPasswordSignUp);
 		
 		txtConfirmPasswordSignUp = new JTextField();
 		txtConfirmPasswordSignUp.setColumns(10);
 		txtConfirmPasswordSignUp.setBounds(209, 235, 184, 20);
+		txtConfirmPasswordSignUp.setDocument(new JTextFieldLimit(PASSWORD_LIMIT));
 		panel.add(txtConfirmPasswordSignUp);
 		
 		JButton button = new JButton("Sign Up");
@@ -128,6 +151,7 @@ public class CreateUser {
 		lblFirstNameSignUp = new JTextField();
 		lblFirstNameSignUp.setColumns(10);
 		lblFirstNameSignUp.setBounds(209, 173, 184, 20);
+		lblFirstNameSignUp.setDocument(new JTextFieldLimit(FIRSTNAME_LIMIT));
 		panel.add(lblFirstNameSignUp);
 		
 		JLabel lblFirstName = new JLabel("First Name:");
@@ -141,6 +165,7 @@ public class CreateUser {
 		txtLastNameSignUp = new JTextField();
 		txtLastNameSignUp.setColumns(10);
 		txtLastNameSignUp.setBounds(209, 129, 184, 20);
+		txtLastNameSignUp.setDocument(new JTextFieldLimit(LASTNAME_LIMIT));
 		panel.add(txtLastNameSignUp);
 	}
 }

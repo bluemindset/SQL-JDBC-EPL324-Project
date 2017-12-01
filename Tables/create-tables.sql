@@ -23,7 +23,7 @@ CREATE TABLE [dbo].[HORSE](
 	--USER-CHANGES--
 	[created_by][char](8)  NULL,
 	[date_created][date]  NULL,
-	[updated_by][char](6) NULL,
+	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_HORSE] PRIMARY KEY (id ASC)
 )
@@ -53,9 +53,9 @@ CREATE TABLE [dbo].[JOCKEY](
 	[compressed_name]AS cast(SUBSTRING([first_name],1,1)+'.'+[last_name] AS [nvarchar](15)) ,
 	[total_number_of_wins][smallint] NULL,
 	--USER-CHANGES--
-	[created_by][char](6)  NULL,
+	[created_by][char](8)  NULL,
 	[date_created][date]  NULL,
-	[updated_by][char](6)  NULL,
+	[updated_by][char](8)  NULL,
 	[date_updated][date]  NULL,
 	CONSTRAINT [PK_JOCKEY] PRIMARY KEY (id ASC)
 )
@@ -102,7 +102,7 @@ CREATE TABLE [dbo].[RACE_DISTANCE](
 	--USER-CHANGES--
 	[created_by][char](8) NULL,
 	[date_created][date]  NULL,
-	[updated_by][char](6) NULL,
+	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_RACE_DISTANCE] PRIMARY KEY ([distance] ASC)
 )
@@ -113,7 +113,7 @@ CREATE TABLE [dbo].[RACE_TYPE](
 	--USER-CHANGES--
 	[created_by][char](8)  NULL,
 	[date_created][date]  NULL,
-	[updated_by][char](6) NULL,
+	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_RACE_TYPE] PRIMARY KEY ([type] ASC)
 )
@@ -160,7 +160,7 @@ CREATE TABLE [dbo].[TRAINER](
 	--USER-CHANGES--
 	[created_by][char](8)  NULL,
 	[date_created][date] NULL,
-	[updated_by][char](6) NULL,
+	[updated_by][char](8) NULL,
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_TRAINER] PRIMARY KEY ([id] ASC)
 )

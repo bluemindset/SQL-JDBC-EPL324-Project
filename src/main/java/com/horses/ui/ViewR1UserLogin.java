@@ -1,5 +1,7 @@
 package com.horses.ui;
 
+import com.sun.org.apache.regexp.internal.RE;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -10,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.*;
 import javax.swing.JPasswordField;
 
 public class ViewR1UserLogin {
@@ -79,14 +82,31 @@ public class ViewR1UserLogin {
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmSystemUserSign.dispose();
-				
+
 				//TODO LOGIN
-				
-				
+				Connection connection = null;
+				try {
+					connection = DriverManager.getConnection(Config.connection_url, Config.DATABASE_USER_ID, Config.DATABASE_PASSWORD);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				//username, password
+				try(CallableStatement cstmt = connection.prepareCall("{call find_user (?,?)}"))  {
+					cstmt.setString(1,textFieldUsername.getText());
+					cstmt.setString(2,passwordField.getText());
+					ResultSet rs = cstmt.executeQuery();
+					if(rs.next()){
+						if(rs.isLast())
+							System.out.println("No such password username combination");
+
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				frmSystemUserSign.dispose();
 				ViewR1UserGUI window = new ViewR1UserGUI();
 				window.frmPleaseChooseA.setVisible(true);
-				
+
 			}
 		});
 		btnOk.setBounds(75, 188, 89, 23);
