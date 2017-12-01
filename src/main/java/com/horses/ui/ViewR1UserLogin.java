@@ -47,34 +47,34 @@ public class ViewR1UserLogin {
 	private void initialize() {
 		frmSystemUserSign = new JFrame();
 		frmSystemUserSign.setTitle("System User Sign Up / Log In");
-		frmSystemUserSign.setBounds(100, 100, 405, 354);
+		frmSystemUserSign.setBounds(100, 100, 469, 434);
 		frmSystemUserSign.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSystemUserSign.getContentPane().setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 11, 361, 287);
+		tabbedPane.setBounds(10, 11, 447, 385);
 		frmSystemUserSign.getContentPane().add(tabbedPane);
 		
-		JPanel panel = new JPanel();
-		tabbedPane.addTab("LOG IN", null, panel, null);
-		panel.setLayout(null);
+		JPanel logInPanel = new JPanel();
+		tabbedPane.addTab("LOG IN", null, logInPanel, null);
+		logInPanel.setLayout(null);
 		
 		JLabel lblUsername = new JLabel("Username:");
 		lblUsername.setBounds(84, 89, 94, 14);
-		panel.add(lblUsername);
+		logInPanel.add(lblUsername);
 		
 		JLabel lblPleaseEnterThe = new JLabel("Please enter the following:");
 		lblPleaseEnterThe.setBounds(10, 39, 311, 14);
-		panel.add(lblPleaseEnterThe);
+		logInPanel.add(lblPleaseEnterThe);
 		
 		textFieldUsername = new JTextField();
 		textFieldUsername.setBounds(174, 86, 86, 20);
-		panel.add(textFieldUsername);
+		logInPanel.add(textFieldUsername);
 		textFieldUsername.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setBounds(84, 134, 80, 14);
-		panel.add(lblPassword);
+		logInPanel.add(lblPassword);
 		
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
@@ -90,7 +90,7 @@ public class ViewR1UserLogin {
 			}
 		});
 		btnOk.setBounds(75, 188, 89, 23);
-		panel.add(btnOk);
+		logInPanel.add(btnOk);
 		
 		JButton btnBack = new JButton("BACK");
 		btnBack.addActionListener(new ActionListener() {
@@ -101,14 +101,10 @@ public class ViewR1UserLogin {
 			}
 		});
 		btnBack.setBounds(185, 188, 89, 23);
-		panel.add(btnBack);
+		logInPanel.add(btnBack);
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(174, 131, 86, 20);
-		panel.add(passwordField);
-		
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("SIGN UP", null, panel_1, null);
+		logInPanel.add(passwordField);
 	}
-	
 }
