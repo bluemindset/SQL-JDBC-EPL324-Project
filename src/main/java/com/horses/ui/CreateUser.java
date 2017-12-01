@@ -42,7 +42,14 @@ public class CreateUser {
 	private void addUser() {
         try {
             connection = DriverManager.getConnection(Config.connection_url, Config.DATABASE_USER_ID, Config.DATABASE_PASSWORD);
-           
+
+            String id = txtUserIdSignUp.getText();
+           	String username = txtUsernameSignUp.getText();
+           	String password = txtPasswordSignUp.getText();
+           	// @id char(6), @username NVARCHAR(25), @firstName NVARCHAR(25), @lastName NVARCHAR(25)
+           	try(CallableStatement cstmt = connection.prepareCall("{call insertR1User(?,?,?,?)}")) {
+
+			}
             
         } catch (SQLException sex) {
         	sex.printStackTrace();
