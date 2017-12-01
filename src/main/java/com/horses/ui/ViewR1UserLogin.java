@@ -96,16 +96,17 @@ public class ViewR1UserLogin {
 					cstmt.setString(2,passwordField.getText());
 					ResultSet rs = cstmt.executeQuery();
 					if(rs.next()){
-						if(rs.isLast())
-							System.out.println("No such password username combination");
-
+						System.out.println("USer id is " + rs.getString(1));
+						frmSystemUserSign.dispose();
+						ViewR1UserGUI window = new ViewR1UserGUI();
+						window.frmPleaseChooseA.setVisible(true);
+					}
+					else {
+						System.out.println("No such password username combination");
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				frmSystemUserSign.dispose();
-				ViewR1UserGUI window = new ViewR1UserGUI();
-				window.frmPleaseChooseA.setVisible(true);
 
 			}
 		});
