@@ -16,10 +16,11 @@ IF OBJECT_ID('getCurUserId' , 'P') IS NOT NULL
   DROP PROCEDURE  getCurUserId;
 GO
 CREATE PROCEDURE getCurUserId
+@userId CHAR(8) OUT
 AS
   BEGIN
     EXEC createSessionTbl;
-    SELECT ST.userid FROM ##sessionTbl ST;
+    SET @userId = (SELECT ST.userid FROM ##sessionTbl ST);
   END;
 GO
 
@@ -47,9 +48,12 @@ AS
   END;
 GO
 
--- EXEC createSessionTbl;
--- EXEC setCurUserId 'cchadj01';
--- EXEC getCurUserId;
+
+-- DECLARE @userIdOut CHAR(8);
+-- -- EXEC createSessionTbl;
+-- EXEC setCurUserId 'caachadj01';
+-- EXEC getCurUserId @userId = @userIdOut OUTPUT ;
+-- PRINT @userIdOut;
 -- EXEC setCurUserId 'cahadj01';
 -- EXEC getCurUserId;
 -- EXEC dropSessionTbl;

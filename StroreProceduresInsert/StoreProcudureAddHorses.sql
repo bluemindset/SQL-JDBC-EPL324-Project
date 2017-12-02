@@ -36,4 +36,3 @@ INSERT INTO [dbo].[HORSE]
 		   )
 
 GO
-
