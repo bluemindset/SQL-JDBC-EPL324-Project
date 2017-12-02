@@ -1,6 +1,6 @@
 package com.horses.ui;
 
-import com.sun.org.apache.regexp.internal.RE;
+import com.horses.dbmanage.Config;
 
 import java.awt.EventQueue;
 

@@ -1,5 +1,7 @@
 package com.horses.ui;
 
+import com.horses.dbmanage.Config;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
