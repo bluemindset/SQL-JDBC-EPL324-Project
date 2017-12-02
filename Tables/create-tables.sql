@@ -2,7 +2,7 @@
 ------ CREATE TABLES ------ CREATE TABLES ------ CREATE TABLES ------ CREATE TABLES ------ CREATE TABLES ------ CREATE TABLES ------ CREATE TABLES ------ CREATE TABLES 
 
 CREATE TABLE [dbo].[HORSE](
-	[id][int] NOT NULL IDENTITY(1,1),
+	[id][int] NOT NULL,
 	[name][nvarchar](25)  NULL,
 	[compressed_name] AS cast([name] AS [nvarchar](15)),
 	[cur_weight][float]  NULL,
