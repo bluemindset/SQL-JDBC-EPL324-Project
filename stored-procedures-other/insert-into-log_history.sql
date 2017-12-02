@@ -8,7 +8,7 @@ AS
     INSERT INTO LOG_HISTORY (action, tmstmp, table_name, user_id)
     VALUES (@actionType, GETDATE(), @tableName, USER)
   END
-
-EXEC insert_into_log_history 'U', 'HORSE';
-EXEC insert_into_log_history 'U', 'TRAINER';
-SELECT * FROM LOG_HISTORY;
+GO
+-- EXEC insert_into_log_history 'U', 'HORSE';
+-- EXEC insert_into_log_history 'U', 'TRAINER';
+-- SELECT * FROM LOG_HISTORY;

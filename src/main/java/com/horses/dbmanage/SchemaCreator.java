@@ -1,6 +1,7 @@
 package com.horses.dbmanage;
 
 import java.io.*;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -63,7 +64,24 @@ public class SchemaCreator {
         createDomains();
         //createTriggers();
         createStoredProcedures();
-
+        try(CallableStatement cstmt = connectionManager.getDBConnection().prepareCall("{call dropSessionTbl }")) {
+            try {
+                cstmt.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try(CallableStatement cstmt = connectionManager.getDBConnection().prepareCall("{call createSessionTbl}")) {
+            try {
+                cstmt.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         connectionManager.closeConnection();
 
     }

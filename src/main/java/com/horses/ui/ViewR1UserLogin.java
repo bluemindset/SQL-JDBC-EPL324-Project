@@ -2,18 +2,11 @@ package com.horses.ui;
 
 import com.horses.dbmanage.Config;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
-import javax.swing.JPasswordField;
 
 public class ViewR1UserLogin {
 
@@ -96,7 +89,10 @@ public class ViewR1UserLogin {
 					cstmt.setString(2,passwordField.getText());
 					ResultSet rs = cstmt.executeQuery();
 					if(rs.next()){
-						System.out.println("USer id is " + rs.getString(1));
+						String userid = rs.getString(1);
+						CurrentUserData.setCurUserid(userid);
+						System.out.println("User id is " +userid);
+						System.out.println("The current user id is " + CurrentUserData.getCurUserid());
 						frmSystemUserSign.dispose();
 						ViewR1UserGUI window = new ViewR1UserGUI();
 						window.frmPleaseChooseA.setVisible(true);

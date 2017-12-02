@@ -8,12 +8,14 @@ AFTER INSERT, UPDATE
 AS
 DECLARE @countDeleted int
 SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+DECLARE @curUserId CHAR(8);
+EXEC getCurUserId @userId = @curUserId OUTPUT;
 
 IF @countDeleted=0
 --A new employee has been inserted
 BEGIN
 	UPDATE	[dbo].[HORSE]
-	SET		[created_by]=USER,
+	SET		[created_by]=@curUserId,
 			[date_created]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
 	EXEC insert_into_log_history 'I', 'HORSE';
@@ -22,7 +24,7 @@ ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[HORSE]
-	SET		[updated_by]=USER,
+	SET		[updated_by]=@curUserId,
 			[date_updated]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
 	EXEC insert_into_log_history 'U', 'HORSE';
@@ -38,12 +40,15 @@ AFTER INSERT, UPDATE
 AS
 DECLARE @countDeleted int
 SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+--to get current user id
+DECLARE @curUserId CHAR(8);
+EXEC getCurUserId @userId = @curUserId OUTPUT;
 
 IF @countDeleted=0
 --A new employee has been inserted
 BEGIN
 	UPDATE	[dbo].[HORSE_COLOR]
-	SET		[created_by]=USER,
+	SET		[created_by]=@curUserId,
 			[date_created]=GETDATE()
 	WHERE	[color_name] IN (SELECT [color_name] FROM inserted)
 	EXEC insert_into_log_history 'I', 'HORSE_COLOR';
@@ -52,7 +57,7 @@ ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[HORSE_COLOR]
-	SET		[updated_by]=USER,
+	SET		[updated_by]=@curUserId,
 			[date_updated]=GETDATE()
 	WHERE	[color_name] IN (SELECT [color_name] FROM inserted)
 	EXEC insert_into_log_history 'U', 'HORSE_COLOR';
@@ -68,12 +73,15 @@ AFTER INSERT, UPDATE
 AS
 DECLARE @countDeleted int
 SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+--to get current user id
+DECLARE @curUserId CHAR(8);
+EXEC getCurUserId @userId = @curUserId OUTPUT;
 
 IF @countDeleted=0
 --A new employee has been inserted
 BEGIN
 	UPDATE	[dbo].[JOCKEY]
-	SET		[created_by]=USER,
+	SET		[created_by]=@curUserId,
 			[date_created]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
 	EXEC insert_into_log_history 'I', 'JOCKEY';
@@ -82,7 +90,7 @@ ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[JOCKEY]
-	SET		[updated_by]=USER,
+	SET		[updated_by]=@curUserId,
 			[date_updated]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
 	EXEC insert_into_log_history 'U', 'JOCKEY';
@@ -99,11 +107,15 @@ AS
 DECLARE @countDeleted int
 SET @countDeleted = (SELECT COUNT(*) FROM deleted)
 
+--to get current user id
+DECLARE @curUserId CHAR(8);
+EXEC getCurUserId @userId = @curUserId OUTPUT;
+
 IF @countDeleted=0
 --A new employee has been inserted
 BEGIN
 	UPDATE	[dbo].[MEETING]
-	SET		[created_by]=USER,
+	SET		[created_by]=@curUserId,
 			[date_created]=GETDATE()
 	WHERE	[datem] IN (SELECT [datem] FROM inserted)
 	EXEC insert_into_log_history 'I', 'MEETING';
@@ -112,7 +124,7 @@ ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[MEETING]
-	SET		[updated_by]=USER,
+	SET		[updated_by]=@curUserId,
 			[date_updated]=GETDATE()
 	WHERE	[datem] IN (SELECT [datem] FROM inserted)
 	EXEC insert_into_log_history 'U', 'MEETING';
@@ -128,12 +140,15 @@ AFTER INSERT, UPDATE
 AS
 DECLARE @countDeleted int
 SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+--to get current user id
+DECLARE @curUserId CHAR(8);
+EXEC getCurUserId @userId = @curUserId OUTPUT;
 
 IF @countDeleted=0
 --A new employee has been inserted
 BEGIN
 	UPDATE	[dbo].[RACE]
-	SET		[created_by]=USER,
+	SET		[created_by]=@curUserId,
 			[date_created]=GETDATE()
 	WHERE	[race_time] IN (SELECT [race_time] FROM inserted)
 	 AND [meeting_date] IN (SELECT [meeting_date] FROM inserted)
@@ -144,7 +159,7 @@ ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[RACE]
-	SET		[updated_by]=USER,
+	SET		[updated_by]=@curUserId,
 			[date_updated]=GETDATE()
 	WHERE	[race_time] IN (SELECT [race_time] FROM inserted)
 	 AND [meeting_date] IN (SELECT [meeting_date] FROM inserted)
@@ -162,12 +177,15 @@ AFTER INSERT, UPDATE
 AS
 DECLARE @countDeleted int
 SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+--to get current user id
+DECLARE @curUserId CHAR(8);
+EXEC getCurUserId @userId = @curUserId OUTPUT;
 
 IF @countDeleted=0
 --A new employee has been inserted
 BEGIN
 	UPDATE	[dbo].[RACE_DISTANCE]
-	SET		[created_by]=USER,
+	SET		[created_by]=@curUserId,
 			[date_created]=GETDATE()
 	WHERE	[distance] IN (SELECT [distance] FROM inserted)
 	EXEC insert_into_log_history 'I', 'RACE_DISTANCE';
@@ -176,7 +194,7 @@ ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[RACE_DISTANCE]
-	SET		[updated_by]=USER,
+	SET		[updated_by]=@curUserId,
 			[date_updated]=GETDATE()
 	WHERE	[distance] IN (SELECT [distance] FROM inserted)
 	EXEC insert_into_log_history 'U', 'RACE_DISTANCE';
@@ -192,12 +210,15 @@ AFTER INSERT, UPDATE
 AS
 DECLARE @countDeleted int
 SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+--to get current user id
+DECLARE @curUserId CHAR(8);
+EXEC getCurUserId @userId = @curUserId OUTPUT;
 
 IF @countDeleted=0
 --A new employee has been inserted
 BEGIN
 	UPDATE	[dbo].[RACE_TYPE]
-	SET		[created_by]=USER,
+	SET		[created_by]=@curUserId,
 			[date_created]=GETDATE()
 	WHERE	[type] IN (SELECT [type] FROM inserted)
 	EXEC insert_into_log_history 'I', 'RACE_TYPE';
@@ -206,7 +227,7 @@ ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[RACE_TYPE]
-	SET		[updated_by]=USER,
+	SET		[updated_by]=@curUserId,
 			[date_updated]=GETDATE()
 	WHERE	[type] IN (SELECT [type] FROM inserted)
 	EXEC insert_into_log_history 'U', 'RACE_TYPE';
@@ -222,12 +243,15 @@ AFTER INSERT, UPDATE
 AS
 DECLARE @countDeleted int
 SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+--to get current user id
+DECLARE @curUserId CHAR(8);
+EXEC getCurUserId @userId = @curUserId OUTPUT;
 
 IF @countDeleted=0
 --A new employee has been inserted
 BEGIN
 	UPDATE	[dbo].[FIELD_TYPE]
-	SET		[created_by]=USER,
+	SET		[created_by]=@curUserId,
 			[date_created]=GETDATE()
 	WHERE	[type] IN (SELECT [type] FROM inserted)
 	EXEC insert_into_log_history 'I', 'FIELD_TYPE';
@@ -236,7 +260,7 @@ ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[FIELD_TYPE]
-	SET		[updated_by]=USER,
+	SET		[updated_by]=@curUserId,
 			[date_updated]=GETDATE()
 	WHERE	[type] IN (SELECT [type] FROM inserted)
 	EXEC insert_into_log_history 'U', 'FIELD_TYPE';
@@ -252,12 +276,15 @@ AFTER INSERT, UPDATE
 AS
 DECLARE @countDeleted int
 SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+--to get current user id
+DECLARE @curUserId CHAR(8);
+EXEC getCurUserId @userId = @curUserId OUTPUT;
 
 IF @countDeleted=0
 --A new employee has been inserted
 BEGIN
 	UPDATE	[dbo].[PARTICIPATION]
-	SET		[created_by]=USER,
+	SET		[created_by]=@curUserId,
 			[date_created]=GETDATE()
 	WHERE	[race_time]IN (SELECT [race_time]FROM inserted) AND 
 			[meeting_date] IN (SELECT [meeting_date] FROM inserted) AND 
@@ -271,7 +298,7 @@ ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[PARTICIPATION]
-	SET		[updated_by]=USER,
+	SET		[updated_by]=@curUserId,
 			[date_updated]=GETDATE()
 	WHERE	[race_time]IN (SELECT [race_time]FROM inserted) AND 
 			[meeting_date] IN (SELECT [meeting_date] FROM inserted) AND 
@@ -292,12 +319,15 @@ AFTER INSERT, UPDATE
 AS
 DECLARE @countDeleted int
 SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+--to get current user id
+DECLARE @curUserId CHAR(8);
+EXEC getCurUserId @userId = @curUserId OUTPUT;
 
 IF @countDeleted=0
 --A new employee has been inserted
 BEGIN
 	UPDATE	[dbo].[TRAINER]
-	SET		[created_by]=USER,
+	SET		[created_by]=@curUserId,
 			[date_created]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
 	EXEC insert_into_log_history 'I', 'TRAINER';
@@ -306,7 +336,7 @@ ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[TRAINER]
-	SET		[updated_by]=USER,
+	SET		[updated_by]=@curUserId,
 			[date_updated]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
 	EXEC insert_into_log_history 'I', 'TRAINER';
@@ -322,12 +352,15 @@ AFTER INSERT, UPDATE
 AS
 DECLARE @countDeleted int
 SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+--to get current user id
+DECLARE @curUserId CHAR(8);
+EXEC getCurUserId @userId = @curUserId OUTPUT;
 
 IF @countDeleted=0
 --A new employee has been inserted
 BEGIN
 	UPDATE	[dbo].[BREEDER]
-	SET		[created_by]=USER,
+	SET		[created_by]=@curUserId,
 			[date_created]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
 	EXEC insert_into_log_history 'I', 'BREEDER';
@@ -336,7 +369,7 @@ ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[BREEDER]
-	SET		[updated_by]=USER,
+	SET		[updated_by]=@curUserId,
 			[date_updated]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
 	EXEC insert_into_log_history 'U', 'BREEDER';
@@ -353,11 +386,15 @@ AS
 DECLARE @countDeleted int
 SET @countDeleted = (SELECT COUNT(*) FROM deleted)
 
+--to get current user id
+DECLARE @curUserId CHAR(8);
+EXEC getCurUserId @userId = @curUserId OUTPUT;
+
 IF @countDeleted=0
 --A new employee has been inserted
 BEGIN
 	UPDATE	[dbo].[OWNER]
-	SET		[created_by]=USER,
+	SET		[created_by]=@curUserId,
 			[date_created]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
 	EXEC insert_into_log_history 'I', 'OWNER';
@@ -366,7 +403,7 @@ ELSE
 --A current employee has been updated
 BEGIN
 	UPDATE	[dbo].[OWNER]
-	SET		[updated_by]=USER,
+	SET		[updated_by]=@curUserId,
 			[date_updated]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
 	EXEC insert_into_log_history 'U', 'OWNER';
@@ -383,12 +420,15 @@ AS
   BEGIN
     DECLARE @countDeleted int
     SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+		-- To get the current user id.
+		DECLARE @curUserId CHAR(8);
+		EXEC getCurUserId @userId = @curUserId OUTPUT;
 
     IF (@countDeleted=0)
     --A new employee has been inserted
     BEGIN
       UPDATE	[dbo].[FAMILY]
-      SET		[created_by]=USER,
+      SET		[created_by]= @curUserId,
           [date_created]=GETDATE()
       WHERE	[name] IN (SELECT [name] FROM inserted);
       EXEC insert_into_log_history 'I', 'FAMILY';
@@ -396,8 +436,9 @@ AS
     ELSE
     --A current employee has been updated
     BEGIN
+				PRINT 'whatever i entered';
       UPDATE	[dbo].[FAMILY]
-      SET		[updated_by]=USER,
+      SET		[updated_by]= @curUserId,
           [date_updated]=GETDATE()
       WHERE	[name] IN (SELECT [name] FROM inserted);
       EXEC insert_into_log_history 'U', 'FAMILY';
@@ -422,28 +463,30 @@ GO
 IF OBJECT_ID ('[tr_USER_SYSTEM_USER]', 'TR') IS NOT NULL
 	DROP TRIGGER [tr_USER_SYSTEM_USER]
 GO
-CREATE TRIGGER [tr_USER_SYSTEM_USER] ON [dbo].[SYSTEM_USER]
-AFTER INSERT, UPDATE
-AS
-DECLARE @countDeleted int
-SET @countDeleted = (SELECT COUNT(*) FROM deleted)
-
-IF @countDeleted=0
---A new employee has been inserted
-BEGIN
-	UPDATE	[dbo].[SYSTEM_USER]
-	SET		[created_by]=USER,
-			[date_created]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
-	EXEC insert_into_log_history 'I', 'SYSTEM_USER';
-END
-ELSE
---A current employee has been updated
-BEGIN
-	UPDATE	[dbo].[SYSTEM_USER]
-	SET		[updated_by]=USER,
-			[date_updated]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
-	EXEC insert_into_log_history 'U', 'SYSTEM_USER';
-END
-GO
+-- CREATE TRIGGER [tr_USER_SYSTEM_USER] ON [dbo].[SYSTEM_USER]
+-- AFTER INSERT, UPDATE
+-- AS
+-- DECLARE @countDeleted int
+-- SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+--		-- To get the current user id.
+-- DECLARE @curUserId CHAR(8);
+-- EXEC getCurUserId @userId = @curUserId OUTPUT;
+-- IF @countDeleted=0
+-- --A new employee has been inserted
+-- BEGIN
+-- 	UPDATE	[dbo].[SYSTEM_USER]
+-- 	SET		[created_by]=@curUserId,
+-- 			[date_created]=GETDATE()
+-- 	WHERE	[id] IN (SELECT [id] FROM inserted)
+-- 	EXEC insert_into_log_history 'I', 'SYSTEM_USER';
+-- END
+-- ELSE
+-- --A current employee has been updated
+-- BEGIN
+-- 	UPDATE	[dbo].[SYSTEM_USER]
+-- 	SET		[updated_by]=@curUserId,
+-- 			[date_updated]=GETDATE()
+-- 	WHERE	[id] IN (SELECT [id] FROM inserted)
+-- 	EXEC insert_into_log_history 'U', 'SYSTEM_USER';
+-- END
+-- GO

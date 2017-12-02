@@ -1,0 +1,59 @@
+IF OBJECT_ID('createSessionTbl', 'P') IS NOT NULL
+  DROP PROCEDURE  createSessionTbl;
+GO
+CREATE PROCEDURE createSessionTbl
+AS
+  BEGIN
+    IF OBJECT_ID('tempdb..##sessionTbl') IS NULL
+    BEGIN
+      CREATE TABLE ##sessionTbl(userid CHAR(8));
+      INSERT INTO ##sessionTbl ( userid ) VALUES (USER);
+    END;
+  END;
+GO
+
+IF OBJECT_ID('getCurUserId' , 'P') IS NOT NULL
+  DROP PROCEDURE  getCurUserId;
+GO
+CREATE PROCEDURE getCurUserId
+@userId CHAR(8) OUT
+AS
+  BEGIN
+    EXEC createSessionTbl;
+    SET @userId = (SELECT ST.userid FROM ##sessionTbl ST);
+  END;
+GO
+
+IF OBJECT_ID('setCurUserId' , 'P') IS NOT NULL
+    DROP PROCEDURE setCurUserId
+GO
+CREATE PROCEDURE setCurUserId
+@userId CHAR(8)
+AS
+  BEGIN
+    EXEC createSessionTbl;
+    UPDATE ##sessionTbl
+    SET userid = @userId;
+  END;
+GO
+
+IF OBJECT_ID('dropSessionTbl' , 'P') IS NOT NULL
+  DROP PROCEDURE dropSessionTbl;
+GO
+CREATE PROCEDURE dropSessionTbl
+AS
+  BEGIN
+    IF OBJECT_ID('tempdb..##sessionTbl') IS NOT NULL
+        DROP TABLE ##sessionTbl
+  END;
+GO
+
+
+-- DECLARE @userIdOut CHAR(8);
+-- -- EXEC createSessionTbl;
+-- EXEC setCurUserId 'caachadj01';
+-- EXEC getCurUserId @userId = @userIdOut OUTPUT ;
+-- PRINT @userIdOut;
+-- EXEC setCurUserId 'cahadj01';
+-- EXEC getCurUserId;
+-- EXEC dropSessionTbl;
