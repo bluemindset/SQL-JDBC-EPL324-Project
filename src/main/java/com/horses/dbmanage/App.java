@@ -18,10 +18,10 @@ public class App {
     
     private static void insertSystemAdmins(RecordInserter ri) {
         List<SystemUser> systemUsers = new ArrayList<>();
-        systemUsers.add(new SystemUser("123456","cchadj01", DEFAULT_PASS,"tomis", "what", SystemUserRole.SA));
-        systemUsers.add(new SystemUser("987423","achrys16", DEFAULT_PASS,"antria", "ever", SystemUserRole.SA));
-        systemUsers.add(new SystemUser("548512","ntzior01", DEFAULT_PASS,"ntzior", "plz", SystemUserRole.SA));
-        systemUsers.add(new SystemUser("258456","sioan01", DEFAULT_PASS,"O STEFOS", "O POLLYS", SystemUserRole.SA));
+        systemUsers.add(new SystemUser("cchadj01","cchadj01", DEFAULT_PASS,"tomis", "what", SystemUserRole.SA));
+//        systemUsers.add(new SystemUser("987423","achrys16", DEFAULT_PASS,"antria", "ever", SystemUserRole.SA));
+//        systemUsers.add(new SystemUser("548512","ntzior01", DEFAULT_PASS,"ntzior", "plz", SystemUserRole.SA));
+//        systemUsers.add(new SystemUser("258456","sioan01", DEFAULT_PASS,"O STEFOS", "O POLLYS", SystemUserRole.SA));
 
         try {
             ri.insertSystemUsers(systemUsers);
