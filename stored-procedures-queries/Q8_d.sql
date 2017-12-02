@@ -90,4 +90,4 @@ AS
   END
 GO
 
-EXEC query8_c;
+--EXEC query8_c;
