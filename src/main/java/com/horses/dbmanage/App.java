@@ -1,15 +1,13 @@
 package com.horses.dbmanage;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import com.horses.dbobjects.SystemUser;
+import com.horses.dbobjects.SystemUserRole;
+
 import java.io.IOException;
-import java.io.PrintStream;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import com.horses.dbobjects.SystemUser;
-import com.horses.dbobjects.SystemUserRole;
 
 public class App {
     private static final String USERNAME = "achrys16";
@@ -48,13 +46,13 @@ public class App {
         ConnectionManager connectionManager = new ConnectionManager(Config.connection_url);
 
         SchemaCreator schemaCreator = new SchemaCreator(connectionManager);
-        schemaCreator.setDropDbFile("Tables/drop-db.sql");
+        schemaCreator.setDropDbFile("stored-procedures-create-schema/drop-db.sql");
         schemaCreator.dropSchema();
-        schemaCreator.setCreateTablesFile("Tables/create-tables.sql");
+        schemaCreator.setCreateTablesFile("stored-procedures-create-schema/create-tables.sql");
 
-        schemaCreator.setCreateForeignKeysFile("Tables/create-foreign-keys.sql");
-        schemaCreator.setCreateDomainsFile("Tables/create-domains.sql");
-        schemaCreator.setCreateTriggersFile("Tables/create-triggers.sql");
+        schemaCreator.setCreateForeignKeysFile("stored-procedures-create-schema/create-foreign-keys.sql");
+        schemaCreator.setCreateDomainsFile("stored-procedures-create-schema/create-domains.sql");
+        schemaCreator.setCreateTriggersFile("stored-procedures-create-schema/create-triggers.sql");
         schemaCreator.createSchema();
 
         RecordInserter recordInserter = new RecordInserter(connectionManager);
