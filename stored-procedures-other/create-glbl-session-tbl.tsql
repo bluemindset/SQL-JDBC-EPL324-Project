@@ -18,6 +18,7 @@ GO
 CREATE PROCEDURE getCurUserId
 AS
   BEGIN
+    EXEC createSessionTbl;
     SELECT ST.userid FROM ##sessionTbl ST;
   END;
 GO
@@ -29,6 +30,7 @@ CREATE PROCEDURE setCurUserId
 @userId CHAR(8)
 AS
   BEGIN
+    EXEC createSessionTbl;
     UPDATE ##sessionTbl
     SET userid = @userId;
   END;
@@ -45,9 +47,9 @@ AS
   END;
 GO
 
---EXEC createSessionTbl;
+-- EXEC createSessionTbl;
 -- EXEC setCurUserId 'cchadj01';
 -- EXEC getCurUserId;
 -- EXEC setCurUserId 'cahadj01';
 -- EXEC getCurUserId;
---SELECT * FROM tempdb..sysobjects;
+-- EXEC dropSessionTbl;
