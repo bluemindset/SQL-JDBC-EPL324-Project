@@ -63,25 +63,85 @@ public class ViewR1UserEditTables {
     
     
     private void addNew() throws SQLException {
-        String sql_stmt = "INSERT INTO [dbo].[HORSE] ([id],[name],[sex],[color_name],[date_of_birth],[cur_weight],[trainer_id],[owner_id],[breeder_id],[dad_id],[mama_id])";
+		Date date1 = null;
+		try {
+			date1 = new SimpleDateFormat("dd/MM/yyyy").parse(formattedTextField.getText());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		String finDate = format1.format(date1).toString();
+
+		String trainer ="";
+		String owner ="";
+		String breeder ="";
+		String dad ="";
+		String mom ="";
+		String jockey ="";
+
+		try {
+			trainer = comboBoxTrainer.getSelectedItem().toString();
+		} catch ( NullPointerException e) {
+			trainer ="";
+		}
+		try {
+			owner = comboBoxOwner.getSelectedItem().toString();
+		} catch ( NullPointerException e) {
+			owner ="";
+		}
+		try {
+			breeder =comboBoxBreeder.getSelectedItem().toString();
+		} catch ( NullPointerException e) {
+			breeder ="";
+		}
+		try {
+			dad = comboBoxDad.getSelectedItem().toString();
+		} catch ( NullPointerException e) {
+			dad ="";
+		}
+		try {
+			mom =comboBoxMom.getSelectedItem().toString();
+		} catch ( NullPointerException e) {
+			mom ="";
+		}
+		try {
+			jockey =comboBoxJockey.getSelectedItem().toString();
+		} catch ( NullPointerException e) {
+			jockey ="";
+		}
+//		try {
+//			textFieldOriginCountry.setText(origin_country.toString());
+//		} catch ( NullPointerException e) {
+//			textFieldOriginCountry.setText(null);
+//		}
+//		try {
+//			textFieldRecord.setText(record.toString());
+//		} catch (NullPointerException e) {
+//			textFieldRecord.setText(null);
+//		}
+
+
+        String sql_stmt = "INSERT INTO [dbo].[HORSE] ([id],[name],[is_purebred],[sex],[color_name],[date_of_birth],[cur_weight],[trainer_id],[owner_id],[breeder_id],[dad_id],[mama_id],[jockey_id])";
         sql_stmt += " VALUES ('" +  textFieldID.getText() + "','" +
         							textFieldName.getText() + "','"+
-        							comboBoxSex.getSelectedItem().toString() + "','" + 
-        							comboBoxColor.getSelectedItem().toString() + "','" + 
-        							formattedTextField.getText() + "','" + 
+									checkBoxIsPurebred.isSelected() + "','" +
+									comboBoxSex.getSelectedItem().toString() + "','" +
+        							comboBoxColor.getSelectedItem().toString() + "','" +
+									finDate + "','" +
         							textFieldWeight.getText() + "','" + 
-        							comboBoxTrainer.getSelectedItem().toString() + "','" + 
-        							comboBoxOwner.getSelectedItem().toString() + "','" + 
-        							comboBoxBreeder.getSelectedItem().toString() + "','" + 
-        							comboBoxDad.getSelectedItem().toString() + "','" + 
-        							comboBoxMom.getSelectedItem().toString() + "')";
-        
-        
-        
+        							trainer + "','" +
+        							owner + "','" +
+        							breeder + "','" +
+        							dad + "','" +
+									mom + "','" +
+									jockey + "')";
 
+
+		CurrentUserData.executeSetUserId();
         DBUtilities dbUtilities = new DBUtilities();
-
         dbUtilities.ExecuteSQLStatement(sql_stmt);
+		loadRecords();
     }
 
     private void updateRecord() throws SQLException {
@@ -160,6 +220,8 @@ public class ViewR1UserEditTables {
         sql_stmt += ",[trainer_id] = '" + trainer + "'";
         sql_stmt += ",[owner_id] = '" + owner + "'";
         sql_stmt += " WHERE id = '" + textFieldID.getText() + "'";
+
+		CurrentUserData.executeSetUserId();
 
         DBUtilities dbUtilities = new DBUtilities();
         dbUtilities.ExecuteSQLStatement(sql_stmt);
