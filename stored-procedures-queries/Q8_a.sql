@@ -5,10 +5,9 @@ CREATE PROCEDURE query8_a
 @year INT
 AS
 	BEGIN
-    --for test
+--     for test
 --     DECLARE @year INT;
 --     SET @year = 2010;
---
 --     SELECT * FROM PARTICIPATION WHERE @year = DATEPART(yyyy, PARTICIPATION.meeting_date)
 --     SELECT * FROM PARTICIPATION
 
@@ -46,8 +45,8 @@ AS
 --     FROM HORSE H WHERE H.id NOT IN ( SELECT T2.id FROM #TEMP T2)) TEST
 		DROP TABLE #TEMP;
 	END;
-
-EXEC query8_a 20;
+GO
+--EXEC query8_a 2010;
 --SELECT *
 --FROM PARTICIPATION P,HORSE H
 --WHERE H.id = P.horse_id
