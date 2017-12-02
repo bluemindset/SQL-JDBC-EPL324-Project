@@ -1,8 +1,8 @@
-IF OBJECT_ID (N'Query9_d_allOwners', N'P')IS NOT NULL  
-    DROP PROCEDURE Query9_d_allOwners;  
+IF OBJECT_ID (N'Query9_d_allOwnersFam', N'P')IS NOT NULL  
+    DROP PROCEDURE Query9_d_allOwnersFam;  
 
 GO
-CREATE PROCEDURE Query9_d_allOwners
+CREATE PROCEDURE Query9_d_allOwnersFam
 
 
 AS 
@@ -112,4 +112,4 @@ END
 
 Go
 
-EXECUTE Query9_d_allOwners;
+EXECUTE Query9_d_allOwnersFam;
