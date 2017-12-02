@@ -16,6 +16,7 @@ BEGIN
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
+	EXEC insert_into_log_history 'I', 'HORSE';
 END
 ELSE
 --A current employee has been updated
@@ -24,6 +25,7 @@ BEGIN
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
+	EXEC insert_into_log_history 'U', 'HORSE';
 END
 GO
 
@@ -44,6 +46,7 @@ BEGIN
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
 	WHERE	[color_name] IN (SELECT [color_name] FROM inserted)
+	EXEC insert_into_log_history 'I', 'HORSE_COLOR';
 END
 ELSE
 --A current employee has been updated
@@ -52,6 +55,7 @@ BEGIN
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
 	WHERE	[color_name] IN (SELECT [color_name] FROM inserted)
+	EXEC insert_into_log_history 'U', 'HORSE_COLOR';
 END
 GO
 
@@ -72,6 +76,7 @@ BEGIN
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
+	EXEC insert_into_log_history 'I', 'JOCKEY';
 END
 ELSE
 --A current employee has been updated
@@ -80,6 +85,7 @@ BEGIN
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
+	EXEC insert_into_log_history 'U', 'JOCKEY';
 END
 GO
 
@@ -100,6 +106,7 @@ BEGIN
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
 	WHERE	[datem] IN (SELECT [datem] FROM inserted)
+	EXEC insert_into_log_history 'I', 'MEETING';
 END
 ELSE
 --A current employee has been updated
@@ -108,6 +115,7 @@ BEGIN
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
 	WHERE	[datem] IN (SELECT [datem] FROM inserted)
+	EXEC insert_into_log_history 'U', 'MEETING';
 END
 GO
 
@@ -127,7 +135,10 @@ BEGIN
 	UPDATE	[dbo].[RACE]
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
-	WHERE	[race_time] IN (SELECT [race_time] FROM inserted) AND [meeting_date] IN (SELECT [meeting_date] FROM inserted)
+	WHERE	[race_time] IN (SELECT [race_time] FROM inserted)
+	 AND [meeting_date] IN (SELECT [meeting_date] FROM inserted)
+
+	 EXEC insert_into_log_history 'I', 'RACE';
 END
 ELSE
 --A current employee has been updated
@@ -135,7 +146,10 @@ BEGIN
 	UPDATE	[dbo].[RACE]
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
-	WHERE	[race_time] IN (SELECT [race_time] FROM inserted) AND [meeting_date] IN (SELECT [meeting_date] FROM inserted)
+	WHERE	[race_time] IN (SELECT [race_time] FROM inserted)
+	 AND [meeting_date] IN (SELECT [meeting_date] FROM inserted)
+
+	 EXEC insert_into_log_history 'U', 'RACE';
 END
 GO
 
@@ -156,6 +170,7 @@ BEGIN
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
 	WHERE	[distance] IN (SELECT [distance] FROM inserted)
+	EXEC insert_into_log_history 'I', 'RACE_DISTANCE';
 END
 ELSE
 --A current employee has been updated
@@ -164,6 +179,7 @@ BEGIN
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
 	WHERE	[distance] IN (SELECT [distance] FROM inserted)
+	EXEC insert_into_log_history 'U', 'RACE_DISTANCE';
 END
 GO
 
@@ -184,6 +200,7 @@ BEGIN
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
 	WHERE	[type] IN (SELECT [type] FROM inserted)
+	EXEC insert_into_log_history 'I', 'RACE_TYPE';
 END
 ELSE
 --A current employee has been updated
@@ -192,6 +209,7 @@ BEGIN
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
 	WHERE	[type] IN (SELECT [type] FROM inserted)
+	EXEC insert_into_log_history 'U', 'RACE_TYPE';
 END
 GO
 
@@ -212,6 +230,7 @@ BEGIN
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
 	WHERE	[type] IN (SELECT [type] FROM inserted)
+	EXEC insert_into_log_history 'I', 'FIELD_TYPE';
 END
 ELSE
 --A current employee has been updated
@@ -220,6 +239,7 @@ BEGIN
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
 	WHERE	[type] IN (SELECT [type] FROM inserted)
+	EXEC insert_into_log_history 'U', 'FIELD_TYPE';
 END
 GO
 
@@ -244,6 +264,8 @@ BEGIN
 			 [horse_id] IN (SELECT  [horse_id] FROM inserted) AND
 			 [jockey_id] IN (SELECT  [jockey_id] FROM inserted) AND
 			 [trainer_id]  IN(SELECT  [jockey_id] FROM inserted)
+
+			 EXEC insert_into_log_history 'I', 'PARTICIPATION';
 END
 ELSE
 --A current employee has been updated
@@ -256,6 +278,8 @@ BEGIN
 			 [horse_id] IN (SELECT  [horse_id] FROM inserted) AND
 			 [jockey_id] IN (SELECT  [jockey_id] FROM inserted) AND
 			 [trainer_id]  IN(SELECT  [jockey_id] FROM inserted)
+
+			 EXEC insert_into_log_history 'U', 'PARTICIPATION';
 END
 GO
 
@@ -276,6 +300,7 @@ BEGIN
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
+	EXEC insert_into_log_history 'I', 'TRAINER';
 END
 ELSE
 --A current employee has been updated
@@ -284,6 +309,7 @@ BEGIN
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
+	EXEC insert_into_log_history 'I', 'TRAINER';
 END
 GO
 
@@ -304,6 +330,7 @@ BEGIN
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
+	EXEC insert_into_log_history 'I', 'BREEDER';
 END
 ELSE
 --A current employee has been updated
@@ -312,6 +339,7 @@ BEGIN
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
+	EXEC insert_into_log_history 'U', 'BREEDER';
 END
 GO
 
@@ -332,6 +360,7 @@ BEGIN
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
+	EXEC insert_into_log_history 'I', 'OWNER';
 END
 ELSE
 --A current employee has been updated
@@ -340,10 +369,9 @@ BEGIN
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
+	EXEC insert_into_log_history 'U', 'OWNER';
 END
 GO
-
---TODO DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 
 --Trigger for USER in FAMILY
 IF OBJECT_ID ('[tr_USER_FAMILY]', 'TR') IS NOT NULL
@@ -377,19 +405,17 @@ AS
   END
 GO
 
-SELECT  * FROM FAMILY;
-GO
-UPDATE FAMILY SET FAMILY.name = 'asojdhjaskhask' WHERE FAMILY.name = 'Cork family';
-GO
-SELECT * FROM LOG_HISTORY;
-GO
-SELECT  * FROM FAMILY;
-GO
-EXEC familyHorseInsert 'Jaffar';
-GO
-SELECT  * FROM FAMILY;
-GO
-SELECT * FROM LOG_HISTORY;
+--SELECT  * FROM FAMILY;
+--GO
+--UPDATE FAMILY SET FAMILY.name = 'asojdhjaskhask' WHERE FAMILY.name = 'Cork family';
+--GO
+--SELECT * FROM LOG_HISTORY;
+--GO
+--SELECT  * FROM FAMILY;
+--GO
+--EXEC familyHorseInsert 'Jaffar';
+--GO
+----SELECT * FROM LOG_HISTORY;
 
 
 --Trigger for USER in SYSTEM_USER
@@ -409,6 +435,7 @@ BEGIN
 	SET		[created_by]=USER,
 			[date_created]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
+	EXEC insert_into_log_history 'I', 'SYSTEM_USER';
 END
 ELSE
 --A current employee has been updated
@@ -417,5 +444,6 @@ BEGIN
 	SET		[updated_by]=USER,
 			[date_updated]=GETDATE()
 	WHERE	[id] IN (SELECT [id] FROM inserted)
+	EXEC insert_into_log_history 'U', 'SYSTEM_USER';
 END
 GO
