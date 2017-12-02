@@ -396,6 +396,7 @@ AS
     ELSE
     --A current employee has been updated
     BEGIN
+				PRINT 'whatever i entered';
       UPDATE	[dbo].[FAMILY]
       SET		[updated_by]=USER,
           [date_updated]=GETDATE()
@@ -422,28 +423,28 @@ GO
 IF OBJECT_ID ('[tr_USER_SYSTEM_USER]', 'TR') IS NOT NULL
 	DROP TRIGGER [tr_USER_SYSTEM_USER]
 GO
-CREATE TRIGGER [tr_USER_SYSTEM_USER] ON [dbo].[SYSTEM_USER]
-AFTER INSERT, UPDATE
-AS
-DECLARE @countDeleted int
-SET @countDeleted = (SELECT COUNT(*) FROM deleted)
-
-IF @countDeleted=0
---A new employee has been inserted
-BEGIN
-	UPDATE	[dbo].[SYSTEM_USER]
-	SET		[created_by]=USER,
-			[date_created]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
-	EXEC insert_into_log_history 'I', 'SYSTEM_USER';
-END
-ELSE
---A current employee has been updated
-BEGIN
-	UPDATE	[dbo].[SYSTEM_USER]
-	SET		[updated_by]=USER,
-			[date_updated]=GETDATE()
-	WHERE	[id] IN (SELECT [id] FROM inserted)
-	EXEC insert_into_log_history 'U', 'SYSTEM_USER';
-END
-GO
+-- CREATE TRIGGER [tr_USER_SYSTEM_USER] ON [dbo].[SYSTEM_USER]
+-- AFTER INSERT, UPDATE
+-- AS
+-- DECLARE @countDeleted int
+-- SET @countDeleted = (SELECT COUNT(*) FROM deleted)
+--
+-- IF @countDeleted=0
+-- --A new employee has been inserted
+-- BEGIN
+-- 	UPDATE	[dbo].[SYSTEM_USER]
+-- 	SET		[created_by]=USER,
+-- 			[date_created]=GETDATE()
+-- 	WHERE	[id] IN (SELECT [id] FROM inserted)
+-- 	EXEC insert_into_log_history 'I', 'SYSTEM_USER';
+-- END
+-- ELSE
+-- --A current employee has been updated
+-- BEGIN
+-- 	UPDATE	[dbo].[SYSTEM_USER]
+-- 	SET		[updated_by]=USER,
+-- 			[date_updated]=GETDATE()
+-- 	WHERE	[id] IN (SELECT [id] FROM inserted)
+-- 	EXEC insert_into_log_history 'U', 'SYSTEM_USER';
+-- END
+-- GO
