@@ -1,7 +1,7 @@
-IF OBJECT_ID (N'Query9_b_Date', N'P')IS NOT NULL  
-    DROP PROCEDURE Query9_b_Date;  
+IF OBJECT_ID (N'Query9_c_Date', N'P')IS NOT NULL  
+    DROP PROCEDURE Query9_c_Date;  
 GO
-CREATE PROCEDURE Query9_b_Date-- @meeting_date_of_current_race date, @time_of_current_race time
+CREATE PROCEDURE Query9_c_Date-- @meeting_date_of_current_race date, @time_of_current_race time
 
 AS 
 BEGIN
@@ -163,5 +163,5 @@ END
 
 go
 
-EXECUTE Query9_b_Date;  
+EXECUTE Query9_c_Date;  
 
