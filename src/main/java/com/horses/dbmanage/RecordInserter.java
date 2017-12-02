@@ -458,7 +458,7 @@ public class RecordInserter {
             if ((storeProcData.get(i).get(j).equals("")))
                 cstmt.setNull(++k, Types.INTEGER);
             else
-                cstmt.setInt(++k, Integer.parseInt(storeProcData.get(i).get(j)));
+                cstmt.setInt (++k, Integer.parseInt(storeProcData.get(i).get(j)));
             j++;
 
             //FIRSTNAME
@@ -691,13 +691,17 @@ public class RecordInserter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        cstmt.setString(1, "#N/A");
+        cstmt.execute();
+        
         for (int i = 0; i <= storeProcData.size() - 1; i++) {
             //FAMILY NAME
             if ((storeProcData.get(i).get(j).equals("")))
                 cstmt.setNull(++k, Types.NCHAR);
             else
                 cstmt.setString(++k, storeProcData.get(i).get(j));
+            
+           
             cstmt.execute();
             k = 0;
         }
