@@ -71,6 +71,23 @@ public class ViewQ8ClassificationReports extends JDialog {
             rightRenderer1.setHorizontalAlignment(SwingConstants.LEFT);
             table_1.getColumnModel().getColumn(0).setCellRenderer(rightRenderer1);
             table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            
+            String cstmtString2 = "{call query8_c(?)}";
+            ResultSetTableModel tableModel2 = new ResultSetTableModel(cstmtString2, year);
+            table_2.setModel(tableModel2);
+            DefaultTableCellRenderer rightRenderer2 = new DefaultTableCellRenderer();
+            rightRenderer2.setHorizontalAlignment(SwingConstants.LEFT);
+            table_2.getColumnModel().getColumn(0).setCellRenderer(rightRenderer2);
+            table_2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            
+            String cstmtString3 = "{call query8_d(?)}";
+            ResultSetTableModel tableModel3 = new ResultSetTableModel(cstmtString3, year);
+            table_3.setModel(tableModel3);
+            DefaultTableCellRenderer rightRenderer3 = new DefaultTableCellRenderer();
+            rightRenderer3.setHorizontalAlignment(SwingConstants.LEFT);
+            table_3.getColumnModel().getColumn(0).setCellRenderer(rightRenderer3);
+            table_3.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            
         }
     }
 	
