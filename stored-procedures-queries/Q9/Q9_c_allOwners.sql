@@ -1,8 +1,8 @@
-IF OBJECT_ID (N'Query9_b_oneTrainer', N'P')IS NOT NULL  
-    DROP PROCEDURE Query9_b_oneTrainer;  
+IF OBJECT_ID (N'Query9_a_allOwners', N'P')IS NOT NULL  
+    DROP PROCEDURE Query9_a_allOwners;  
 
 GO
-CREATE PROCEDURE Query9_b_oneTrainer  --@horseid int
+CREATE PROCEDURE Query9_a_allOwners
 
 
 AS 
@@ -10,11 +10,10 @@ BEGIN
 
 	SET NOCOUNT ON
 
-DECLARE @trainer_id int;
-set @trainer_id = 114366;
+
 DECLARE @horsett table(horse_id int, meeting_date date,distance int,end_pos int);
-DECLARE @horset table(horse_id int,trainer_id int, meeting_date date,race_time time,distance int,end_pos int,name varchar(20));
-DECLARE @horset2 table(horse_id int,trainer_id int, meeting_date date,race_time time,distance int,name varchar(20),end_pos int, pos1 int,pos2 int,pos3 int,all_pos int,perc money);
+DECLARE @horset table(horse_id int,owner_id int, meeting_date date,race_time time,distance int,end_pos int,name varchar(20));
+DECLARE @horset2 table(horse_id int,owner_id int, meeting_date date,race_time time,distance int,name varchar(20),end_pos int, pos1 int,pos2 int,pos3 int,all_pos int,perc money);
 DECLARE @HorseCursor CURSOR;
 DECLARE @HorseIt int;
 DECLARE @allpositions int;
@@ -30,21 +29,21 @@ Declare @distancet int;
 Declare @end_post int;
 Declare @all_post int;
 Declare @perc money;
-Declare @same_trainer int;
+Declare @same_owner int;
 Declare @c float;
 Declare @race_timet time;
-Declare @trainer_idt int;
+Declare @owner_idt int;
 Declare @namet varchar(25);
 
 SET NOCOUNT ON
 
 
-/*GET ALL Trainers OF  ALL RACES*/
+/*GET ALL owners OF  ALL RACES*/
 INSERT INTO @horset
-	SELECT  P.horse_id,P.trainer_id,P.meeting_date,P.race_time,R.distance,P.end_pos, H.name
+	SELECT  P.horse_id,H.owner_id,P.meeting_date,P.race_time,R.distance,P.end_pos, H.name
 	FROM	[PARTICIPATION]  P, [RACE] R,[HORSE] H
-	WHERE	(P.meeting_date = R.meeting_date AND  P.race_time = R.race_time) AND P.horse_id = H.id AND P.trainer_id = @trainer_id
-	ORDER BY h.trainer_id ASC , P.meeting_date ASC ,P.race_time ASC
+	WHERE	(P.meeting_date = R.meeting_date AND  P.race_time = R.race_time) AND P.horse_id = H.id
+	ORDER BY h.owner_id ASC , P.meeting_date ASC ,P.race_time ASC
 
 	
 
@@ -56,19 +55,19 @@ INSERT INTO @horset
 	
 	Declare HorseCursor2  CURSOR FOR
     select * from @horset h
-	ORDER BY h.trainer_id ASC , h.meeting_date ASC ,h.race_time ASC
+	ORDER BY h.owner_id ASC , h.meeting_date ASC ,h.race_time ASC
 
 
 	OPEN HorseCursor2 
     FETCH NEXT FROM HorseCursor2 
-    INTO @horse_idt,@trainer_idt,@meeting_datet,@race_timet ,@distancet,@end_post,@namet
+    INTO @horse_idt,@owner_idt,@meeting_datet,@race_timet ,@distancet,@end_post,@namet
 
-   SET @same_trainer = @trainer_idt;
+   SET @same_owner = @owner_idt;
  
     WHILE @@FETCH_STATUS = 0  
     BEGIN  
 	  
-		IF @same_trainer = @trainer_idt
+		IF @same_owner = @owner_idt
 			BEGIN
 			SET @c= @c+1
 			
@@ -92,13 +91,13 @@ INSERT INTO @horset
 			SET @perc =@pos1tf/@c
 			
 			Insert INTO @horset2
-			SELECT @horse_idt ,@trainer_idt, @meeting_datet,@race_timet ,@distancet ,@namet,@end_post, @pos1tf ,@pos2tf,@pos3tf
+			SELECT @horse_idt ,@owner_idt, @meeting_datet,@race_timet ,@distancet ,@namet,@end_post, @pos1tf ,@pos2tf,@pos3tf
 			,@c ,@perc
 
-			SET @same_trainer = @trainer_idt;
+			SET @same_owner = @owner_idt;
     
 	FETCH NEXT FROM HorseCursor2 
-    INTO @horse_idt,@trainer_idt,@meeting_datet,@race_timet ,@distancet,@end_post,@namet
+    INTO @horse_idt,@owner_idt,@meeting_datet,@race_timet ,@distancet,@end_post,@namet
 		
 		end;
   
@@ -107,11 +106,10 @@ DEALLOCATE HorseCursor2;
 	
 
 	Select   * from @horset2 h
-	ORDER BY h.trainer_id ASC , h.meeting_date ASC
+	ORDER BY h.owner_id ASC , h.meeting_date ASC
 
 END
 
+Go
 
-go
-
-EXECUTE Query9_b_oneTrainer;  
+EXECUTE Query9_a_allOwners;

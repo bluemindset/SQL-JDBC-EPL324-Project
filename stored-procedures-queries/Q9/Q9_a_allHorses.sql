@@ -11,10 +11,8 @@ BEGIN
 	SET NOCOUNT ON
 
 
-DECLARE @horsett table(horse_id int, meeting_date date,distance int,end_pos int);
-
-DECLARE @horset table(horse_id int, meeting_date date,distance int,end_pos int);
-DECLARE @horset2 table(horse_id int, meeting_date date,distance int,end_pos int, pos1 int,pos2 int,pos3 int,all_pos int,perc money);
+DECLARE @horset table(horse_id int, meeting_date date,race_time time,distance int,end_pos int);
+DECLARE @horset2 table(horse_id int, meeting_date date,race_time time,distance int,end_pos int, pos1 int,pos2 int,pos3 int,all_pos int,perc money);
 DECLARE @HorseCursor CURSOR;
 DECLARE @HorseIt int;
 DECLARE @allpositions int;
@@ -32,17 +30,17 @@ Declare @all_post int;
 Declare @perc money;
 Declare @same_horse int;
 Declare @c float;
-
+Declare @race_timet time;
 
 SET NOCOUNT ON
 
 
 /*GET ALL HORSES OF  ALL RACES*/
 INSERT INTO @horset
-	SELECT  P.horse_id,P.meeting_date,R.distance,P.end_pos
+	SELECT  P.horse_id,P.meeting_date,P.race_time,R.distance,P.end_pos
 	FROM	[PARTICIPATION]  P, [RACE] R
 	WHERE	P.meeting_date = R.meeting_date AND  P.race_time = R.race_time
-	ORDER BY P.horse_id ASC
+	ORDER BY P.horse_id ASC,R.meeting_date ASC ,P.race_time ASC 
 
 	
 
@@ -56,7 +54,7 @@ INSERT INTO @horset
 	 ORDER BY h.horse_id ASC
 	OPEN HorseCursor2 
     FETCH NEXT FROM HorseCursor2 
-    INTO @horse_idt,@meeting_datet,@distancet,@end_post
+    INTO @horse_idt,@meeting_datet,@race_timet,@distancet,@end_post
 
    SET @same_horse = @horse_idt;
  
@@ -87,13 +85,12 @@ INSERT INTO @horset
 			SET @perc =@pos1tf/@c
 			
 			Insert INTO @horset2
-			SELECT @horse_idt , @meeting_datet ,@distancet ,@end_post, @pos1tf ,@pos2tf,@pos3tf
-			,@c ,@perc
-
+			SELECT @horse_idt,@meeting_datet,@race_timet,@distancet ,@end_post, @pos1tf ,@pos2tf,@pos3tf,@c ,@perc
+			
 			SET @same_horse = @horse_idt;
     
 	FETCH NEXT FROM HorseCursor2 
-    INTO @horse_idt,@meeting_datet,@distancet,@end_post
+    INTO @horse_idt,@meeting_datet,@race_timet,@distancet,@end_post
 		
 		end;
   
