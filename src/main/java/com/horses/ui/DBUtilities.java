@@ -1,4 +1,6 @@
 package com.horses.ui;
+import com.horses.dbmanage.Config;
+
 import java.sql.*;
 
 public class DBUtilities {

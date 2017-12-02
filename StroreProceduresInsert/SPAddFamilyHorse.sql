@@ -1,24 +1,14 @@
-
-Drop PROCEDURE dbo.familyHorseInsert
-
-CREATE PROCEDURE dbo.familyHorseInsert @id int,@name nvarchar(15)
-
-		  
+IF OBJECT_ID('familyHorseInsert' ,'P') IS NOT NULL
+    DROP PROCEDURE familyHorseInsert
+GO
+CREATE PROCEDURE dbo.familyHorseInsert
+@name NVARCHAR(35)
 AS
-
-
-SET NOCOUNT ON
-
-
 INSERT INTO [dbo].[FAMILY]
-           (   
-			[id]
-		   ,[name] )
-
-     VALUES
-           (@id
-		   ,@name)
-
+           ( [name] )
+     VALUES (@name)
 GO
 
+EXEC familyHorseInsert @name = 'another horse family';
 
+--SELECT * FROM FAMILY;

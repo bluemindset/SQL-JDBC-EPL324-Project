@@ -1,5 +1,6 @@
-Drop PROCEDURE dbo.meetingsInsert
-
+IF OBJECT_ID ( 'meetingsInsert', 'P' ) IS NOT NULL
+	Drop PROCEDURE meetingsInsert
+GO
 CREATE PROCEDURE dbo.meetingsInsert @datemeeting date
 
 AS

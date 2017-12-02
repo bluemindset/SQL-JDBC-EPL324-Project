@@ -45,15 +45,19 @@ public class ViewSAUserGUI {
 		frmSystemAdminInterface.getContentPane().setLayout(null);
 		
 		JButton btnImportDatabase = new JButton("IMPORT DATABASE");
-		btnImportDatabase.setBounds(10, 27, 261, 23);
+		btnImportDatabase.setBounds(12, 12, 261, 23);
 		frmSystemAdminInterface.getContentPane().add(btnImportDatabase);
 		
 		JButton btnExportDatabase = new JButton("EXPORT DATABASE");
-		btnExportDatabase.setBounds(10, 61, 261, 23);
+		btnExportDatabase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnExportDatabase.setBounds(12, 46, 261, 23);
 		frmSystemAdminInterface.getContentPane().add(btnExportDatabase);
 		
 		JButton btnDeleteDatabase = new JButton("DELETE DATABASE");
-		btnDeleteDatabase.setBounds(10, 95, 261, 23);
+		btnDeleteDatabase.setBounds(12, 80, 261, 23);
 		frmSystemAdminInterface.getContentPane().add(btnDeleteDatabase);
 		
 		JButton btnBack = new JButton("BACK");
@@ -64,8 +68,19 @@ public class ViewSAUserGUI {
 				window.frmSystemAdminLogin.setVisible(true);
 			}
 		});
-		btnBack.setBounds(182, 151, 89, 23);
+		btnBack.setBounds(184, 176, 89, 23);
 		frmSystemAdminInterface.getContentPane().add(btnBack);
+		
+		JButton btnAddNewUser = new JButton("ADD NEW USER");
+		btnAddNewUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmSystemAdminInterface.dispose();
+				CreateUser window = new CreateUser();
+				window.frmCreateUser.setVisible(true);
+			}
+		});
+		btnAddNewUser.setBounds(12, 115, 261, 23);
+		frmSystemAdminInterface.getContentPane().add(btnAddNewUser);
 	}
 
 }

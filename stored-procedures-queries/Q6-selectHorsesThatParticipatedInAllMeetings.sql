@@ -5,7 +5,7 @@ CREATE PROCEDURE selectHorsesThatParticipatedInAllMeetings
 AS 
 BEGIN 
 	SET NOCOUNT ON;
-	SELECT H.id, H.name, H.compressed_name
+	SELECT DISTINCT H.id, H.name, H.compressed_name
 	FROM HORSE H
 	WHERE NOT EXISTS(--All the meetings.
 					 SELECT M.datem

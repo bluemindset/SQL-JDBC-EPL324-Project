@@ -1,1 +1,6 @@
 /bin/
+/.classpath
+/.metadata/
+/.idea/
+/.project
+/src/main/java/com/horses/dbmanage/Config.java

@@ -1,6 +1,6 @@
-Drop PROCEDURE dbo.raceDistancesInsert
-
-
+IF OBJECT_ID ( 'raceDistancesInsert', 'P' ) IS NOT NULL
+  Drop PROCEDURE raceDistancesInsert
+GO
 CREATE PROCEDURE dbo.raceDistancesInsert @distance int
 
 		  

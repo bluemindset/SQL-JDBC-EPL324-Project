@@ -6,11 +6,18 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 public class ViewQ4HorsesOfOwnerFamily extends JDialog {
 
@@ -30,6 +37,16 @@ public class ViewQ4HorsesOfOwnerFamily extends JDialog {
 		}
 	}
 
+    private void loadRecords() throws SQLException  {
+        String cstmtString = "{call selectHorsesGroupedByFamily}";
+        ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString);
+        table.setModel(tableModel);
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+        table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    }
+	
 	/**
 	 * Create the dialog.
 	 */
@@ -40,19 +57,14 @@ public class ViewQ4HorsesOfOwnerFamily extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 66, 423, 306);
+		contentPanel.add(scrollPane);
 		{
 			table = new JTable();
-			table.setBounds(10, 66, 423, 306);
-			contentPanel.add(table);
+			scrollPane.setViewportView(table);
 		}
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(150, 23, 205, 20);
-		contentPanel.add(comboBox);
-		
-		JLabel lblPleaseSelectA = new JLabel("Please select a family:");
-		lblPleaseSelectA.setBounds(10, 26, 179, 14);
-		contentPanel.add(lblPleaseSelectA);
 		{
 			JButton cancelButton = new JButton("BACK");
 			cancelButton.addActionListener(new ActionListener() {
@@ -66,5 +78,18 @@ public class ViewQ4HorsesOfOwnerFamily extends JDialog {
 			contentPanel.add(cancelButton);
 			cancelButton.setActionCommand("Cancel");
 		}
+		
+		JButton btnSearch = new JButton("SEARCH");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					loadRecords();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} 	
+			}
+		});
+		btnSearch.setBounds(266, 22, 89, 23);
+		contentPanel.add(btnSearch);
 	}
 }

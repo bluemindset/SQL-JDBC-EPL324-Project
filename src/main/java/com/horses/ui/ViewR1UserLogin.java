@@ -1,5 +1,7 @@
 package com.horses.ui;
 
+import com.horses.dbmanage.Config;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -10,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.*;
 import javax.swing.JPasswordField;
 
 public class ViewR1UserLogin {
@@ -43,54 +46,70 @@ public class ViewR1UserLogin {
 
 	/**
 	 * Initialize the contents of the frame.
+	 *
+	 *
 	 */
 	private void initialize() {
 		frmSystemUserSign = new JFrame();
 		frmSystemUserSign.setTitle("System User Sign Up / Log In");
-		frmSystemUserSign.setBounds(100, 100, 405, 354);
+		frmSystemUserSign.setBounds(100, 100, 469, 434);
 		frmSystemUserSign.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSystemUserSign.getContentPane().setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 11, 361, 287);
+		tabbedPane.setBounds(10, 11, 447, 385);
 		frmSystemUserSign.getContentPane().add(tabbedPane);
 		
-		JPanel panel = new JPanel();
-		tabbedPane.addTab("LOG IN", null, panel, null);
-		panel.setLayout(null);
+		JPanel logInPanel = new JPanel();
+		tabbedPane.addTab("LOG IN", null, logInPanel, null);
+		logInPanel.setLayout(null);
 		
 		JLabel lblUsername = new JLabel("Username:");
 		lblUsername.setBounds(84, 89, 94, 14);
-		panel.add(lblUsername);
+		logInPanel.add(lblUsername);
 		
 		JLabel lblPleaseEnterThe = new JLabel("Please enter the following:");
 		lblPleaseEnterThe.setBounds(10, 39, 311, 14);
-		panel.add(lblPleaseEnterThe);
+		logInPanel.add(lblPleaseEnterThe);
 		
 		textFieldUsername = new JTextField();
 		textFieldUsername.setBounds(174, 86, 86, 20);
-		panel.add(textFieldUsername);
+		logInPanel.add(textFieldUsername);
 		textFieldUsername.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setBounds(84, 134, 80, 14);
-		panel.add(lblPassword);
+		logInPanel.add(lblPassword);
 		
 		JButton btnOk = new JButton("OK");
-		btnOk.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frmSystemUserSign.dispose();
-				
+		btnOk.addActionListener( (e) -> {
 				//TODO LOGIN
-				
-				
-				ViewR1UserGUI window = new ViewR1UserGUI();
-				window.frmPleaseChooseA.setVisible(true);
-				
-			}
+				Connection connection = null;
+				try {
+					connection = DriverManager.getConnection(Config.connection_url, Config.DATABASE_USER_ID, Config.DATABASE_PASSWORD);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				//username, password
+				try(CallableStatement cstmt = connection.prepareCall("{call find_user (?,?)}"))  {
+					cstmt.setString(1,textFieldUsername.getText());
+					cstmt.setString(2,passwordField.getText());
+					ResultSet rs = cstmt.executeQuery();
+					if(rs.next()){
+						System.out.println("USer id is " + rs.getString(1));
+						frmSystemUserSign.dispose();
+						ViewR1UserGUI window = new ViewR1UserGUI();
+						window.frmPleaseChooseA.setVisible(true);
+					}
+					else {
+						System.out.println("No such password username combination");
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}			
 		});
 		btnOk.setBounds(75, 188, 89, 23);
-		panel.add(btnOk);
+		logInPanel.add(btnOk);
 		
 		JButton btnBack = new JButton("BACK");
 		btnBack.addActionListener(new ActionListener() {
@@ -101,14 +120,10 @@ public class ViewR1UserLogin {
 			}
 		});
 		btnBack.setBounds(185, 188, 89, 23);
-		panel.add(btnBack);
+		logInPanel.add(btnBack);
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(174, 131, 86, 20);
-		panel.add(passwordField);
-		
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("SIGN UP", null, panel_1, null);
+		logInPanel.add(passwordField);
 	}
-	
 }

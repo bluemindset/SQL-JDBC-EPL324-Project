@@ -1,27 +1,25 @@
 package com.horses.dbmanage;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import com.horses.dbobjects.SystemUser;
+import com.horses.dbobjects.SystemUserRole;
+
 import java.io.IOException;
-import java.io.PrintStream;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import com.horses.dbobjects.SystemUser;
-import com.horses.dbobjects.SystemUserRole;
 
 public class App {
-    private static final String USERNAME = "cchadj01";
-    private static final String DEFAULT_PASS = "s3agazuhespU";
+    private static final String USERNAME = "achrys16";
+    private static final String DEFAULT_PASS = "g7P5UchuqAda";
     private static final String PASSWORD = DEFAULT_PASS;
     
     private static void insertSystemAdmins(RecordInserter ri) {
         List<SystemUser> systemUsers = new ArrayList<>();
-        systemUsers.add(new SystemUser("123456","cchadj01", DEFAULT_PASS,"tomis", "what", SystemUserRole.SA));
-        systemUsers.add(new SystemUser("987423","achrys16", DEFAULT_PASS,"antria", "ever", SystemUserRole.SA));
-        systemUsers.add(new SystemUser("548512","ntzior01", DEFAULT_PASS,"ntzior", "plz", SystemUserRole.SA));
-        systemUsers.add(new SystemUser("258456","sioan01", DEFAULT_PASS,"O STEFOS", "O POLLYS", SystemUserRole.SA));
+        systemUsers.add(new SystemUser("cchadj01","cchadj01", DEFAULT_PASS,"tomis", "what", SystemUserRole.SA));
+//        systemUsers.add(new SystemUser("987423","achrys16", DEFAULT_PASS,"antria", "ever", SystemUserRole.SA));
+//        systemUsers.add(new SystemUser("548512","ntzior01", DEFAULT_PASS,"ntzior", "plz", SystemUserRole.SA));
+//        systemUsers.add(new SystemUser("258456","sioan01", DEFAULT_PASS,"O STEFOS", "O POLLYS", SystemUserRole.SA));
 
         try {
             ri.insertSystemUsers(systemUsers);
@@ -44,17 +42,17 @@ public class App {
         //System.setOut(out);
         //String dbConnString = "jdbc:sqlserver://apollo.in.cs.ucy.ac.cy:1433;databaseName="+USERNAME+";user="+USERNAME+";password="+PASSWORD+";";
         //String dbConnString = "jdbc:sqlserver://\\DOCTOR\\SQLEXPRESS:1433;databaseName=master;integratedSecurity=true;user=DOCTOR\\stefanos";
-        String dbConnString = "jdbc:sqlserver://localhost:1433;databaseName=Horses;user=SA;password=Password123;";
-        ConnectionManager connectionManager = new ConnectionManager(dbConnString);
+        //String dbConnString = "jdbc:sqlserver://localhost:1433;databaseName=Horses;user=SA;password=Password123;";
+        ConnectionManager connectionManager = new ConnectionManager(Config.connection_url);
 
         SchemaCreator schemaCreator = new SchemaCreator(connectionManager);
-        schemaCreator.setDropDbFile("Tables/drop-db.sql");
+        schemaCreator.setDropDbFile("stored-procedures-create-schema/drop-db.sql");
         schemaCreator.dropSchema();
-        schemaCreator.setCreateTablesFile("Tables/create-tables.sql");
+        schemaCreator.setCreateTablesFile("stored-procedures-create-schema/create-tables.sql");
 
-        schemaCreator.setCreateForeignKeysFile("Tables/create-foreign-keys.sql");
-        schemaCreator.setCreateDomainsFile("Tables/create-domains.sql");
-        schemaCreator.setCreateTriggersFile("Tables/create-triggers.sql");
+        schemaCreator.setCreateForeignKeysFile("stored-procedures-create-schema/create-foreign-keys.sql");
+        schemaCreator.setCreateDomainsFile("stored-procedures-create-schema/create-domains.sql");
+        schemaCreator.setCreateTriggersFile("stored-procedures-create-schema/create-triggers.sql");
         schemaCreator.createSchema();
 
         RecordInserter recordInserter = new RecordInserter(connectionManager);

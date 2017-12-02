@@ -1,5 +1,6 @@
-Drop PROCEDURE dbo.RaceResultsInsert
-
+IF OBJECT_ID ( 'RaceResultsInsert', 'P' ) IS NOT NULL
+	Drop PROCEDURE RaceResultsInsert
+GO
 CREATE PROCEDURE dbo.RaceResultsInsert @meetingdate date,@racetime time,@horse char(6), @jockey char(6),@trainer char(6),@startpos int,@finishpos int
 		   
 AS

@@ -3,12 +3,13 @@ IF OBJECT_ID ( 'selectRacesByMeetingDate', 'P' ) IS NOT NULL
 GO
 CREATE PROCEDURE selectRacesByMeetingDate
 @meetingDate DATETIME
-AS 
-BEGIN 
+AS
+BEGIN
 	SET NOCOUNT ON;
 	SELECT *
-	FROM MEETING M, RACE R
-	WHERE M.id = R.meeting_id AND CONVERT(DATE, M.date) = CONVERT(DATE, @meetingDate)
+	FROM RACE R
+	WHERE CONVERT(DATE, R.meeting_date) = CONVERT(DATE, @meetingDate)
 END;
---EXEC selectRacesByMeetingDate()
+
+EXEC selectRacesByMeetingDate '2010-01-08';
 --How to compare dates? What is the format for dates ?

@@ -1,20 +1,11 @@
-/*
-Store Procedure for adding horsesHorses 
-*/
-Drop PROCEDURE dbo.horseInsert
-
+IF OBJECT_ID('horseInsert','P') IS NOT NULL
+	Drop PROCEDURE dbo.horseInsert
+GO
 CREATE PROCEDURE dbo.horseInsert @id int, @name nvarchar(25),@sex nvarchar(20),
 @color nvarchar(15), @date_of_birth date ,@cur_weight float, @Trainer int,
-@Owner int,@Breeder int ,@Father_ID int ,@MOTHER_ID int
-		   
-		   
+@Owner int,@Breeder int ,@Father_ID int ,@MOTHER_ID int	   
 AS
-
-SET IDENTITY_INSERT  dbo.Horse ON
-
-
-SET NOCOUNT ON
-
+SET NOCOUNT ON;
 
 INSERT INTO [dbo].[HORSE]
            (   [id]
@@ -46,13 +37,3 @@ INSERT INTO [dbo].[HORSE]
 
 GO
 
-SET IDENTITY_INSERT  dbo.Horse OFF
-
-
-/*
-CREATE PROCEDURE dbo.horseInsert , @id int, @name varchar(25), @compressed_name varchar(25), 
-@cur_height varchar(15),cur_weight , varchar(15) @date_of_birth varchar(25),
-@age int, @sex ,@is_purebred , @record, @origin_country varchar(25), 
-@mama_id,@dad_id,@jockey_id,@breeder_id,@color_name,@trainer_id,@owner_id,
-@created_by, @date_created , @updated_by, @date_updated datetime
-*/	

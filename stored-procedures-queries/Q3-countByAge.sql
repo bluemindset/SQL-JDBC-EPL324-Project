@@ -17,8 +17,8 @@ BEGIN
 
 	SELECT H.age, COUNT(*) countHorsesByAge
 	FROM HORSE H
-	WHERE H.age BETWEEN @minAge AND @maxAge
+	WHERE H.age BETWEEN @MIN_AGE AND @MAX_AGE
 	GROUP BY H.age
 END;
-EXEC countHorsesByAgeProc @minAge = 0, @maxAge =  25;
+-- EXEC countHorsesByAgeProc @minAge = 0, @maxAge =  20;
 
