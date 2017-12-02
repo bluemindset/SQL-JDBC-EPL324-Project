@@ -12,7 +12,6 @@ public class DBUtilities {
     public DBUtilities() throws SQLException {
         try {
             connection = DriverManager.getConnection(Config.connection_url, Config.DATABASE_USER_ID, Config.DATABASE_PASSWORD);
-
         } catch (SQLException ex) {
             System.out.println("The following error has occured: " + ex.getMessage());
         }
