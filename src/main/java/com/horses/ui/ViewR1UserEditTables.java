@@ -92,6 +92,9 @@ public class ViewR1UserEditTables {
         							comboBoxBreeder.getSelectedItem().toString() + "','" + 
         							comboBoxDad.getSelectedItem().toString() + "','" + 
         							comboBoxMom.getSelectedItem().toString() + "')";
+        
+        
+        
 
         DBUtilities dbUtilities = new DBUtilities();
 
@@ -105,8 +108,57 @@ public class ViewR1UserEditTables {
 			date1 = new SimpleDateFormat("dd/MM/yyyy").parse(formattedTextField.getText());
 		} catch (ParseException e) {
 			e.printStackTrace();
-		}  
-    	
+		}
+        
+        String trainer ="";
+        String owner ="";
+        String breeder ="";
+        String dad ="";
+        String mom ="";
+        String jockey ="";
+        
+		try {
+			trainer = comboBoxTrainer.getSelectedItem().toString();
+		} catch ( NullPointerException e) {
+			trainer ="";
+		}
+		try {
+			owner = comboBoxOwner.getSelectedItem().toString();					
+		} catch ( NullPointerException e) {
+			owner ="";
+		}
+		try {
+			breeder =comboBoxBreeder.getSelectedItem().toString();		
+		} catch ( NullPointerException e) {
+			breeder ="";
+		}
+		try {						
+			dad = comboBoxDad.getSelectedItem().toString();	
+		} catch ( NullPointerException e) {
+			dad ="";
+		}
+		try {
+			mom =comboBoxMom.getSelectedItem().toString();							
+		} catch ( NullPointerException e) {
+			mom ="";
+		}
+		try {
+			jockey =comboBoxJockey.getSelectedItem().toString();					
+		} catch ( NullPointerException e) {
+			jockey ="";
+		}
+//		try {
+//			textFieldOriginCountry.setText(origin_country.toString());
+//		} catch ( NullPointerException e) {
+//			textFieldOriginCountry.setText(null);
+//		}
+//		try {
+//			textFieldRecord.setText(record.toString());
+//		} catch (NullPointerException e) {
+//			textFieldRecord.setText(null);	
+//		} 
+        
+        
         String sql_stmt = "UPDATE [dbo].[HORSE] SET [name] = '" + textFieldName.getText() + "'";
         sql_stmt += ",[cur_weight] = '" + textFieldWeight.getText() + "'";
         sql_stmt += ",[date_of_birth] = '" + date1.getTime() + "'";
@@ -114,17 +166,19 @@ public class ViewR1UserEditTables {
         sql_stmt += ",[is_purebred] = '" + checkBoxIsPurebred.isSelected() + "'";
         sql_stmt += ",[record] = '" + textFieldRecord.getText() + "'";
         sql_stmt += ",[origin_country] = '" + textFieldOriginCountry.getText() + "'";
-        sql_stmt += ",[mama_id] = '" + comboBoxMom.getSelectedItem().toString() + "'";
-        sql_stmt += ",[dad_id] = '" + comboBoxDad.getSelectedItem().toString() + "'";
-        sql_stmt += ",[jockey_id] = '" + comboBoxJockey.getSelectedItem().toString() + "'";
-        sql_stmt += ",[breeder_id] = '" + comboBoxBreeder.getSelectedItem().toString() + "'";
+        sql_stmt += ",[mama_id] = '" + mom + "'";
+        sql_stmt += ",[dad_id] = '" + dad + "'";
+        sql_stmt += ",[jockey_id] = '" + jockey + "'";
+        sql_stmt += ",[breeder_id] = '" + breeder + "'";
         sql_stmt += ",[color_name] = '" + comboBoxColor.getSelectedItem().toString() + "'";
-        sql_stmt += ",[trainer_id] = '" + comboBoxTrainer.getSelectedItem().toString() + "'";
-        sql_stmt += ",[owner_id] = '" + comboBoxOwner.getSelectedItem().toString() + "'";
+        sql_stmt += ",[trainer_id] = '" + trainer + "'";
+        sql_stmt += ",[owner_id] = '" + owner + "'";
         sql_stmt += " WHERE id = '" + textFieldID.getText() + "'";
 
         DBUtilities dbUtilities = new DBUtilities();
         dbUtilities.ExecuteSQLStatement(sql_stmt);
+        
+        loadRecords();
     }
 
     
@@ -164,10 +218,16 @@ public class ViewR1UserEditTables {
                     Object trainer_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 15);
                     Object owner_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 16);
                     
+                    SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
+                    Date date = format1.parse(date_of_birth.toString());
+                    String finDate = format2.format(date).toString();
+                    
+                    
                     textFieldID.setText(id.toString());
 					textFieldName.setText(name.toString());
 					textFieldWeight.setText(cur_weight.toString());
-					formattedTextField.setText(date_of_birth.toString());
+					formattedTextField.setText(finDate);
 			    	textFieldAge.setText(age.toString());
 					comboBoxSex.setSelectedItem(sex.toString());
 					try {
@@ -531,6 +591,12 @@ public class ViewR1UserEditTables {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO
 				addRecord = true;
+				try {
+					addNew();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				clearInputBoxesHorses();
 				textFieldID.requestFocus();
 			}
