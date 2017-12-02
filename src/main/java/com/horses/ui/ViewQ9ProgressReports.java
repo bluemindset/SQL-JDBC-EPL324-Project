@@ -7,12 +7,18 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 public class ViewQ9ProgressReports extends JDialog {
 
@@ -35,6 +41,42 @@ public class ViewQ9ProgressReports extends JDialog {
 		}
 	}
 
+	private void initialLoadRecords() throws SQLException  {
+		String cstmtString = "{call Query9_a_allHorses}";
+        ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString);
+        table.setModel(tableModel);
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+        table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);            
+	}
+	
+	private void loadRecords(String year) throws SQLException  {
+		boolean err = false;
+    	int sel_year = 0;
+        try { 
+        	sel_year =  Integer.parseInt(year); 
+        } catch(NumberFormatException e) { 
+       	 	err=true;
+        } catch(NullPointerException e) {
+       	 	err=true;
+        }
+        
+        if(err==true || sel_year==0){
+    		
+    		initialLoadRecords();
+    	}
+        else{
+        	String cstmtString = "{call Query9_a_oneHorse(?)}";
+            ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, year);
+            table.setModel(tableModel);
+            DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+            rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+            table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);            
+        }
+    }
+	
 	/**
 	 * Create the dialog.
 	 */
@@ -59,12 +101,37 @@ public class ViewQ9ProgressReports extends JDialog {
 		panel_Horses.add(lblPleaseSelectA);
 		
 		JComboBox comboBox = new JComboBox();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					loadRecords(comboBox.getSelectedItem().toString());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		comboBox.insertItemAt("", 0);
+		try {
+		   	 String sql_stmt = "SELECT * FROM [dbo].[HORSE];";
+		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt);
+		   	 for(int i=0; i< Combo.getRowCount(); i++){
+		   		 String s = (Combo.getValueAt(i, 0).toString());
+		   		comboBox.addItem(s);
+		   	 }
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		comboBox.setBounds(165, 8, 302, 20);
 		panel_Horses.add(comboBox);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 36, 457, 314);
+		panel_Horses.add(scrollPane);
+		
 		table = new JTable();
-		table.setBounds(10, 36, 457, 314);
-		panel_Horses.add(table);
+		scrollPane.setViewportView(table);
 		
 		JPanel panel_Trainers = new JPanel();
 		tabbedPane.addTab("TRAINERS", null, panel_Trainers, null);
@@ -132,5 +199,11 @@ public class ViewQ9ProgressReports extends JDialog {
 			}
 		}
 		
+		try {
+			initialLoadRecords();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
