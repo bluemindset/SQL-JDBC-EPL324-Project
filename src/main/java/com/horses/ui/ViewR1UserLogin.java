@@ -46,6 +46,8 @@ public class ViewR1UserLogin {
 
 	/**
 	 * Initialize the contents of the frame.
+	 *
+	 *
 	 */
 	private void initialize() {
 		frmSystemUserSign = new JFrame();
@@ -80,9 +82,7 @@ public class ViewR1UserLogin {
 		logInPanel.add(lblPassword);
 		
 		JButton btnOk = new JButton("OK");
-		btnOk.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
+		btnOk.addActionListener( (e) -> {
 				//TODO LOGIN
 				Connection connection = null;
 				try {
@@ -106,9 +106,7 @@ public class ViewR1UserLogin {
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
-				}
-
-			}
+				}			
 		});
 		btnOk.setBounds(75, 188, 89, 23);
 		logInPanel.add(btnOk);
