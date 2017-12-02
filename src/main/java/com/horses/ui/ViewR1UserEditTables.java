@@ -1,34 +1,17 @@
 package com.horses.ui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.awt.event.ActionEvent;
-import javax.swing.JTable;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.UIManager;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.JFormattedTextField;
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 
 public class ViewR1UserEditTables {
 
@@ -109,7 +92,10 @@ public class ViewR1UserEditTables {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-        
+
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		String finDate = format1.format(date1).toString();
+
         String trainer ="";
         String owner ="";
         String breeder ="";
@@ -161,7 +147,7 @@ public class ViewR1UserEditTables {
         
         String sql_stmt = "UPDATE [dbo].[HORSE] SET [name] = '" + textFieldName.getText() + "'";
         sql_stmt += ",[cur_weight] = '" + textFieldWeight.getText() + "'";
-        sql_stmt += ",[date_of_birth] = '" + date1.getTime() + "'";
+        sql_stmt += ",[date_of_birth] = CONVERT(DATE, '" + finDate + "')";
         sql_stmt += ",[sex] = '" + comboBoxSex.getSelectedItem().toString() + "'";
         sql_stmt += ",[is_purebred] = '" + checkBoxIsPurebred.isSelected() + "'";
         sql_stmt += ",[record] = '" + textFieldRecord.getText() + "'";

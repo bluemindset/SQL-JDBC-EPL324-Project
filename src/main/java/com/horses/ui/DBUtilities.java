@@ -28,6 +28,7 @@ public class DBUtilities {
 
             statement.executeUpdate(sql_stmt);
         } catch (SQLException ex) {
+            ex.printStackTrace();
             System.out.println("The following error has occured: " + ex.getMessage());
         }
     }
