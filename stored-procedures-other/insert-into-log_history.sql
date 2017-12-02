@@ -10,4 +10,5 @@ AS
   END
 
 EXEC insert_into_log_history 'U', 'HORSE';
+EXEC insert_into_log_history 'U', 'TRAINER';
 SELECT * FROM LOG_HISTORY;
