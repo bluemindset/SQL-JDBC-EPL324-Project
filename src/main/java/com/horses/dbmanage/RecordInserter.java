@@ -1,14 +1,17 @@
 package com.horses.dbmanage;
 
 import com.horses.dbobjects.SystemUser;
-import com.horses.dbobjects.SystemUserRole;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecordInserter {
     private static final boolean DEBUG = false;
@@ -47,7 +50,7 @@ public class RecordInserter {
         BreedersInsertion(insertData(recordsBreeders), BreedersStorProcVal);
 
 		/*RACES*/
-        String fileRaces = "DataTables/Races.txt";
+        String fileRaces = "DataTables/RacesNew.txt";
         String recordsRaces = FileParser.getFileContentAsString(fileRaces);
         String RacesStorProcVal = "{call dbo.racesInsert(?,?,?,?,?,?,?,?)}";
         RacesInsertion(insertData(recordsRaces), RacesStorProcVal);
@@ -710,7 +713,7 @@ public class RecordInserter {
     void participationInsertion() throws IOException, SQLException, ParseException {
         List<String[]> lines = new ArrayList<>();
         String[] strings = null;
-        try (BufferedReader br = new BufferedReader(new FileReader("DataTables/RacesResults.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("DataTables/RacesResultsNew.txt"))) {
             String line;
             br.readLine();
             while ((line = br.readLine()) != null) {
