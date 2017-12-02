@@ -1,30 +1,34 @@
-IF OBJECT_ID('query8_c', 'P') IS NOT NULL
-  DROP PROCEDURE query8_c
+IF OBJECT_ID('query8_d', 'P') IS NOT NULL
+  DROP PROCEDURE query8_d
 GO
-CREATE PROCEDURE query8_c
-  --@fathersCursor CURSOR OUTPUT
+CREATE PROCEDURE query8_d
+@inpYear INT
 AS
   BEGIN
     SET NOCOUNT ON;
+    -- SELECT all fathers with their corresponding sons and their statistics. This table is to be used to get the statistic for each father based only on their sons statistics.
     SELECT H.id AS sonId, H.dad_id AS dadId,
            SUM(CASE WHEN P.end_pos = 1 THEN 1 ELSE 0 END) AS countFirstPositions,
            SUM(CASE WHEN P.end_pos = 2 THEN 1 ELSE 0 END) AS countSecondPositions,
            SUM(CASE WHEN P.end_pos = 3 THEN 1 ELSE 0 END) AS countThirdPositions,
+           COUNT(*) AS countParticipations,
            SUM(P.winnings) AS totalWinnings INTO #FATHERS_SONS
     FROM HORSE H, PARTICIPATION P
-    WHERE H.id = P.horse_id AND H.dad_id IS NOT NULL
+    WHERE H.id = P.horse_id AND H.dad_id IS NOT NULL AND  @inpYear = DATEPART(yyyy, P.meeting_date)
     GROUP BY H.id, H.dad_id
     ORDER BY totalWinnings DESC;
 
     SELECT * FROM #FATHERS_SONS;
 
+    -- SELECT all mothers with their corresponding sons and their statistics. This table is to be used to get the statistic for each mothers based only on their sons statistics.
     SELECT H.id AS sonId, H.mama_id AS momId,
            SUM(CASE WHEN P.end_pos = 1 THEN 1 ELSE 0 END) AS countFirstPositions,
            SUM(CASE WHEN P.end_pos = 2 THEN 1 ELSE 0 END) AS countSecondPositions,
            SUM(CASE WHEN P.end_pos = 3 THEN 1 ELSE 0 END) AS countThirdPositions,
+           COUNT(*) AS countParticipations,
            SUM(P.winnings) AS totalWinnings INTO #MOTHERS_SONS
     FROM HORSE H, PARTICIPATION P
-    WHERE H.id = P.horse_id AND H.mama_id IS NOT NULL AND H.id NOT IN(SELECT FS.sonId FROM #FATHERS_SONS FS)
+    WHERE H.id = P.horse_id AND H.mama_id IS NOT NULL AND H.id NOT IN(SELECT FS.sonId FROM #FATHERS_SONS FS) AND  @inpYear = DATEPART(yyyy, P.meeting_date)
     GROUP BY H.id, H.mama_id
     ORDER BY totalWinnings DESC;
 
