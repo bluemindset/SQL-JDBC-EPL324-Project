@@ -6,6 +6,23 @@ CREATE PROCEDURE query8_d
 AS
   BEGIN
     SET NOCOUNT ON;
+    -- for test
+    DECLARE @inpYear INT;
+    SET @inpYear = 2010;
+
+    -- when I say sons I mean kids :P.
+    -- Get the statistics of all the individual horses. this table is to be used with #FATHERS and #MOTHERS so individual father statistics are taken into consideration.
+    CREATE TABLE #HORSES_STATS (
+      id                   INT,
+      name                 NVARCHAR(25),
+      countFirstPositions  INT,
+      countSecondPosisions INT,
+      countThirdPositions  INT,
+      countParticipations  INT,
+      successRatio         FLOAT,
+      totalWinnings        MONEY
+    );
+
     -- SELECT all fathers with their corresponding sons and their statistics. This table is to be used to get the statistic for each father based only on their sons statistics.
     SELECT H.id AS sonId, H.dad_id AS dadId,
            SUM(CASE WHEN P.end_pos = 1 THEN 1 ELSE 0 END) AS countFirstPositions,
@@ -18,8 +35,60 @@ AS
     GROUP BY H.id, H.dad_id
     ORDER BY totalWinnings DESC;
 
-    SELECT * FROM #FATHERS_SONS;
+    --Father stats but taking only his kids stats into consideration.
+    SELECT
+      FS.dadId                     AS father_id,
+      SUM(FS.countFirstPositions)  AS countFirstPositions,
+      SUM(FS.countSecondPositions) AS countSecondPosisions,
+      SUM(FS.countThirdPositions)  AS countThirdPositions,
+      SUM(FS.countParticipations)  AS countParticipations,
+      SUM(FS.totalWinnings)        AS totalWinnings
+    INTO #FATHER_ONLY_KID_STATS
+    FROM #FATHERS_SONS FS
+    GROUP BY FS.dadId;
 
+    --for test
+    --     DECLARE @inpYear INT;
+    --     SET @inpYear = 2010;
+
+    INSERT INTO #HORSES_STATS
+    EXEC query8_a @inpYear;
+
+    --for test
+--     SELECT *
+--     FROM #HORSES_STATS;
+--     SELECT *
+--     FROM #HORSES_STATS HS, #FATHER_ONLY_KID_STATS F
+--     WHERE HS.id = F.father_id;
+
+    --	Add individual father statistics to the statistics of his sons.
+    SELECT
+      FOKS.father_id,
+      HS.name,
+      (HS.countFirstPositions + FOKS.countFirstPositions)                AS countFirstPositions,
+      (HS.countSecondPosisions + FOKS.countSecondPosisions)              AS countSecondPositions,
+      (HS.countThirdPositions + FOKS.countThirdPositions)                AS countThirdPositions,
+      (HS.countParticipations + FOKS.countParticipations)                AS countParticipations,
+      ROUND(CONVERT(FLOAT, (HS.countFirstPositions + FOKS.countFirstPositions))
+            / (HS.countParticipations + FOKS.countParticipations), 5, 2) AS successRatio,
+      (HS.totalWinnings + FOKS.totalWinnings)                            AS totalWinnings
+    INTO #FATHERS
+    FROM #HORSES_STATS HS, #FATHER_ONLY_KID_STATS FOKS
+    WHERE HS.id = FOKS.father_id
+    GROUP BY HS.id, HS.name, FOKS.father_id,
+      HS.countFirstPositions, FOKS.countFirstPositions,
+      HS.countSecondPosisions, FOKS.countSecondPosisions,
+      HS.countThirdPositions, FOKS.countThirdPositions,
+      HS.countParticipations, FOKS.countParticipations,
+      HS.totalWinnings, FOKS.totalWinnings;
+
+    --for test
+--     SELECT *
+--     FROM #FATHERS;
+
+    -- for test
+    DECLARE @inpYear INT;
+    SET @inpYear = 2010;
     -- SELECT all mothers with their corresponding sons and their statistics. This table is to be used to get the statistic for each mothers based only on their sons statistics.
     SELECT H.id AS sonId, H.mama_id AS momId,
            SUM(CASE WHEN P.end_pos = 1 THEN 1 ELSE 0 END) AS countFirstPositions,
@@ -32,10 +101,9 @@ AS
     GROUP BY H.id, H.mama_id
     ORDER BY totalWinnings DESC;
 
-    SELECT * FROM #MOTHERS_SONS;
-
     --Check wether an eggonos is counted twice. This result-set must be empty.
-    SELECT COUNT(*) FROM #MOTHERS_SONS MS, #FATHERS_SONS FS WHERE MS.sonId=FS.sonId;
+    --     SELECT * FROM #MOTHERS_SONS;
+    --     SELECT COUNT(*) FROM #MOTHERS_SONS MS, #FATHERS_SONS FS WHERE MS.sonId=FS.sonId;
 
     SELECT FS.dadId AS father_id, H.dad_id AS grandpa_id,
            SUM(FS.countFirstPositions) AS countFirstPositions,
@@ -44,7 +112,7 @@ AS
            SUM(FS.totalWinnings) AS totalWinnings INTO #GRANPAS_FATHERS
     FROM #FATHERS_SONS FS, HORSE H
     WHERE H.id = FS.dadId AND H.dad_id IS NOT NULL
-    GROUP BY FS.dadId, H.dad_id
+    GROUP BY FS.dadId, H.dad_id;
 
     SELECT * FROM #GRANPAS_FATHERS;
 
@@ -79,7 +147,6 @@ AS
     ORDER BY totalWinnings DESC
 
     SELECT * FROM #GRANDPAS ORDER BY totalWinnings DESC;
-
 
     DROP TABLE #GRANDPAS;
     DROP TABLE #MOTHERS_SONS;
