@@ -9,6 +9,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
@@ -55,18 +56,6 @@ public class ViewR1FieldType {
 		loadRecords();
    }
 	 
-	 private void updateRecord() throws SQLException {
-
-        
-        String sql_stmt = "UPDATE [dbo].[FIELD_TYPE] SET [type] = '" + textField.getText() + "'";
-	        
-			CurrentUserData.executeSetUserId();
-
-	        DBUtilities dbUtilities = new DBUtilities();
-	        dbUtilities.ExecuteSQLStatement(sql_stmt);
-	        
-	        loadRecords();
-    }
  
 	 private void loadRecords() throws SQLException  {
 			
@@ -84,57 +73,8 @@ public class ViewR1FieldType {
 	       
 	                    textField.setText(type.toString());    	
 	                	
-	                    
-//						try {
-//							checkBoxIsPurebred.setSelected(Boolean.parseBoolean(is_purebred.toString()));
-//						} catch ( NullPointerException e) {
-//							checkBoxIsPurebred.setSelected(false);
-//						}
-//						try {
-//							comboBoxColor.setSelectedItem(color_name.toString());
-//						} catch ( NullPointerException e) {
-//							comboBoxColor.setSelectedItem(null);
-//						}
-//						try {
-//							comboBoxTrainer.setSelectedItem(trainer_id.toString());
-//						} catch ( NullPointerException e) {
-//							comboBoxTrainer.setSelectedItem(null);
-//						}
-//						try {
-//							comboBoxOwner.setSelectedItem(owner_id.toString());						
-//						} catch ( NullPointerException e) {
-//							comboBoxOwner.setSelectedItem(null);
-//						}
-//						try {
-//							comboBoxBreeder.setSelectedItem(breeder_id.toString());
-//						} catch ( NullPointerException e) {
-//							comboBoxBreeder.setSelectedItem(null);
-//						}
-//						try {						
-//							comboBoxDad.setSelectedItem(dad_id.toString());
-//						} catch ( NullPointerException e) {
-//							comboBoxDad.setSelectedItem(null);
-//						}
-//						try {
-//							comboBoxMom.setSelectedItem(mama_id.toString());						
-//						} catch ( NullPointerException e) {
-//							comboBoxMom.setSelectedItem(null);
-//						}
-//						try {
-//							textFieldOriginCountry.setText(origin_country.toString());
-//						} catch ( NullPointerException e) {
-//							textFieldOriginCountry.setText(null);
-//						}
-//						try {
-//							textFieldRecord.setText(record.toString());
-//						} catch (NullPointerException e) {
-//							textFieldRecord.setText(null);	
-//						} 
-//						try {
-//							comboBoxJockey.setSelectedItem(jockey_id.toString());						
-//						} catch ( NullPointerException e) {
-//							comboBoxJockey.setSelectedItem(null);
-//						}
+	               
+
 	                }
 	            } catch (Exception ex) {
 	            	ex.printStackTrace();
@@ -147,7 +87,11 @@ public class ViewR1FieldType {
 	        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	    }
 		    
-
+	  private void deleteRecord() throws SQLException {
+	        String sql_stmt = "DELETE FROM [dbo].[FIELD_TYPE] WHERE [type] = '" + textField.getText() + "'";
+	        DBUtilities dbUtilities = new DBUtilities();
+	        dbUtilities.ExecuteSQLStatement(sql_stmt);
+	    }
 	 
 
 	/**
@@ -226,19 +170,25 @@ public class ViewR1FieldType {
 		btnAddNew.setBounds(10, 91, 89, 31);
 		panel.add(btnAddNew);
 		
-		JButton btnUpdate = new JButton("UPDATE");
-		btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					updateRecord();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+		JButton btnDelete = new JButton("DELETE");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this record?", "Confirm Delete Record?", JOptionPane.YES_NO_OPTION);
+
+		        if (dialogResult == JOptionPane.YES_OPTION) {
+		            try {
+		                deleteRecord();
+
+		                loadRecords();
+		            } catch (SQLException ex) {
+		                System.out.println(ex.getMessage());
+		            }
+		        }
+				
 			}
 		});
-		btnUpdate.setBounds(106, 91, 89, 31);
-		panel.add(btnUpdate);
+		btnDelete.setBounds(113, 91, 89, 31);
+		panel.add(btnDelete);
 		
 		JButton btnNewButton = new JButton("BACK");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -258,7 +208,4 @@ public class ViewR1FieldType {
 			e1.printStackTrace();
 		}
 	}
-
-	
-
 }
