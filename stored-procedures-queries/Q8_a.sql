@@ -35,7 +35,7 @@ AS
 		UNION
 		SELECT H.id, H.name, 0 AS countFirstPositions, 0 countSecondPositions, 0 countThirdPositions, 0 AS countParticipations, 0 AS successRatio, 0 AS totalWinnings
 		FROM HORSE H WHERE H.id NOT IN ( SELECT T2.id FROM #TEMP T2)
-		ORDER BY successRatio DESC;
+		ORDER BY totalWinnings DESC;
 
 --     SELECT COUNT(*) FROM
 --       (SELECT T.id, T.name, T.countFirstPositions, T.countSecondPositions, T.countThirdPositions, T.countParticipations, T.successRatio, T.totalWinnings

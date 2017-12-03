@@ -103,6 +103,6 @@ DEALLOCATE HorseCursor2;
 
 END
 
-Go
+--Go
 
-EXECUTE Query9_a_allHorses;
+--EXECUTE Query9_a_allHorses;

@@ -2,7 +2,7 @@ IF OBJECT_ID (N'Query9_d_oneOwnerFam', N'P')IS NOT NULL
     DROP PROCEDURE Query9_d_oneOwnerFam;  
 
 GO
-CREATE PROCEDURE Query9_d_oneOwnerFam  
+CREATE PROCEDURE Query9_d_oneOwnerFam -- @ownerFam nvarchar(25)
 
 
 
@@ -35,16 +35,17 @@ Declare @c float;
 Declare @race_timet time;
 Declare @owner_fam nvarchar (25);
 Declare @namet varchar(25);
-
+Declare @ownerFam nvarchar(25);
+set @ownerFam = 'Rowe Family';
 SET NOCOUNT ON
 
 
-/*GET ALL owners OF  ALL RACES*/
+/*GET ALL owner  fams OF  ALL RACES*/
 INSERT INTO @horset
 	SELECT  P.horse_id,O.onwer_family,P.meeting_date,P.race_time,R.distance,P.end_pos, H.name
 	FROM	[PARTICIPATION]  P, [RACE] R,[HORSE] H,[OWNER] O
-	WHERE	(P.meeting_date = R.meeting_date AND  P.race_time = R.race_time) AND P.horse_id = H.id AND h.owner_id = O.id
-	ORDER BY h.owner_id ASC , P.meeting_date ASC ,P.race_time ASC ,H.name ASC
+	WHERE	(P.meeting_date = R.meeting_date AND  P.race_time = R.race_time) AND P.horse_id = H.id AND  h.owner_id = O.id AND @ownerFam= O.onwer_family
+	ORDER BY  P.meeting_date ASC ,P.race_time ASC ,H.name ASC
 
 	
 
@@ -115,4 +116,4 @@ Go
 
 
 
-execute  Query9_c_oneOwner;
+execute  Query9_d_oneOwnerFam;

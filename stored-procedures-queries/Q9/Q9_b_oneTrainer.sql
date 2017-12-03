@@ -2,7 +2,7 @@ IF OBJECT_ID (N'Query9_b_oneTrainer', N'P')IS NOT NULL
     DROP PROCEDURE Query9_b_oneTrainer;  
 
 GO
-CREATE PROCEDURE Query9_b_oneTrainer  --@horseid int
+CREATE PROCEDURE Query9_b_oneTrainer  @horseid int
 
 
 AS 
@@ -112,6 +112,6 @@ DEALLOCATE HorseCursor2;
 END
 
 
-go
+--go
 
-EXECUTE Query9_b_oneTrainer;  
+--EXECUTE Query9_b_oneTrainer;  

@@ -1,7 +1,7 @@
 IF OBJECT_ID (N'Query9_b_Date', N'P')IS NOT NULL  
     DROP PROCEDURE Query9_b_Date;  
 GO
-CREATE PROCEDURE Query9_b_Date-- @meeting_date_of_current_race date, @time_of_current_race time
+CREATE PROCEDURE Query9_b_Date  @meeting_date_of_current_race date, @time_of_current_race time
 
 AS 
 BEGIN
@@ -14,15 +14,15 @@ BEGIN
  DECLARE @eighthorse table(horse int);
 DECLARE @horset table(horse_id int,trainer_id int, meeting_date date,race_time time,distance int,end_pos int,name varchar(20),pos1 int,pos2 int,pos3 int);
 DECLARE @horset2 table(horse_id int,trainer_id int, meeting_date date,race_time time,distance int,end_pos int,name varchar(20), pos1 int,pos2 int,pos3 int,all_pos int,perc money);
-  DECLARE @meeting_date_of_current_race date;
-  DECLARE @time_of_current_race time;
+ -- DECLARE @meeting_date_of_current_race date;
+--  DECLARE @time_of_current_race time;
   Declare @race_time time;
  DECLARE @HorseCursor CURSOR;
  DECLARE @TrainerIt int;
  DECLARE @allpositions int;
 
- set @meeting_date_of_current_race ='2010-01-29'
-set  @time_of_current_race = '12:00:00'
+-- set @meeting_date_of_current_race ='2010-01-29'
+--set  @time_of_current_race = '12:00:00'
 SET NOCOUNT ON
 
 
@@ -161,7 +161,6 @@ DEALLOCATE HorseCursor2;
 
 END
 
-go
 
-EXECUTE Query9_b_Date;  
+--EXECUTE Query9_b_Date;  
 

@@ -45,12 +45,12 @@ public class ViewR1UserLogin {
 	private void initialize() {
 		frmSystemUserSign = new JFrame();
 		frmSystemUserSign.setTitle("System User Sign Up / Log In");
-		frmSystemUserSign.setBounds(100, 100, 469, 434);
+		frmSystemUserSign.setBounds(100, 100, 388, 334);
 		frmSystemUserSign.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSystemUserSign.getContentPane().setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 11, 447, 385);
+		tabbedPane.setBounds(10, 11, 349, 274);
 		frmSystemUserSign.getContentPane().add(tabbedPane);
 		
 		JPanel logInPanel = new JPanel();

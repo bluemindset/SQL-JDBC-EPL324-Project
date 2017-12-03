@@ -110,6 +110,6 @@ DEALLOCATE HorseCursor2;
 
 END
 
-Go
+--Go
 
-EXECUTE Query9_b_allTrainers;
+--EXECUTE Query9_b_allTrainers;

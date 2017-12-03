@@ -95,12 +95,15 @@ AS
     SELECT *
     FROM #FATHERS;
 
+    --get all individual horse stats.
     DROP TABLE #HORSES_STATS;
-    DROP TABLE #FATHER_ONLY_KID_STATS;
+    --get a table with each horse and its father.
     DROP TABLE #FATHERS_SONS;
+    --from the previous table group by father and add each kids stats to the father.
+    DROP TABLE #FATHER_ONLY_KID_STATS;
+    --add each father individual stats to his score.
     DROP TABLE #FATHERS;
   END;
 GO
-
 --EXEC query8_c  2010;
--- GO
+GO
