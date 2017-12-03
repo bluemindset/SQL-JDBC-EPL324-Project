@@ -24,7 +24,7 @@ public class DBUtilities {
     public void ExecuteSQLStatement(String sql_stmt) {
         try {
             statement = connection.createStatement();
-
+            CurrentUserData.executeSetUserId();
             statement.executeUpdate(sql_stmt);
         } catch (SQLException ex) {
             ex.printStackTrace();
