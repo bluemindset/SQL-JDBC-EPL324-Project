@@ -113,13 +113,13 @@ public class ViewQ9ProgressReports extends JDialog {
     }
 	
 	
-	private void loadRecords_c(String date, String time) throws SQLException  {
+	private void loadRecords_a_date(String date, String time) throws SQLException  {
 
         if(date == null || time == null){
     		initialLoadRecords();
     	}
         else{
-        	String cstmtString = "{call Query9_c_oneHorse(?,?)}";
+        	String cstmtString = "{call Query9_a_Date(?,?)}";
             ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, date, time);
             table.setModel(tableModel);
             DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
@@ -140,14 +140,14 @@ public class ViewQ9ProgressReports extends JDialog {
 	 */
 	public ViewQ9ProgressReports() {
 		setTitle("Progress Reports");
-		setBounds(100, 100, 519, 602);
+		setBounds(100, 100, 519, 548);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 11, 482, 509);
+		tabbedPane.setBounds(10, 11, 482, 467);
 		contentPanel.add(tabbedPane);
 		
 		JPanel panel_Horses = new JPanel();
@@ -185,7 +185,7 @@ public class ViewQ9ProgressReports extends JDialog {
 		panel_Horses.add(comboBox_horse);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 156, 457, 314);
+		scrollPane.setBounds(10, 109, 457, 314);
 		panel_Horses.add(scrollPane);
 		
 		table = new JTable();
@@ -196,12 +196,26 @@ public class ViewQ9ProgressReports extends JDialog {
 		panel_Horses.add(lblPleaseSelectA_3);
 		
 		JComboBox comboBox_date = new JComboBox();
+		comboBox_date.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String[] ss = comboBox_date.getSelectedItem().toString().split(" , "); 
+				String s1 = ss[0];
+				String s2 = ss[1];
+				try {
+					loadRecords_a_date(s1, s2);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		comboBox_date.insertItemAt("", 0);
 		try {
-		   	 String sql_stmt = "SELECT * FROM [dbo].[MEETING];";
+		   	 String sql_stmt = "SELECT [meeting_date],[race_time] FROM [dbo].[RACE];";
 		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt);
 		   	 for(int i=0; i< Combo.getRowCount(); i++){
-		   		 String s = (Combo.getValueAt(i, 0).toString());
+		   		 String s = (Combo.getValueAt(i, 0).toString()+" , "+ Combo.getValueAt(i, 1).toString());
 		   		comboBox_date.addItem(s);
 		   	 }
 		} catch (SQLException e1) {
@@ -210,45 +224,10 @@ public class ViewQ9ProgressReports extends JDialog {
 		}
 		comboBox_date.setBounds(228, 63, 239, 20);
 		panel_Horses.add(comboBox_date);
-		
-		JLabel lblPleaseSelectA_4 = new JLabel("Please select a race time:");
-		lblPleaseSelectA_4.setBounds(10, 91, 196, 14);
-		panel_Horses.add(lblPleaseSelectA_4);
-		
-		JComboBox comboBox_time = new JComboBox();
-		comboBox_time.insertItemAt("", 0);
-		try {
-		   	 String sql_stmt = "SELECT * FROM [dbo].[RACE];";
-		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt);
-		   	 for(int i=0; i< Combo.getRowCount(); i++){
-		   		 String s = (Combo.getValueAt(i, 0).toString());
-		   		comboBox_time.addItem(s);
-		   	 }
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		comboBox_time.setBounds(228, 88, 239, 20);
-		panel_Horses.add(comboBox_time);
-		
+
 		JLabel lblOr = new JLabel("OR");
 		lblOr.setBounds(68, 36, 46, 14);
 		panel_Horses.add(lblOr);
-		
-		JButton btnOk = new JButton("OK");
-		btnOk.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				try {
-					loadRecords_c(comboBox_date.getSelectedItem().toString(), comboBox_time.getSelectedItem().toString());
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}				
-			}
-		});
-		btnOk.setBounds(227, 122, 89, 23);
-		panel_Horses.add(btnOk);
 		
 		JPanel panel_Trainers = new JPanel();
 		tabbedPane.addTab("TRAINERS", null, panel_Trainers, null);
