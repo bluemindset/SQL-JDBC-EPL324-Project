@@ -221,7 +221,6 @@ public class ViewR1UserEditTables {
         sql_stmt += ",[owner_id] = '" + owner + "'";
         sql_stmt += " WHERE id = '" + textFieldID.getText() + "'";
 
-		CurrentUserData.executeSetUserId();
 
         DBUtilities dbUtilities = new DBUtilities();
         dbUtilities.ExecuteSQLStatement(sql_stmt);
