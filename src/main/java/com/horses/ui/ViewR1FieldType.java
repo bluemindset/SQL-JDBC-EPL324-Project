@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -14,6 +15,9 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class ViewR1FieldType {
@@ -38,19 +42,113 @@ public class ViewR1FieldType {
 		this.frmFieldType = frmFieldType;
 	}
 	
-	private void loadRecords() throws SQLException  {
-		
-	    String sql_stmt = "SELECT * FROM [dbo].[FIELD_TYPE];";
+	
+	
+	 private void addNew() throws SQLException {
+	    	
+       String sql_stmt = "INSERT INTO [dbo].[FIELD_TYPE] ([type])";
+       sql_stmt += " VALUES ('" +  	textField.getText() + "')";
+       
+		CurrentUserData.executeSetUserId();
+       DBUtilities dbUtilities = new DBUtilities();
+       dbUtilities.ExecuteSQLStatement(sql_stmt);
+		loadRecords();
+   }
+	 
+	 private void updateRecord() throws SQLException {
 
-	    ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
-	    table.setModel(tableModel);
-	    //////////////////////////////
-	    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-	    rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
-	    table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
-	    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        
+        String sql_stmt = "UPDATE [dbo].[FIELD_TYPE] SET [type] = '" + textField.getText() + "'";
+	        
+			CurrentUserData.executeSetUserId();
 
-		}
+	        DBUtilities dbUtilities = new DBUtilities();
+	        dbUtilities.ExecuteSQLStatement(sql_stmt);
+	        
+	        loadRecords();
+    }
+ 
+	 private void loadRecords() throws SQLException  {
+			
+		    String sql_stmt = "SELECT * FROM [dbo].[FIELD_TYPE];";
+
+		    ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
+		    table.setModel(tableModel);
+		    //////////////////////////////
+		    table.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+	            try {
+	                if (table.getSelectedRow() >= 0) {
+	                
+	                        	
+	                    Object type = table.getValueAt(table.getSelectedRow(), 0);
+	       
+	                    textField.setText(type.toString());    	
+	                	
+	                    
+//						try {
+//							checkBoxIsPurebred.setSelected(Boolean.parseBoolean(is_purebred.toString()));
+//						} catch ( NullPointerException e) {
+//							checkBoxIsPurebred.setSelected(false);
+//						}
+//						try {
+//							comboBoxColor.setSelectedItem(color_name.toString());
+//						} catch ( NullPointerException e) {
+//							comboBoxColor.setSelectedItem(null);
+//						}
+//						try {
+//							comboBoxTrainer.setSelectedItem(trainer_id.toString());
+//						} catch ( NullPointerException e) {
+//							comboBoxTrainer.setSelectedItem(null);
+//						}
+//						try {
+//							comboBoxOwner.setSelectedItem(owner_id.toString());						
+//						} catch ( NullPointerException e) {
+//							comboBoxOwner.setSelectedItem(null);
+//						}
+//						try {
+//							comboBoxBreeder.setSelectedItem(breeder_id.toString());
+//						} catch ( NullPointerException e) {
+//							comboBoxBreeder.setSelectedItem(null);
+//						}
+//						try {						
+//							comboBoxDad.setSelectedItem(dad_id.toString());
+//						} catch ( NullPointerException e) {
+//							comboBoxDad.setSelectedItem(null);
+//						}
+//						try {
+//							comboBoxMom.setSelectedItem(mama_id.toString());						
+//						} catch ( NullPointerException e) {
+//							comboBoxMom.setSelectedItem(null);
+//						}
+//						try {
+//							textFieldOriginCountry.setText(origin_country.toString());
+//						} catch ( NullPointerException e) {
+//							textFieldOriginCountry.setText(null);
+//						}
+//						try {
+//							textFieldRecord.setText(record.toString());
+//						} catch (NullPointerException e) {
+//							textFieldRecord.setText(null);	
+//						} 
+//						try {
+//							comboBoxJockey.setSelectedItem(jockey_id.toString());						
+//						} catch ( NullPointerException e) {
+//							comboBoxJockey.setSelectedItem(null);
+//						}
+	                }
+	            } catch (Exception ex) {
+	            	ex.printStackTrace();
+	                System.out.println(ex.getMessage());
+	            }
+	        });
+	        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+	        rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+	        table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+	        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+	    }
+		    
+
+	 
 
 	/**
 	 * Launch the application.
@@ -112,8 +210,18 @@ public class ViewR1FieldType {
 		JButton btnAddNew = new JButton("ADD NEW");
 		btnAddNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//???????????????????????????
+				
+				addRecord = true;
+				try {
+					addNew();
+				} catch (SQLException e1) {
+					
+					e1.printStackTrace();
+				}
+				clearInputBoxesHorses();
+				textField.requestFocus();
 			}
+			
 		});
 		btnAddNew.setBounds(10, 91, 89, 31);
 		panel.add(btnAddNew);
@@ -121,7 +229,12 @@ public class ViewR1FieldType {
 		JButton btnUpdate = new JButton("UPDATE");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//????????????????????????????????????
+				try {
+					updateRecord();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnUpdate.setBounds(106, 91, 89, 31);
@@ -137,9 +250,7 @@ public class ViewR1FieldType {
 		});
 		btnNewButton.setBounds(297, 399, 89, 34);
 		getFrmFieldType().getContentPane().add(btnNewButton);
-		
-		
-		
+			
 		try {
 			loadRecords();
 		} catch (SQLException e1) {
