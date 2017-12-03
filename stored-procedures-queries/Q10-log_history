@@ -1,0 +1,13 @@
+IF OBJECT_ID ( 'log_history_proc', 'P' ) IS NOT NULL
+  DROP PROCEDURE log_history_proc
+GO
+CREATE PROCEDURE log_history_proc
+AS
+  BEGIN
+      SELECT * FROM LOG_HISTORY LH GROUP BY LH.table_name, LH.action, LH.tmstmp, LH.id, LH.user_id
+  END
+
+  SELECT * FROM LOG_HISTORY WHERE user_id = 'asdsaasd' ;
+
+
+SELECT * FROM FAMILY
