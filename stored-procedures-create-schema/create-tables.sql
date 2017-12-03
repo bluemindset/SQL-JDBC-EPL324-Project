@@ -192,8 +192,8 @@ CREATE TABLE [dbo].[OWNER](
 	[compressed_name] AS cast(SUBSTRING([first_name],1,1)+'.'+[last_name] AS [nvarchar](15)),
 	[uniform][nvarchar](50)  NULL,
 	[title][nvarchar](5)  NULL,
+
 	--number of horses? posa aloga exei o kathe idioktitis?
-	--title  do we need this shit???????????????????????????????
 	--FOREIGN KEY--
 	[onwer_family][nvarchar](35)  NULL,
 	--USER-CHANGES--
