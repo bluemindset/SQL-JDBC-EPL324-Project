@@ -26,6 +26,7 @@ public class ViewR1SystemUser {
 	private JTextField textFieldPassword;
 	private JTextField textFieldFirstName;
 	private JTextField textFieldLastName;
+	private JComboBox comboBoxUserRole;
 
 	boolean addRecord = false;
 	
@@ -35,7 +36,9 @@ public class ViewR1SystemUser {
 		textFieldUsername.setText("");
 		textFieldPassword.setText("");
 		textFieldFirstName.setText("");
-		textFieldLastName.setText("");			
+		textFieldLastName.setText("");	
+		comboBoxUserRole.setSelectedItem("");
+
 	  }
 	
 	public JFrame getFrmSystemUser() {
@@ -160,7 +163,10 @@ public class ViewR1SystemUser {
 		lblRole.setBounds(259, 146, 46, 14);
 		panel.add(lblRole);
 		
-		JComboBox comboBoxUserRole = new JComboBox();
+		comboBoxUserRole = new JComboBox();
+		comboBoxUserRole.insertItemAt("", 0);
+		comboBoxUserRole.addItem("SA");
+		comboBoxUserRole.addItem("R1");
 		comboBoxUserRole.setBounds(362, 143, 86, 20);
 		panel.add(comboBoxUserRole);
 		
