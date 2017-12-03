@@ -50,7 +50,7 @@ public class ViewR1Trainer {
 	private void initialize() {
 		frmTrainer = new JFrame();
 		frmTrainer.setTitle("TRAINER");
-		frmTrainer.setBounds(100, 100, 465, 424);
+		frmTrainer.setBounds(100, 100, 465, 460);
 		frmTrainer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmTrainer.getContentPane().setLayout(null);
 		
@@ -66,7 +66,7 @@ public class ViewR1Trainer {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Trainer Record  Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(20, 177, 419, 135);
+		panel.setBounds(20, 177, 419, 195);
 		frmTrainer.getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -97,6 +97,24 @@ public class ViewR1Trainer {
 		panel.add(textFieldLastName);
 		textFieldLastName.setColumns(10);
 		
+		JButton btnUpdate = new JButton("UPDATE");
+		btnUpdate.setBounds(117, 150, 101, 33);
+		panel.add(btnUpdate);
+		
+		JButton btnAddNew = new JButton("ADD NEW");
+		btnAddNew.setBounds(10, 150, 95, 33);
+		panel.add(btnAddNew);
+		btnAddNew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//???????????????????????????????????????
+			}
+		});
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//?????????????????????????????
+			}
+		});
+		
 		JButton btnBack = new JButton("BACK");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -105,26 +123,8 @@ public class ViewR1Trainer {
 				window.frmPleaseChooseA.setVisible(true);
 			}
 		});
-		btnBack.setBounds(344, 343, 95, 32);
+		btnBack.setBounds(344, 383, 95, 32);
 		frmTrainer.getContentPane().add(btnBack);
-		
-		JButton btnAddNew = new JButton("ADD NEW");
-		btnAddNew.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//???????????????????????????????????????
-			}
-		});
-		btnAddNew.setBounds(10, 339, 95, 32);
-		frmTrainer.getContentPane().add(btnAddNew);
-		
-		JButton btnUpdate = new JButton("UPDATE");
-		btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//?????????????????????????????
-			}
-		});
-		btnUpdate.setBounds(115, 339, 101, 32);
-		frmTrainer.getContentPane().add(btnUpdate);
 	}
 
 }

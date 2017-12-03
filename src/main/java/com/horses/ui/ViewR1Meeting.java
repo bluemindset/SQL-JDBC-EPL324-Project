@@ -17,7 +17,7 @@ import javax.swing.JScrollPane;
 
 public class ViewR1Meeting {
 
-	private JFrame frame;
+	private JFrame frmMeeting;
 	private JTable table;
 	private JTextField textFieldDate;
 	private JButton btnNewButton;
@@ -34,7 +34,7 @@ public class ViewR1Meeting {
 			public void run() {
 				try {
 					ViewR1Meeting window = new ViewR1Meeting();
-					window.frame.setVisible(true);
+					window.frmMeeting.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -53,14 +53,15 @@ public class ViewR1Meeting {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 482, 441);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmMeeting = new JFrame();
+		frmMeeting.setTitle("MEETING");
+		frmMeeting.setBounds(100, 100, 482, 458);
+		frmMeeting.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmMeeting.getContentPane().setLayout(null);
 		
 		scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(10, 11, 446, 223);
-		frame.getContentPane().add(scrollPane_1);
+		frmMeeting.getContentPane().add(scrollPane_1);
 		
 		scrollPane = new JScrollPane();
 		scrollPane_1.setViewportView(scrollPane);
@@ -71,8 +72,8 @@ public class ViewR1Meeting {
 		JPanel panel = new JPanel();
 		panel.setToolTipText("");
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Meeting Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(10, 245, 436, 95);
-		frame.getContentPane().add(panel);
+		panel.setBounds(10, 245, 436, 116);
+		frmMeeting.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblDate = new JLabel("Date: ");
@@ -84,21 +85,21 @@ public class ViewR1Meeting {
 		panel.add(textFieldDate);
 		textFieldDate.setColumns(10);
 		
-		btnNewButton = new JButton("ADD NEW");
-		btnNewButton.setBounds(20, 351, 99, 37);
-		frame.getContentPane().add(btnNewButton);
-		
 		btnNewButton_1 = new JButton("UPDATE");
+		btnNewButton_1.setBounds(119, 68, 101, 37);
+		panel.add(btnNewButton_1);
+		
+		btnNewButton = new JButton("ADD NEW");
+		btnNewButton.setBounds(10, 68, 99, 37);
+		panel.add(btnNewButton);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_1.setBounds(141, 351, 101, 37);
-		frame.getContentPane().add(btnNewButton_1);
 		
 		btnBack = new JButton("BACK");
-		btnBack.setBounds(360, 351, 96, 37);
-		frame.getContentPane().add(btnBack);
+		btnBack.setBounds(360, 372, 96, 37);
+		frmMeeting.getContentPane().add(btnBack);
 	}
 
 }
