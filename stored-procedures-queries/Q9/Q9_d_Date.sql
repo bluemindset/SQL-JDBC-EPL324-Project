@@ -105,7 +105,7 @@ Declare @namet varchar(25);
 
 
 		Declare HorseCursor2  CURSOR FOR
-    select * from @horset h
+    select DISTINCT *  from @horset h
 	ORDER BY h.owner_fam ASC , h.meeting_date ASC ,h.race_time ASC
 
 

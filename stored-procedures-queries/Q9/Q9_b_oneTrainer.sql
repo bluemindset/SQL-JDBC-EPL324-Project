@@ -2,7 +2,7 @@ IF OBJECT_ID (N'Query9_b_oneTrainer', N'P')IS NOT NULL
     DROP PROCEDURE Query9_b_oneTrainer;  
 
 GO
-CREATE PROCEDURE Query9_b_oneTrainer  @horseid int
+CREATE PROCEDURE Query9_b_oneTrainer  @trainer_id int
 
 
 AS 
@@ -10,8 +10,8 @@ BEGIN
 
 	SET NOCOUNT ON
 
-DECLARE @trainer_id int;
-set @trainer_id = 114366;
+
+	
 DECLARE @horsett table(horse_id int, meeting_date date,distance int,end_pos int);
 DECLARE @horset table(horse_id int,trainer_id int, meeting_date date,race_time time,distance int,end_pos int,name varchar(20));
 DECLARE @horset2 table(horse_id int,trainer_id int, meeting_date date,race_time time,distance int,name varchar(20),end_pos int, pos1 int,pos2 int,pos3 int,all_pos int,perc money);
@@ -37,7 +37,9 @@ Declare @trainer_idt int;
 Declare @namet varchar(25);
 
 SET NOCOUNT ON
-
+Set  @meeting_date = '8-1-2010';
+	
+	Set  @race_time = '12:00:00';
 
 /*GET ALL Trainers OF  ALL RACES*/
 INSERT INTO @horset
@@ -63,12 +65,12 @@ INSERT INTO @horset
     FETCH NEXT FROM HorseCursor2 
     INTO @horse_idt,@trainer_idt,@meeting_datet,@race_timet ,@distancet,@end_post,@namet
 
-   SET @same_trainer = @trainer_idt;
- 
+   
+ SET @same_trainer = @trainer_idt;
     WHILE @@FETCH_STATUS = 0  
     BEGIN  
 	  
-		IF @same_trainer = @trainer_idt
+		IF @same_trainer = @trainer_idt &&  @horse_idt = @trainer_idt 
 			BEGIN
 			SET @c= @c+1
 			

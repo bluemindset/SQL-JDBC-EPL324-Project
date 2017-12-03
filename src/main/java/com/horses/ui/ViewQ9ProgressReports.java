@@ -353,14 +353,24 @@ public class ViewQ9ProgressReports extends JDialog {
 		JComboBox comboBox_date = new JComboBox();
 		comboBox_date.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String[] ss = comboBox_date.getSelectedItem().toString().split(" , "); 
-				String s1 = ss[0];
-				String s2 = ss[1];
-				try {
-					loadRecords_a_date(s1, s2);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(comboBox_date.getSelectedItem().toString() == ""){
+					try {
+						initialLoadRecords();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}	
+				}
+				else{
+					String[] ss = comboBox_date.getSelectedItem().toString().split(" , "); 
+					String s1 = ss[0];
+					String s2 = ss[1];
+					try {
+						loadRecords_a_date(s1, s2);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		});
@@ -454,14 +464,22 @@ public class ViewQ9ProgressReports extends JDialog {
 		JComboBox comboBox_trainer_date = new JComboBox();
 		comboBox_trainer_date.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String[] ss = comboBox_trainer_date.getSelectedItem().toString().split(" , "); 
-				String s1 = ss[0];
-				String s2 = ss[1];
-				try {
-					loadRecords_b_date(s1, s2);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(comboBox_trainer_date.getSelectedItem().toString() == ""){
+					try {
+						initialLoadRecords();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}	
+				}
+				else{
+					String[] ss = comboBox_trainer_date.getSelectedItem().toString().split(" , "); 
+					String s1 = ss[0];
+					String s2 = ss[1];
+					try {
+						loadRecords_b_date(s1, s2);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
@@ -542,14 +560,22 @@ public class ViewQ9ProgressReports extends JDialog {
 		JComboBox comboBox_owner_date = new JComboBox();
 		comboBox_owner_date.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String[] ss = comboBox_owner_date.getSelectedItem().toString().split(" , "); 
-				String s1 = ss[0];
-				String s2 = ss[1];
-				try {
-					loadRecords_c_date(s1, s2);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(comboBox_owner_date.getSelectedItem().toString() == ""){
+					try {
+						initialLoadRecords();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}	
+				}
+				else{
+					String[] ss = comboBox_owner_date.getSelectedItem().toString().split(" , "); 
+					String s1 = ss[0];
+					String s2 = ss[1];
+					try {
+						loadRecords_c_date(s1, s2);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
@@ -562,7 +588,6 @@ public class ViewQ9ProgressReports extends JDialog {
 		   		comboBox_owner_date.addItem(s);
 		   	 }
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		comboBox_owner_date.setBounds(225, 58, 242, 20);
@@ -624,14 +649,22 @@ public class ViewQ9ProgressReports extends JDialog {
 		JComboBox comboBox = new JComboBox();
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String[] ss = comboBox.getSelectedItem().toString().split(" , "); 
-				String s1 = ss[0];
-				String s2 = ss[1];
-				try {
-					loadRecords_d_date(s1, s2);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(comboBox.getSelectedItem().toString() == ""){
+					try {
+						initialLoadRecords();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}	
+				}
+				else{
+					String[] ss = comboBox.getSelectedItem().toString().split(" , "); 
+					String s1 = ss[0];
+					String s2 = ss[1];
+					try {
+						loadRecords_d_date(s1, s2);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});

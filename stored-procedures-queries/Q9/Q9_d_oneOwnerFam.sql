@@ -2,7 +2,7 @@ IF OBJECT_ID (N'Query9_d_oneOwnerFam', N'P')IS NOT NULL
     DROP PROCEDURE Query9_d_oneOwnerFam;  
 
 GO
-CREATE PROCEDURE Query9_d_oneOwnerFam -- @ownerFam nvarchar(25)
+CREATE PROCEDURE Query9_d_oneOwnerFam @ownerFam nvarchar(25)
 
 
 
@@ -35,8 +35,7 @@ Declare @c float;
 Declare @race_timet time;
 Declare @owner_fam nvarchar (25);
 Declare @namet varchar(25);
-Declare @ownerFam nvarchar(25);
-set @ownerFam = 'Rowe Family';
+
 SET NOCOUNT ON
 
 
@@ -116,4 +115,4 @@ Go
 
 
 
-execute  Query9_d_oneOwnerFam;
+--execute  Query9_d_oneOwnerFam;
