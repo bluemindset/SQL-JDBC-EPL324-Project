@@ -40,7 +40,7 @@ public class ViewSAUserGUI {
 	private void initialize() {
 		frmSystemAdminInterface = new JFrame();
 		frmSystemAdminInterface.setTitle("System Admin Interface");
-		frmSystemAdminInterface.setBounds(100, 100, 301, 229);
+		frmSystemAdminInterface.setBounds(100, 100, 304, 330);
 		frmSystemAdminInterface.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSystemAdminInterface.getContentPane().setLayout(null);
 		
@@ -64,11 +64,11 @@ public class ViewSAUserGUI {
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmSystemAdminInterface.dispose();
-				ViewSAUserLogin window = new ViewSAUserLogin();
-				window.frmSystemAdminLogin.setVisible(true);
+				ViewChooseUser window = new ViewChooseUser();
+				window.frmChooseAUser.setVisible(true);
 			}
 		});
-		btnBack.setBounds(184, 176, 89, 23);
+		btnBack.setBounds(184, 237, 89, 23);
 		frmSystemAdminInterface.getContentPane().add(btnBack);
 		
 		JButton btnAddNewUser = new JButton("ADD NEW USER");
@@ -81,6 +81,13 @@ public class ViewSAUserGUI {
 		});
 		btnAddNewUser.setBounds(12, 115, 261, 23);
 		frmSystemAdminInterface.getContentPane().add(btnAddNewUser);
+		
+		JButton btnBackup = new JButton("BACKUP");
+		btnBackup.setBounds(12, 149, 261, 23);
+		frmSystemAdminInterface.getContentPane().add(btnBackup);
+		
+		JButton btnRestore = new JButton("RESTORE");
+		btnRestore.setBounds(12, 183, 261, 23);
+		frmSystemAdminInterface.getContentPane().add(btnRestore);
 	}
-
 }

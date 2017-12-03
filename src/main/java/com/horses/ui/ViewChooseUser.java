@@ -74,15 +74,9 @@ public class ViewChooseUser {
 				}
 				else if(comboBox.getSelectedIndex() == 1){
 					frmChooseAUser.dispose();
-					ViewSAUserLogin window = new ViewSAUserLogin();
-					window.frmSystemAdminLogin.setVisible(true);
-//TODO
+					ViewSAUserGUI window = new ViewSAUserGUI();
+					window.frmSystemAdminInterface.setVisible(true);
 				}
-				//else{
-				//	JOptionPane.showMessageDialog(frmChooseAUser,
-				//		    "Error! Please select an option!");
-				//}
-				
 			}
 		});
 		btnNewButton.setBounds(26, 115, 89, 23);
