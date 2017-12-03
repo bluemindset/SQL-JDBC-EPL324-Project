@@ -50,7 +50,5 @@ AS
 
 		DROP TABLE #TEMP;
 	END;
-
-SELECT * FROM MEETING;
-
+GO;
 EXEC query8_b 2011;
