@@ -34,8 +34,6 @@ BEGIN
 --   SELECT COUNT(*) numOfParticipationsForHorse, P.horse_id FROM PARTICIPATION P, HORSE H WHERE H.id = P.horse_id GROUP BY P.horse_id;
 --   SELECT * FROM HORSE;
 --   SELECT * FROM PARTICIPATION;
-
-
 END;
-
---EXEC selectHorsesThatParticipatedInAllMeetings
+GO
+EXEC selectHorsesThatParticipatedInAllMeetings

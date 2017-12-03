@@ -7,7 +7,7 @@ CREATE PROCEDURE countHorsesGroupedByFamily
 AS
 	BEGIN
 		SELECT COUNT(*) AS countHorses, O.id, O.onwer_family AS family_name INTO #temp
-		FROM HORSE H, [OWNER] O, FAMILY F
+		FROM HORSE H, [OWNER] O
 		WHERE H.owner_id = O.id  AND O.onwer_family != '#N/A'
 		GROUP BY O.id, O.onwer_family;
 

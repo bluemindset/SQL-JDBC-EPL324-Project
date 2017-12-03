@@ -4,7 +4,7 @@ GO
 CREATE PROCEDURE selectTrainerWithNo1winnings
 AS 
 BEGIN
-select T.id,T.compressed_name
+select T.id, T.compressed_name
 FROM TRAINER T
 WHERE T.ID NOT IN (
 		SELECT distinct T.id
@@ -16,7 +16,7 @@ WHERE T.ID NOT IN (
 --   FROM TRAINER T, PARTICIPATION P
 --   WHERE T.id = P.trainer_id AND P.end_pos != '1';
 END;
-
+GO
 -- SELECT trainer_id
 -- FROM PARTICIPATION P, TRAINER T
 -- WHERE P.trainer_id= T.id AND P.end_pos ='1'
@@ -24,5 +24,5 @@ END;
 -- SELECT COUNT(*)
 -- FROM PARTICIPATION P
 -- WHERE P.end_pos ='1';
---exec selectTrainerWithNo1winnings;
+exec selectTrainerWithNo1winnings;
 

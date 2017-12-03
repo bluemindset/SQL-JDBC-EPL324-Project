@@ -19,6 +19,6 @@ BEGIN
   DROP TABLE #temp;
 
 END;
-
-EXEC selectHorsesGroupedByFamily;
-EXEC countHorsesGroupedByFamily;
+GO
+-- EXEC selectHorsesGroupedByFamily;
+-- EXEC countHorsesGroupedByFamily;

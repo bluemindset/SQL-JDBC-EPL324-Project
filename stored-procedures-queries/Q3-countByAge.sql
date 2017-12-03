@@ -19,6 +19,8 @@ BEGIN
 	FROM HORSE H
 	WHERE H.age BETWEEN @MIN_AGE AND @MAX_AGE
 	GROUP BY H.age
+	ORDER BY H.age;
 END;
--- EXEC countHorsesByAgeProc @minAge = 0, @maxAge =  20;
+GO
+EXEC countHorsesByAgeProc @minAge = 1, @maxAge =  0;
 

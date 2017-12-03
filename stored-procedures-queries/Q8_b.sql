@@ -5,6 +5,9 @@ CREATE PROCEDURE query8_b
 @year INT
 AS
 	BEGIN
+		--     for test
+		    DECLARE @year INT;
+		    SET @year = 2010;
 		SELECT
 			J.id AS jockeyId, J.first_name AS jockeyFirstName, J.last_name AS jockeyLastName, J.compressed_name,
 			SUM(CASE WHEN P.end_pos = 1 THEN 1 ELSE 0 END) AS countFirstPositions,
