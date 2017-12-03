@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 
 public class ViewR1GeneralTables {
 
-	private JFrame frmTables;
+	public JFrame frmTables;
 
 	/**
 	 * Launch the application.
@@ -200,6 +200,13 @@ public class ViewR1GeneralTables {
 		getFrmTables().getContentPane().add(btnMeeting);
 		
 		JButton btnBack = new JButton("BACK");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmTables.dispose();
+				ViewR1UserGUI window = new ViewR1UserGUI();
+				window.frmPleaseChooseA.setVisible(true);
+			}
+		});
 		btnBack.setBounds(220, 459, 89, 34);
 		getFrmTables().getContentPane().add(btnBack);
 	}
