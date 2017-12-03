@@ -40,7 +40,11 @@ public class ViewR1Participation {
 	boolean addRecord = false;
 	
 private void clearInputBoxesHorses() {
-		
+
+	comboBox_trainer.setSelectedItem("");
+	comboBox_meeting.setSelectedItem("");
+	comboBox_jockey.setSelectedItem("");
+	comboBox_horse.setSelectedItem("");
 	textFieldHorseWeight.setText("");	
 	textFieldHorseAge.setText("");	
 	textFieldStartPos.setText("");	
@@ -86,15 +90,16 @@ private void addNew() throws SQLException {
 	System.out.println(t2.getHours()+":"+t2.getMinutes()+":"+t2.getSeconds());
 	String finTime = t2.getHours()+":"+t2.getMinutes()+":"+t2.getSeconds();
 	
-	String sql_stmt = "INSERT INTO [dbo].[PARTICIPATION] ([race_time],[meeting_date],[horse_id],[jockey_id],[trainer_id],[cur_horse_weight],[cur_horse_age],[star_pos],[end_pos],[winnings])";
-    sql_stmt += " VALUES ('" + finTime+ comboBox_meeting.getSelectedItem().toString()   + "','" +
+	String sql_stmt = "INSERT INTO [dbo].[PARTICIPATION] ([race_time],[meeting_date],[horse_id],[jockey_id],[trainer_id],[cur_horse_weight],[cur_horse_age],[star_pos],[end_pos])";
+    sql_stmt += " VALUES ('" + finTime+  "','" +
+    		comboBox_meeting.getSelectedItem().toString()   + "','" +
     						comboBox_horse.getSelectedItem().toString() + "','"+	
     						comboBox_jockey.getSelectedItem().toString() + "','"+						
     						comboBox_trainer.getSelectedItem().toString()  + "','" + 
     						textFieldHorseWeight.getText() + "','" + 
     						textFieldHorseAge.getText() + "','" + 
     						textFieldStartPos.getText() + "','" + 
-    						textFieldEndPos.getText() + "','" + 	"')";
+    						textFieldEndPos.getText() +	"')";
 
 		CurrentUserData.executeSetUserId();
        DBUtilities dbUtilities = new DBUtilities();
@@ -142,7 +147,7 @@ private void updateRecord() throws SQLException {
     sql_stmt += ",[star_pos] = '" + textFieldStartPos.getText() + "'";
     sql_stmt += ",[end_pos] = '" + textFieldEndPos.getText() + "'";
     
-    sql_stmt += " WHERE id = '" + finTime + "' AND meeting_date = '"+comboBox_meeting.getSelectedItem().toString()+"'";
+    sql_stmt += " WHERE race_time = '" + finTime + "' AND meeting_date = '"+comboBox_meeting.getSelectedItem().toString()+"'";
 
 
     DBUtilities dbUtilities = new DBUtilities();
@@ -163,8 +168,6 @@ private void loadRecords() throws SQLException  {
         try {
             if (table.getSelectedRow() >= 0) {
             	
-
-            	
                 Object time = table.getValueAt(table.getSelectedRow(), 0);
                 Object meetingdate = table.getValueAt(table.getSelectedRow(), 1);
                 Object horse_id = table.getValueAt(table.getSelectedRow(), 2);
@@ -176,10 +179,7 @@ private void loadRecords() throws SQLException  {
                 Object end_pos = table.getValueAt(table.getSelectedRow(), 8);
                 Object winnings = table.getValueAt(table.getSelectedRow(), 9);
                 
-                
-               
-                
-               
+              
                 comboBox_meeting.setSelectedItem(meetingdate.toString());
                 comboBox_horse.setSelectedItem(horse_id.toString());
                 comboBox_jockey.setSelectedItem(jockey_id.toString());
@@ -192,73 +192,12 @@ private void loadRecords() throws SQLException  {
                 
                 SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
                 //SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
-                Date date = format1.parse(meet_date.toString());
+                Date date = format1.parse(meetingdate.toString());
                 String finDate = format1.format(date).toString();
                 
                 SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
                 Date time2 = formatTime.parse(time.toString());
-                
-//                spinnerTime.setValue(time2);
-//            	textFieldPrize1.setText(prize1.toString());    	
-//            	textFieldPrize2.setText(prize2.toString());
-//            	textFieldPrize3.setText(prize3.toString());
-//            	textFieldTotalWinnings.setText(totalwins.toString());
-//            	
-//            	comboBoxDistance.setSelectedItem(distance.toString());
-//            	comboBoxRaceType.setSelectedItem(race_type.toString());
-//            	comboBoxFieldType.setSelectedItem(field_type.toString());
-//            	comboBoxMeeting.setSelectedItem(finDate);
-                
-//				try {
-//					checkBoxIsPurebred.setSelected(Boolean.parseBoolean(is_purebred.toString()));
-//				} catch ( NullPointerException e) {
-//					checkBoxIsPurebred.setSelected(false);
-//				}
-//				try {
-//					comboBoxColor.setSelectedItem(color_name.toString());
-//				} catch ( NullPointerException e) {
-//					comboBoxColor.setSelectedItem(null);
-//				}
-//				try {
-//					comboBoxTrainer.setSelectedItem(trainer_id.toString());
-//				} catch ( NullPointerException e) {
-//					comboBoxTrainer.setSelectedItem(null);
-//				}
-//				try {
-//					comboBoxOwner.setSelectedItem(owner_id.toString());						
-//				} catch ( NullPointerException e) {
-//					comboBoxOwner.setSelectedItem(null);
-//				}
-//				try {
-//					comboBoxBreeder.setSelectedItem(breeder_id.toString());
-//				} catch ( NullPointerException e) {
-//					comboBoxBreeder.setSelectedItem(null);
-//				}
-//				try {						
-//					comboBoxDad.setSelectedItem(dad_id.toString());
-//				} catch ( NullPointerException e) {
-//					comboBoxDad.setSelectedItem(null);
-//				}
-//				try {
-//					comboBoxMom.setSelectedItem(mama_id.toString());						
-//				} catch ( NullPointerException e) {
-//					comboBoxMom.setSelectedItem(null);
-//				}
-//				try {
-//					textFieldOriginCountry.setText(origin_country.toString());
-//				} catch ( NullPointerException e) {
-//					textFieldOriginCountry.setText(null);
-//				}
-//				try {
-//					textFieldRecord.setText(record.toString());
-//				} catch (NullPointerException e) {
-//					textFieldRecord.setText(null);	
-//				} 
-//				try {
-//					comboBoxJockey.setSelectedItem(jockey_id.toString());						
-//				} catch ( NullPointerException e) {
-//					comboBoxJockey.setSelectedItem(null);
-//				}
+
             }
         } catch (Exception ex) {
         	ex.printStackTrace();
@@ -274,7 +213,6 @@ private void loadRecords() throws SQLException  {
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 }
-	
 	
 
 	/**
@@ -500,11 +438,11 @@ private void loadRecords() throws SQLException  {
 		});
 		btnBack.setBounds(426, 610, 89, 29);
 		getFrmParticipation().getContentPane().add(btnBack);
-//		try {
-//			loadRecords();
-//		} catch (SQLException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
+		try {
+			loadRecords();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 }
