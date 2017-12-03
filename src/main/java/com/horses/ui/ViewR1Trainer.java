@@ -29,7 +29,7 @@ public class ViewR1Trainer {
 			public void run() {
 				try {
 					ViewR1Trainer window = new ViewR1Trainer();
-					window.frmTrainer.setVisible(true);
+					window.getFrmTrainer().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -48,15 +48,15 @@ public class ViewR1Trainer {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmTrainer = new JFrame();
-		frmTrainer.setTitle("TRAINER");
-		frmTrainer.setBounds(100, 100, 465, 460);
-		frmTrainer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmTrainer.getContentPane().setLayout(null);
+		setFrmTrainer(new JFrame());
+		getFrmTrainer().setTitle("TRAINER");
+		getFrmTrainer().setBounds(100, 100, 465, 460);
+		getFrmTrainer().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrmTrainer().getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(10, 11, 429, 155);
-		frmTrainer.getContentPane().add(scrollPane_1);
+		getFrmTrainer().getContentPane().add(scrollPane_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane_1.setViewportView(scrollPane);
@@ -67,7 +67,7 @@ public class ViewR1Trainer {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Trainer Record  Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.setBounds(20, 177, 419, 195);
-		frmTrainer.getContentPane().add(panel);
+		getFrmTrainer().getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblId = new JLabel("ID: ");
@@ -80,16 +80,16 @@ public class ViewR1Trainer {
 		textFieldID.setColumns(10);
 		
 		JLabel lblFirstName = new JLabel("First Name: ");
-		lblFirstName.setBounds(10, 56, 65, 14);
+		lblFirstName.setBounds(10, 56, 85, 14);
 		panel.add(lblFirstName);
 		
 		textFieldFirstName = new JTextField();
-		textFieldFirstName.setBounds(105, 50, 86, 20);
+		textFieldFirstName.setBounds(105, 53, 86, 20);
 		panel.add(textFieldFirstName);
 		textFieldFirstName.setColumns(10);
 		
 		JLabel lblLastName = new JLabel("Last Name: ");
-		lblLastName.setBounds(10, 97, 65, 14);
+		lblLastName.setBounds(10, 97, 85, 14);
 		panel.add(lblLastName);
 		
 		textFieldLastName = new JTextField();
@@ -98,11 +98,11 @@ public class ViewR1Trainer {
 		textFieldLastName.setColumns(10);
 		
 		JButton btnUpdate = new JButton("UPDATE");
-		btnUpdate.setBounds(117, 150, 101, 33);
+		btnUpdate.setBounds(117, 150, 101, 20);
 		panel.add(btnUpdate);
 		
 		JButton btnAddNew = new JButton("ADD NEW");
-		btnAddNew.setBounds(10, 150, 95, 33);
+		btnAddNew.setBounds(10, 150, 95, 20);
 		panel.add(btnAddNew);
 		btnAddNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -118,13 +118,21 @@ public class ViewR1Trainer {
 		JButton btnBack = new JButton("BACK");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmTrainer.dispose();
-				ViewR1UserGUI window = new ViewR1UserGUI();
-				window.frmPleaseChooseA.setVisible(true);
+				getFrmTrainer().dispose();
+				ViewR1GeneralTables window = new ViewR1GeneralTables();
+				window.getFrmTables().setVisible(true);
 			}
 		});
 		btnBack.setBounds(344, 383, 95, 32);
-		frmTrainer.getContentPane().add(btnBack);
+		getFrmTrainer().getContentPane().add(btnBack);
+	}
+
+	public JFrame getFrmTrainer() {
+		return frmTrainer;
+	}
+
+	public void setFrmTrainer(JFrame frmTrainer) {
+		this.frmTrainer = frmTrainer;
 	}
 
 }

@@ -34,7 +34,7 @@ public class ViewR1Race {
 			public void run() {
 				try {
 					ViewR1Race window = new ViewR1Race();
-					window.frmRace.setVisible(true);
+					window.getFrmRace().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -53,15 +53,15 @@ public class ViewR1Race {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmRace = new JFrame();
-		frmRace.setTitle("RACE");
-		frmRace.setBounds(100, 100, 503, 567);
-		frmRace.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmRace.getContentPane().setLayout(null);
+		setFrmRace(new JFrame());
+		getFrmRace().setTitle("RACE");
+		getFrmRace().setBounds(100, 100, 503, 567);
+		getFrmRace().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrmRace().getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(10, 11, 454, 162);
-		frmRace.getContentPane().add(scrollPane_1);
+		getFrmRace().getContentPane().add(scrollPane_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane_1.setViewportView(scrollPane);
@@ -72,7 +72,7 @@ public class ViewR1Race {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Race Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel.setBounds(10, 182, 454, 301);
-		frmRace.getContentPane().add(panel);
+		getFrmRace().getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		textFieldRaceTime = new JTextField();
@@ -174,14 +174,22 @@ public class ViewR1Race {
 		JButton btnBack = new JButton("BACK");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmRace.dispose();
-				ViewR1UserGUI window = new ViewR1UserGUI();
-				window.frmPleaseChooseA.setVisible(true);
+				getFrmRace().dispose();
+				ViewR1GeneralTables window = new ViewR1GeneralTables();
+				window.getFrmTables().setVisible(true);
 				
 				
 			}
 		});
 		btnBack.setBounds(375, 489, 89, 29);
-		frmRace.getContentPane().add(btnBack);
+		getFrmRace().getContentPane().add(btnBack);
+	}
+
+	public JFrame getFrmRace() {
+		return frmRace;
+	}
+
+	public void setFrmRace(JFrame frmRace) {
+		this.frmRace = frmRace;
 	}
 }

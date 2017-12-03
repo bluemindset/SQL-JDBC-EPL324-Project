@@ -27,7 +27,7 @@ public class ViewR1HorseColor {
 			public void run() {
 				try {
 					ViewR1HorseColor window = new ViewR1HorseColor();
-					window.frmColorName.setVisible(true);
+					window.getFrmColorName().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -46,28 +46,28 @@ public class ViewR1HorseColor {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmColorName = new JFrame();
-		frmColorName.setTitle("COLOR NAME");
-		frmColorName.setBounds(100, 100, 416, 459);
-		frmColorName.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmColorName.getContentPane().setLayout(null);
+		setFrmColorName(new JFrame());
+		getFrmColorName().setTitle("COLOR NAME");
+		getFrmColorName().setBounds(100, 100, 416, 459);
+		getFrmColorName().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrmColorName().getContentPane().setLayout(null);
 		
 		JButton btnBack = new JButton("BACK");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			
-					frmColorName.dispose();
-					ViewR1UserGUI window = new ViewR1UserGUI();
-					window.frmPleaseChooseA.setVisible(true);
+					getFrmColorName().dispose();
+					ViewR1GeneralTables window = new ViewR1GeneralTables();
+					window.getFrmTables().setVisible(true);
 			
 			}
 		});
 		btnBack.setBounds(288, 373, 99, 36);
-		frmColorName.getContentPane().add(btnBack);
+		getFrmColorName().getContentPane().add(btnBack);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(10, 11, 377, 240);
-		frmColorName.getContentPane().add(scrollPane_1);
+		getFrmColorName().getContentPane().add(scrollPane_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane_1.setViewportView(scrollPane);
@@ -78,7 +78,7 @@ public class ViewR1HorseColor {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Color Name Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.setBounds(10, 253, 375, 120);
-		frmColorName.getContentPane().add(panel);
+		getFrmColorName().getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel LblColorName = new JLabel("Color Name:");
@@ -107,5 +107,13 @@ public class ViewR1HorseColor {
 				//???????????????????????????????
 			}
 		});
+	}
+
+	public JFrame getFrmColorName() {
+		return frmColorName;
+	}
+
+	public void setFrmColorName(JFrame frmColorName) {
+		this.frmColorName = frmColorName;
 	}
 }

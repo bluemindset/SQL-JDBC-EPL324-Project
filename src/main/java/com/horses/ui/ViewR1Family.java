@@ -13,11 +13,11 @@ import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ViewR1FieldType {
+public class ViewR1Family {
 
-	private JFrame frmFieldType;
+	private JFrame frmFamily;
 	private JTable table;
-	private JTextField textField;
+	private JTextField textFieldFamilyName;
 
 	/**
 	 * Launch the application.
@@ -26,8 +26,8 @@ public class ViewR1FieldType {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewR1FieldType window = new ViewR1FieldType();
-					window.getFrmFieldType().setVisible(true);
+					ViewR1Family window = new ViewR1Family();
+					window.getFrmFamily().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -38,7 +38,7 @@ public class ViewR1FieldType {
 	/**
 	 * Create the application.
 	 */
-	public ViewR1FieldType() {
+	public ViewR1Family() {
 		initialize();
 	}
 
@@ -46,15 +46,15 @@ public class ViewR1FieldType {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		setFrmFieldType(new JFrame());
-		getFrmFieldType().setTitle("FIELD TYPE");
-		getFrmFieldType().setBounds(100, 100, 424, 478);
-		getFrmFieldType().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getFrmFieldType().getContentPane().setLayout(null);
+		setFrmFamily(new JFrame());
+		getFrmFamily().setTitle("FAMILY");
+		getFrmFamily().setBounds(100, 100, 418, 459);
+		getFrmFamily().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrmFamily().getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 11, 376, 239);
-		getFrmFieldType().getContentPane().add(scrollPane_1);
+		scrollPane_1.setBounds(10, 11, 382, 194);
+		getFrmFamily().getContentPane().add(scrollPane_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane_1.setViewportView(scrollPane);
@@ -63,57 +63,56 @@ public class ViewR1FieldType {
 		scrollPane.setViewportView(table);
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Field Type Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(20, 266, 365, 133);
-		getFrmFieldType().getContentPane().add(panel);
+		panel.setBorder(new TitledBorder(null, "Family Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(20, 216, 372, 150);
+		getFrmFamily().getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblFieldType = new JLabel("Field Type:");
-		lblFieldType.setBounds(10, 48, 65, 14);
-		panel.add(lblFieldType);
+		JLabel lblFamilyName = new JLabel("Family Name:");
+		lblFamilyName.setBounds(10, 57, 88, 14);
+		panel.add(lblFamilyName);
 		
-		textField = new JTextField();
-		textField.setText("");
-		textField.setBounds(85, 45, 86, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		textFieldFamilyName = new JTextField();
+		textFieldFamilyName.setBounds(102, 54, 86, 20);
+		panel.add(textFieldFamilyName);
+		textFieldFamilyName.setColumns(10);
 		
 		JButton btnAddNew = new JButton("ADD NEW");
 		btnAddNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//???????????????????????????
+				//??????????????????????????????
 			}
 		});
-		btnAddNew.setBounds(10, 91, 89, 31);
+		btnAddNew.setBounds(9, 116, 89, 23);
 		panel.add(btnAddNew);
 		
 		JButton btnUpdate = new JButton("UPDATE");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//????????????????????????????????????
+				//???????????????????????????????????
 			}
 		});
-		btnUpdate.setBounds(106, 91, 89, 31);
+		btnUpdate.setBounds(119, 116, 89, 23);
 		panel.add(btnUpdate);
 		
-		JButton btnNewButton = new JButton("BACK");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnBack = new JButton("BACK");
+		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getFrmFieldType().dispose();
+				getFrmFamily().dispose();
 				ViewR1GeneralTables window = new ViewR1GeneralTables();
 				window.getFrmTables().setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(297, 399, 89, 34);
-		getFrmFieldType().getContentPane().add(btnNewButton);
+		btnBack.setBounds(303, 377, 89, 30);
+		getFrmFamily().getContentPane().add(btnBack);
 	}
 
-	public JFrame getFrmFieldType() {
-		return frmFieldType;
+	public JFrame getFrmFamily() {
+		return frmFamily;
 	}
 
-	public void setFrmFieldType(JFrame frmFieldType) {
-		this.frmFieldType = frmFieldType;
+	public void setFrmFamily(JFrame frmFamily) {
+		this.frmFamily = frmFamily;
 	}
 
 }
