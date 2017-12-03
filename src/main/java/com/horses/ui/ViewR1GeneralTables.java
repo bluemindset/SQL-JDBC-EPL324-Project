@@ -133,17 +133,6 @@ public class ViewR1GeneralTables {
 		btnFamily.setBounds(10, 387, 131, 34);
 		getFrmTables().getContentPane().add(btnFamily);
 		
-		JButton btnSystemUser = new JButton("SYSTEM USER");
-		btnSystemUser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				getFrmTables().dispose();
-				ViewR1SystemUser window = new ViewR1SystemUser();
-				window.getFrmSystemUser().setVisible(true);
-			}
-		});
-		btnSystemUser.setBounds(178, 334, 131, 34);
-		getFrmTables().getContentPane().add(btnSystemUser);
-		
 		JButton btnParticipation = new JButton("PARTICIPATION");
 		btnParticipation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -152,7 +141,7 @@ public class ViewR1GeneralTables {
 				window.getFrmParticipation().setVisible(true);
 			}
 		});
-		btnParticipation.setBounds(178, 387, 131, 34);
+		btnParticipation.setBounds(178, 334, 131, 34);
 		getFrmTables().getContentPane().add(btnParticipation);
 		
 		JButton btnFieldType = new JButton("FIELD TYPE");
@@ -207,7 +196,7 @@ public class ViewR1GeneralTables {
 				window.frmPleaseChooseA.setVisible(true);
 			}
 		});
-		btnBack.setBounds(220, 459, 89, 34);
+		btnBack.setBounds(220, 439, 89, 34);
 		getFrmTables().getContentPane().add(btnBack);
 	}
 
