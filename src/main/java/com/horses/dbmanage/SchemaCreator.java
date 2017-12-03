@@ -62,7 +62,7 @@ public class SchemaCreator {
         createTables();
         createForeignKeys();
         createDomains();
-        //createTriggers();
+        createTriggers();
         createStoredProcedures();
         try(CallableStatement cstmt = connectionManager.getDBConnection().prepareCall("{call dropSessionTbl }")) {
             try {
