@@ -6,44 +6,46 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.JComboBox;
 
 public class ViewR1Participation {
 
 	private JFrame frmParticipation;
 	private JTable table;
-	private JTextField textFieldRaceTime;
-	private JTextField textFieldMeetingDate;
-	private JTextField textFieldHorseId;
-	private JTextField textFieldJockeyID;
-	private JTextField textFieldTrainerID;
 	private JTextField textFieldHorseWeight;
 	private JTextField textFieldHorseAge;
 	private JTextField textFieldStartPos;
 	private JTextField textFieldEndPos;
+	private JComboBox comboBox_trainer;
+	private JComboBox comboBox_meeting;
+	private JComboBox comboBox_jockey;
+	private JComboBox comboBox_horse;
+	private JSpinner spinner ;
 	
 	boolean addRecord = false;
 	
 private void clearInputBoxesHorses() {
 		
-	textFieldRaceTime.setText("");
-	textFieldMeetingDate.setText("");
-	textFieldHorseId.setText("");
-	textFieldJockeyID.setText("");
-	textFieldTrainerID.setText("");	
 	textFieldHorseWeight.setText("");	
 	textFieldHorseAge.setText("");	
 	textFieldStartPos.setText("");	
 	textFieldEndPos.setText("");	
-	  }
+	}
 	
 public JFrame getFrmParticipation() {
 	return frmParticipation;
@@ -53,19 +55,225 @@ public void setFrmParticipation(JFrame frmParticipation) {
 	this.frmParticipation = frmParticipation;
 }
 
+private void addNew() throws SQLException {
+	
+	String trainer ="";
+	String horse ="";
+	String meeting ="";
+	String jockey ="";
+
+	try {
+		trainer = comboBox_trainer.getSelectedItem().toString();
+	} catch ( NullPointerException e) {
+		trainer ="NULL";
+	}
+	try {
+		horse = comboBox_horse.getSelectedItem().toString();
+	} catch ( NullPointerException e) {
+		horse ="NULL";
+	}
+	try {
+		jockey =comboBox_jockey.getSelectedItem().toString();
+	} catch ( NullPointerException e) {
+		jockey ="NULL";
+	}
+	try {
+		meeting = comboBox_meeting.getSelectedItem().toString();
+	} catch ( NullPointerException e) {
+		meeting = "NULL";
+	}
+	Date t2 = (Date) spinner.getModel().getValue();
+	System.out.println(t2.getHours()+":"+t2.getMinutes()+":"+t2.getSeconds());
+	String finTime = t2.getHours()+":"+t2.getMinutes()+":"+t2.getSeconds();
+	
+	String sql_stmt = "INSERT INTO [dbo].[PARTICIPATION] ([race_time],[meeting_date],[horse_id],[jockey_id],[trainer_id],[cur_horse_weight],[cur_horse_age],[star_pos],[end_pos],[winnings])";
+    sql_stmt += " VALUES ('" + finTime+ comboBox_meeting.getSelectedItem().toString()   + "','" +
+    						comboBox_horse.getSelectedItem().toString() + "','"+	
+    						comboBox_jockey.getSelectedItem().toString() + "','"+						
+    						comboBox_trainer.getSelectedItem().toString()  + "','" + 
+    						textFieldHorseWeight.getText() + "','" + 
+    						textFieldHorseAge.getText() + "','" + 
+    						textFieldStartPos.getText() + "','" + 
+    						textFieldEndPos.getText() + "','" + 	"')";
+
+		CurrentUserData.executeSetUserId();
+       DBUtilities dbUtilities = new DBUtilities();
+       dbUtilities.ExecuteSQLStatement(sql_stmt);
+		loadRecords();
+   }
+
+
+private void updateRecord() throws SQLException {
+	String trainer ="";
+	String horse ="";
+	String meeting ="";
+	String jockey ="";
+
+	try {
+		trainer = comboBox_trainer.getSelectedItem().toString();
+	} catch ( NullPointerException e) {
+		trainer ="NULL";
+	}
+	try {
+		horse = comboBox_horse.getSelectedItem().toString();
+	} catch ( NullPointerException e) {
+		horse ="NULL";
+	}
+	try {
+		jockey =comboBox_jockey.getSelectedItem().toString();
+	} catch ( NullPointerException e) {
+		jockey ="NULL";
+	}
+	try {
+		meeting = comboBox_meeting.getSelectedItem().toString();
+	} catch ( NullPointerException e) {
+		meeting = "NULL";
+	}
+	Date t2 = (Date) spinner.getModel().getValue();
+	System.out.println(t2.getHours()+":"+t2.getMinutes()+":"+t2.getSeconds());
+	String finTime = t2.getHours()+":"+t2.getMinutes()+":"+t2.getSeconds();
+	
+    
+    String sql_stmt = "UPDATE [dbo].[PARTICIPATION] SET [horse_id] = '" + comboBox_horse.getSelectedItem().toString() + "'";
+    sql_stmt += ",[jockey_id] = '" + comboBox_jockey.getSelectedItem().toString() + "'";
+    sql_stmt += ",[trainer_id] = '" + comboBox_trainer.getSelectedItem().toString() + "'";
+    sql_stmt += ",[cur_horse_weight] = '" + textFieldHorseWeight.getText() + "'";
+    sql_stmt += ",[cur_horse_age] = '" + textFieldHorseAge.getText() + "'";
+    sql_stmt += ",[star_pos] = '" + textFieldStartPos.getText() + "'";
+    sql_stmt += ",[end_pos] = '" + textFieldEndPos.getText() + "'";
+    
+    sql_stmt += " WHERE id = '" + finTime + "' AND meeting_date = '"+comboBox_meeting.getSelectedItem().toString()+"'";
+
+
+    DBUtilities dbUtilities = new DBUtilities();
+    dbUtilities.ExecuteSQLStatement(sql_stmt);
+    
+    loadRecords();
+}
+
 private void loadRecords() throws SQLException  {
 	
     String sql_stmt = "SELECT * FROM [dbo].[PARTICIPATION];";
 
     ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
     table.setModel(tableModel);
-    //////////////////////////////
+ 
+    
+    table.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+        try {
+            if (table.getSelectedRow() >= 0) {
+            	
+
+            	
+                Object time = table.getValueAt(table.getSelectedRow(), 0);
+                Object meetingdate = table.getValueAt(table.getSelectedRow(), 1);
+                Object horse_id = table.getValueAt(table.getSelectedRow(), 2);
+                Object jockey_id = table.getValueAt(table.getSelectedRow(), 3);
+                Object trainer_id = table.getValueAt(table.getSelectedRow(), 4);
+                Object horse_weight = table.getValueAt(table.getSelectedRow(), 5);   
+                Object horse_age = table.getValueAt(table.getSelectedRow(), 6); 
+                Object start_pos = table.getValueAt(table.getSelectedRow(), 7);
+                Object end_pos = table.getValueAt(table.getSelectedRow(), 8);
+                Object winnings = table.getValueAt(table.getSelectedRow(), 9);
+                
+                
+               
+                
+               
+                comboBox_meeting.setSelectedItem(meetingdate.toString());
+                comboBox_horse.setSelectedItem(horse_id.toString());
+                comboBox_jockey.setSelectedItem(jockey_id.toString());
+                comboBox_trainer.setSelectedItem(trainer_id.toString());
+                
+                textFieldHorseWeight.setText(horse_weight.toString());
+                textFieldHorseAge.setText(horse_age.toString());
+                textFieldStartPos.setText(start_pos.toString());
+                textFieldEndPos.setText(end_pos.toString());
+                
+                SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+                //SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = format1.parse(meet_date.toString());
+                String finDate = format1.format(date).toString();
+                
+                SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
+                Date time2 = formatTime.parse(time.toString());
+                
+//                spinnerTime.setValue(time2);
+//            	textFieldPrize1.setText(prize1.toString());    	
+//            	textFieldPrize2.setText(prize2.toString());
+//            	textFieldPrize3.setText(prize3.toString());
+//            	textFieldTotalWinnings.setText(totalwins.toString());
+//            	
+//            	comboBoxDistance.setSelectedItem(distance.toString());
+//            	comboBoxRaceType.setSelectedItem(race_type.toString());
+//            	comboBoxFieldType.setSelectedItem(field_type.toString());
+//            	comboBoxMeeting.setSelectedItem(finDate);
+                
+//				try {
+//					checkBoxIsPurebred.setSelected(Boolean.parseBoolean(is_purebred.toString()));
+//				} catch ( NullPointerException e) {
+//					checkBoxIsPurebred.setSelected(false);
+//				}
+//				try {
+//					comboBoxColor.setSelectedItem(color_name.toString());
+//				} catch ( NullPointerException e) {
+//					comboBoxColor.setSelectedItem(null);
+//				}
+//				try {
+//					comboBoxTrainer.setSelectedItem(trainer_id.toString());
+//				} catch ( NullPointerException e) {
+//					comboBoxTrainer.setSelectedItem(null);
+//				}
+//				try {
+//					comboBoxOwner.setSelectedItem(owner_id.toString());						
+//				} catch ( NullPointerException e) {
+//					comboBoxOwner.setSelectedItem(null);
+//				}
+//				try {
+//					comboBoxBreeder.setSelectedItem(breeder_id.toString());
+//				} catch ( NullPointerException e) {
+//					comboBoxBreeder.setSelectedItem(null);
+//				}
+//				try {						
+//					comboBoxDad.setSelectedItem(dad_id.toString());
+//				} catch ( NullPointerException e) {
+//					comboBoxDad.setSelectedItem(null);
+//				}
+//				try {
+//					comboBoxMom.setSelectedItem(mama_id.toString());						
+//				} catch ( NullPointerException e) {
+//					comboBoxMom.setSelectedItem(null);
+//				}
+//				try {
+//					textFieldOriginCountry.setText(origin_country.toString());
+//				} catch ( NullPointerException e) {
+//					textFieldOriginCountry.setText(null);
+//				}
+//				try {
+//					textFieldRecord.setText(record.toString());
+//				} catch (NullPointerException e) {
+//					textFieldRecord.setText(null);	
+//				} 
+//				try {
+//					comboBoxJockey.setSelectedItem(jockey_id.toString());						
+//				} catch ( NullPointerException e) {
+//					comboBoxJockey.setSelectedItem(null);
+//				}
+            }
+        } catch (Exception ex) {
+        	ex.printStackTrace();
+            System.out.println(ex.getMessage());
+        }
+    });
+    
+    
+    
     DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
     rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
     table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-	}
+}
 	
 	
 
@@ -98,13 +306,13 @@ private void loadRecords() throws SQLException  {
 	private void initialize() {
 		setFrmParticipation(new JFrame());
 		getFrmParticipation().setTitle("PARTICIPATION");
-		getFrmParticipation().setBounds(100, 100, 548, 598);
+		getFrmParticipation().setBounds(100, 100, 541, 688);
 		getFrmParticipation().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrmParticipation().getContentPane().setLayout(null);
 		
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 496, 148);
+		scrollPane.setBounds(10, 11, 509, 229);
 		getFrmParticipation().getContentPane().add(scrollPane);
 
 		table = new JTable();
@@ -112,7 +320,7 @@ private void loadRecords() throws SQLException  {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Participation Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 172, 509, 348);
+		panel.setBounds(10, 251, 509, 348);
 		getFrmParticipation().getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -120,60 +328,63 @@ private void loadRecords() throws SQLException  {
 		lblRaceTime.setBounds(10, 44, 89, 14);
 		panel.add(lblRaceTime);
 		
-		textFieldRaceTime = new JTextField();
-		textFieldRaceTime.setBounds(128, 41, 86, 20);
-		panel.add(textFieldRaceTime);
-		textFieldRaceTime.setColumns(10);
-		
 		JLabel lblMeetingDate = new JLabel("Meeting Date:");
 		lblMeetingDate.setBounds(10, 88, 108, 14);
 		panel.add(lblMeetingDate);
 		
-		textFieldMeetingDate = new JTextField();
-		textFieldMeetingDate.setBounds(128, 85, 86, 20);
-		panel.add(textFieldMeetingDate);
-		textFieldMeetingDate.setColumns(10);
-		
 		JButton btnAddNew = new JButton("ADD NEW");
+		btnAddNew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO
+				addRecord = true;
+				try {
+					addNew();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				clearInputBoxesHorses();
+				//textFieldId.requestFocus();
+				
+				
+			}
+		});
 		btnAddNew.setBounds(10, 314, 89, 23);
 		panel.add(btnAddNew);
 		
 		JButton btnUpdate = new JButton("UPDATE");
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					updateRecord();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnUpdate.setBounds(125, 314, 89, 23);
 		panel.add(btnUpdate);
 		
 		JLabel lblHorseId = new JLabel("Horse ID:");
-		lblHorseId.setBounds(10, 140, 46, 14);
+		lblHorseId.setBounds(10, 140, 89, 14);
 		panel.add(lblHorseId);
 		
-		textFieldHorseId = new JTextField();
-		textFieldHorseId.setBounds(128, 137, 86, 20);
-		panel.add(textFieldHorseId);
-		textFieldHorseId.setColumns(10);
-		
 		JLabel lblJockeyId = new JLabel("Jockey ID:");
-		lblJockeyId.setBounds(10, 190, 66, 14);
+		lblJockeyId.setBounds(10, 190, 89, 14);
 		panel.add(lblJockeyId);
 		
-		textFieldJockeyID = new JTextField();
-		textFieldJockeyID.setBounds(128, 187, 86, 20);
-		panel.add(textFieldJockeyID);
-		textFieldJockeyID.setColumns(10);
-		
 		JLabel lblTrainerId = new JLabel("Trainer ID:");
-		lblTrainerId.setBounds(10, 241, 65, 14);
+		lblTrainerId.setBounds(10, 241, 89, 14);
 		panel.add(lblTrainerId);
-		
-		textFieldTrainerID = new JTextField();
-		textFieldTrainerID.setBounds(128, 238, 86, 20);
-		panel.add(textFieldTrainerID);
-		textFieldTrainerID.setColumns(10);
 		
 		JLabel lblHorseWeight = new JLabel("Horse Weight:");
 		lblHorseWeight.setBounds(276, 44, 86, 14);
 		panel.add(lblHorseWeight);
 		
 		textFieldHorseWeight = new JTextField();
+		textFieldHorseWeight.setEditable(false);
 		textFieldHorseWeight.setBounds(387, 41, 86, 20);
 		panel.add(textFieldHorseWeight);
 		textFieldHorseWeight.setColumns(10);
@@ -183,6 +394,7 @@ private void loadRecords() throws SQLException  {
 		panel.add(lblHorseAge);
 		
 		textFieldHorseAge = new JTextField();
+		textFieldHorseAge.setEditable(false);
 		textFieldHorseAge.setBounds(387, 85, 86, 20);
 		panel.add(textFieldHorseAge);
 		textFieldHorseAge.setColumns(10);
@@ -192,6 +404,7 @@ private void loadRecords() throws SQLException  {
 		panel.add(lblStartPosition);
 		
 		textFieldStartPos = new JTextField();
+		textFieldStartPos.setEditable(false);
 		textFieldStartPos.setBounds(387, 134, 86, 20);
 		panel.add(textFieldStartPos);
 		textFieldStartPos.setColumns(10);
@@ -201,9 +414,81 @@ private void loadRecords() throws SQLException  {
 		panel.add(lblEndPosition);
 		
 		textFieldEndPos = new JTextField();
+		textFieldEndPos.setEditable(false);
 		textFieldEndPos.setBounds(387, 187, 86, 20);
 		panel.add(textFieldEndPos);
 		textFieldEndPos.setColumns(10);
+		
+		spinner = new JSpinner( new SpinnerDateModel());
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(spinner, "HH:mm:ss");
+		spinner.setEditor(timeEditor);
+		spinner.setValue(new Date());
+		spinner.setBounds(109, 41, 86, 20);
+		panel.add(spinner);
+		
+		 comboBox_meeting = new JComboBox();
+		comboBox_meeting.insertItemAt("", 0);
+		try {
+		   	 String sql_stmt_mom = "SELECT * FROM [dbo].[MEETING];";
+		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt_mom);
+		   	 for(int i=0; i< Combo.getRowCount(); i++){
+		   		 String s = (Combo.getValueAt(i, 0).toString());
+		   		comboBox_meeting.addItem(s);
+		   	 }
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		comboBox_meeting.setBounds(109, 84, 120, 23);
+		panel.add(comboBox_meeting);
+		
+		comboBox_horse = new JComboBox();
+		comboBox_horse.insertItemAt("", 0);
+		try {
+		   	 String sql_stmt_mom = "SELECT * FROM [dbo].[HORSE];";
+		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt_mom);
+		   	 for(int i=0; i< Combo.getRowCount(); i++){
+		   		 String s = (Combo.getValueAt(i, 0).toString());
+		   		comboBox_horse.addItem(s);
+		   	 }
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		comboBox_horse.setBounds(109, 136, 120, 23);
+		panel.add(comboBox_horse);
+		
+		 comboBox_jockey = new JComboBox();
+		comboBox_jockey.insertItemAt("", 0);
+		try {
+		   	 String sql_stmt_mom = "SELECT * FROM [dbo].[JOCKEY];";
+		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt_mom);
+		   	 for(int i=0; i< Combo.getRowCount(); i++){
+		   		 String s = (Combo.getValueAt(i, 0).toString());
+		   		comboBox_jockey.addItem(s);
+		   	 }
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		comboBox_jockey.setBounds(109, 187, 120, 23);
+		panel.add(comboBox_jockey);
+		
+		comboBox_trainer = new JComboBox();
+		comboBox_trainer.insertItemAt("", 0);
+		try {
+		   	 String sql_stmt_mom = "SELECT * FROM [dbo].[TRAINER];";
+		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt_mom);
+		   	 for(int i=0; i< Combo.getRowCount(); i++){
+		   		 String s = (Combo.getValueAt(i, 0).toString());
+		   		comboBox_trainer.addItem(s);
+		   	 }
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		comboBox_trainer.setBounds(109, 238, 120, 23);
+		panel.add(comboBox_trainer);
 		
 		JButton btnBack = new JButton("BACK");
 		btnBack.addActionListener(new ActionListener() {
@@ -213,15 +498,13 @@ private void loadRecords() throws SQLException  {
 				window.getFrmTables().setVisible(true);
 			}
 		});
-		btnBack.setBounds(430, 531, 89, 29);
+		btnBack.setBounds(426, 610, 89, 29);
 		getFrmParticipation().getContentPane().add(btnBack);
-		try {
-			loadRecords();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+//		try {
+//			loadRecords();
+//		} catch (SQLException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 	}
-
-	
 }

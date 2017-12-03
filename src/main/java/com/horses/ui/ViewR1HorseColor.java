@@ -9,11 +9,13 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class ViewR1HorseColor {
@@ -38,20 +40,54 @@ public class ViewR1HorseColor {
 		this.frmColorName = frmColorName;
 	}
 	
+	
+	private void addNew() throws SQLException {
+    	
+	       String sql_stmt = "INSERT INTO [dbo].[HORSE_COLOR] ([color_name])";
+	       sql_stmt += " VALUES ('" +  	textFieldColorName.getText() + "')";
+	       
+			CurrentUserData.executeSetUserId();
+	       DBUtilities dbUtilities = new DBUtilities();
+	       dbUtilities.ExecuteSQLStatement(sql_stmt);
+			loadRecords();
+	   }
+	
+	
+
 	private void loadRecords() throws SQLException  {
 		
 	    String sql_stmt = "SELECT * FROM [dbo].[HORSE_COLOR];";
 
 	    ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
 	    table.setModel(tableModel);
-	    //////////////////////////////
-	    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-	    rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
-	    table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
-	    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-		}
-
+	  
+	    table.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+            try {
+                if (table.getSelectedRow() >= 0) {
+                
+                        	
+                    Object type = table.getValueAt(table.getSelectedRow(), 0);
+       
+                    textFieldColorName.setText(type.toString());    	
+        
+                }
+            } catch (Exception ex) {
+            	ex.printStackTrace();
+                System.out.println(ex.getMessage());
+            }
+        });
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+        table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    }
+	
+	 private void deleteRecord() throws SQLException {
+	        String sql_stmt = "DELETE FROM [dbo].[HORSE_COLOR] WHERE [color_name] = '" + textFieldColorName.getText() + "'";
+	        DBUtilities dbUtilities = new DBUtilities();
+	        dbUtilities.ExecuteSQLStatement(sql_stmt);
+	    }
+	
 	/**
 	 * Launch the application.
 	 */
@@ -124,17 +160,36 @@ public class ViewR1HorseColor {
 		btnAddNew.setBounds(10, 80, 89, 31);
 		panel.add(btnAddNew);
 		
-		JButton btnUpdate = new JButton("UPDATE");
-		btnUpdate.setBounds(109, 80, 89, 31);
-		panel.add(btnUpdate);
-		btnUpdate.addActionListener(new ActionListener() {
+		JButton btnDelete = new JButton("DELETE");
+		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//???????????????????????????????????????
+				int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this record?", "Confirm Delete Record?", JOptionPane.YES_NO_OPTION);
+
+		        if (dialogResult == JOptionPane.YES_OPTION) {
+		            try {
+		                deleteRecord();
+
+		                loadRecords();
+		            } catch (SQLException ex) {
+		                System.out.println(ex.getMessage());
+		            }
+
+		        }
 			}
 		});
+		btnDelete.setBounds(109, 80, 89, 27);
+		panel.add(btnDelete);
 		btnAddNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//???????????????????????????????
+				addRecord = true;
+				try {
+					addNew();
+				} catch (SQLException e1) {
+					
+					e1.printStackTrace();
+				}
+				clearInputBoxesHorses();
+				textFieldColorName.requestFocus();
 			}
 		});
 		

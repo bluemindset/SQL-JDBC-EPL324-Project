@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -14,6 +15,9 @@ import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class ViewR1Breeder {
@@ -43,20 +47,68 @@ public class ViewR1Breeder {
 		this.frmBreeder = frmBreeder;
 	}
 	
-	private void loadRecords() throws SQLException  {
+	
+	private void addNew() throws SQLException {
     	
-        String sql_stmt = "SELECT * FROM [dbo].[BREEDER];";
+		String sql_stmt = "INSERT INTO [dbo].[BREEDER] ([id],[first_name],[last_name])";
+        sql_stmt += " VALUES ('" +  textFieldId.getText() + "','" +
+        						textFieldFirstName.getText() + "','"+						
+        						textFieldLastName.getText()  
+        					+ "')";
 
-        ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
-        table.setModel(tableModel);
-        //////////////////////////////
-        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-        rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
-        table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			CurrentUserData.executeSetUserId();
+	       DBUtilities dbUtilities = new DBUtilities();
+	       dbUtilities.ExecuteSQLStatement(sql_stmt);
+			loadRecords();
+	   }
+	
+	 private void updateRecord() throws SQLException {
+	    	
+	       
+	        
+	        String sql_stmt = "UPDATE [dbo].[BREEDER] SET [first_name] = '" + textFieldFirstName.getText() + "'";
+	        sql_stmt += ",[last_name] = '" + textFieldLastName.getText() + "'";
+	        sql_stmt += " WHERE id = '" + textFieldId.getText() + "'";
 
- }
 
+	        DBUtilities dbUtilities = new DBUtilities();
+	        dbUtilities.ExecuteSQLStatement(sql_stmt);
+	        
+	        loadRecords();
+	    }
+	
+	 private void loadRecords() throws SQLException  {
+			
+		    String sql_stmt = "SELECT * FROM [dbo].[BREEDER];";
+
+		    ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
+		    table.setModel(tableModel);
+		  
+		    table.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+	         try {
+	             if (table.getSelectedRow() >= 0) {
+	             
+	                     	
+	                 Object id = table.getValueAt(table.getSelectedRow(), 0);
+	                 Object First_name = table.getValueAt(table.getSelectedRow(), 1);
+	                    Object Last_name = table.getValueAt(table.getSelectedRow(), 2);
+	    
+	                 textFieldId.setText(id.toString());  
+	                 textFieldFirstName.setText(First_name.toString()); 
+	                 textFieldLastName.setText(Last_name.toString()); 
+	     
+	             }
+	         } catch (Exception ex) {
+	         	ex.printStackTrace();
+	             System.out.println(ex.getMessage());
+	         }
+	     });
+	     DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+	     rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+	     table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+	     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+	 }
+	
 
 	/**
 	 * Launch the application.
@@ -136,10 +188,35 @@ public class ViewR1Breeder {
 		textFieldLastName.setColumns(10);
 		
 		JButton btnAddNew = new JButton("ADD NEW");
+		btnAddNew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+				addRecord = true;
+				try {
+					addNew();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				clearInputBoxesHorses();
+				textFieldId.requestFocus();
+				
+			}
+		});
 		btnAddNew.setBounds(10, 162, 89, 23);
 		panel.add(btnAddNew);
 		
 		JButton btnUpdate = new JButton("UPDATE");
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					updateRecord();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnUpdate.setBounds(109, 162, 89, 23);
 		panel.add(btnUpdate);
 		

@@ -45,7 +45,7 @@ public class SchemaCreator {
     private Connection conn;
     private ScriptRunner scriptRunner;
 
-    SchemaCreator(ConnectionManager connectionManager) {
+    public SchemaCreator(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
         this.conn = connectionManager.getDBConnection();
         scriptRunner = new ScriptRunner(conn,false,true);

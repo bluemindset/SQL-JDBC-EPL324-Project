@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -15,6 +16,7 @@ import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
 
 public class ViewR1Owner {
 
@@ -24,7 +26,8 @@ public class ViewR1Owner {
 	private JTextField textFieldFirstName;
 	private JTextField textFieldLastName;
 	private JTextField textFieldUniform;
-	private JTextField textFieldFamily;
+	private JComboBox comboBoxTitle;
+	private JComboBox comboBoxFamilyName ;
 	
 	boolean addRecord = false;
 	
@@ -34,8 +37,8 @@ private void clearInputBoxesHorses() {
 	textFieldFirstName.setText("");
 	textFieldLastName.setText("");
 	textFieldUniform.setText("");
-	textFieldFamily.setText("");
-		
+	comboBoxTitle.setSelectedItem("");	
+	comboBoxFamilyName.setSelectedItem("");	
 	  }
 
 public JFrame getFrmOwner() {
@@ -45,19 +48,98 @@ public JFrame getFrmOwner() {
 public void setFrmOwner(JFrame frmOwner) {
 	this.frmOwner = frmOwner;
 }
+
+
+private void addNew() throws SQLException {
+	
+	String title ="";
+
+	try {
+		title = comboBoxTitle.getSelectedItem().toString();
+	} catch ( NullPointerException e) {
+		title ="";
+	}
+	
+	String sql_stmt = "INSERT INTO [dbo].[OWNER] ([id],[first_name],[last_name],[uniform],[title],[onwer_family])";
+    sql_stmt += " VALUES ('" +  textFieldId.getText() + "','" +
+    						textFieldFirstName.getText() + "','"+						
+    						textFieldLastName.getText()  + "','" + 
+    					textFieldUniform.getText() + "','" + 
+    					comboBoxTitle.getSelectedItem().toString() +"','" +
+    					comboBoxFamilyName.getSelectedItem().toString() +
+    					"')";
+
+		CurrentUserData.executeSetUserId();
+       DBUtilities dbUtilities = new DBUtilities();
+       dbUtilities.ExecuteSQLStatement(sql_stmt);
+		loadRecords();
+   }
+
+private void updateRecord() throws SQLException {
+	String title ="";
+
+	try {
+		title = comboBoxTitle.getSelectedItem().toString();
+	} catch ( NullPointerException e) {
+		title ="";
+	}
+
+    
+    String sql_stmt = "UPDATE [dbo].[OWNER] SET [first_name] = '" + textFieldFirstName.getText() + "'";
+    sql_stmt += ",[last_name] = '" + textFieldLastName.getText() + "'";
+    sql_stmt += ",[uniform] = '" + textFieldUniform.getText() + "'";
+    sql_stmt += ",[title] = '" + comboBoxTitle.getSelectedItem().toString() + "'";
+    sql_stmt += ",[onwer_family] = '" + comboBoxFamilyName.getSelectedItem().toString() + "'";
+    
+    sql_stmt += " WHERE id = '" + textFieldId.getText() + "'";
+
+
+    DBUtilities dbUtilities = new DBUtilities();
+    dbUtilities.ExecuteSQLStatement(sql_stmt);
+    
+    loadRecords();
+}
+
 private void loadRecords() throws SQLException  {
 	
     String sql_stmt = "SELECT * FROM [dbo].[OWNER];";
 
     ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
     table.setModel(tableModel);
-    //////////////////////////////
-    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-    rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
-    table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
-    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+  
+    table.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+     try {
+         if (table.getSelectedRow() >= 0) {
+         
+                 	
+             Object id = table.getValueAt(table.getSelectedRow(), 0);
+             Object First_name = table.getValueAt(table.getSelectedRow(), 1);
+               Object Last_name = table.getValueAt(table.getSelectedRow(), 2);
+               Object uniform = table.getValueAt(table.getSelectedRow(),4 );
+               Object title = table.getValueAt(table.getSelectedRow(), 5);
+               Object family = table.getValueAt(table.getSelectedRow(), 6);
 
-	}
+                textFieldId.setText(id.toString());  
+                textFieldFirstName.setText(First_name.toString()); 
+                textFieldLastName.setText(Last_name.toString()); 
+                textFieldUniform.setText(uniform.toString());
+                comboBoxTitle.setSelectedItem(title.toString());
+                comboBoxFamilyName.setSelectedItem(family.toString());
+ 
+         }
+     } catch (Exception ex) {
+     	ex.printStackTrace();
+         System.out.println(ex.getMessage());
+     }
+ });
+ DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+ rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+ table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+ table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+}
+
+
+
 
 
 	/**
@@ -89,7 +171,7 @@ private void loadRecords() throws SQLException  {
 	private void initialize() {
 		setFrmOwner(new JFrame());
 		getFrmOwner().setTitle("OWNER");
-		getFrmOwner().setBounds(100, 100, 412, 480);
+		getFrmOwner().setBounds(100, 100, 412, 498);
 		getFrmOwner().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrmOwner().getContentPane().setLayout(null);
 		
@@ -102,7 +184,7 @@ private void loadRecords() throws SQLException  {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Owner Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 167, 376, 223);
+		panel.setBounds(10, 167, 376, 251);
 		getFrmOwner().getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -146,29 +228,67 @@ private void loadRecords() throws SQLException  {
 		btnAddNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//???????????????????????????????????????????????
+				//TODO
+				addRecord = true;
+				try {
+					addNew();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				clearInputBoxesHorses();
+				textFieldId.requestFocus();
+				
 			}
 		});
-		btnAddNew.setBounds(10, 189, 89, 23);
+		btnAddNew.setBounds(10, 217, 89, 23);
 		panel.add(btnAddNew);
 		
 		JButton btnUpdate = new JButton("UPDATE");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//??????????????????????????????
+				try {
+					updateRecord();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
-		btnUpdate.setBounds(109, 189, 89, 23);
+		btnUpdate.setBounds(109, 217, 89, 23);
 		panel.add(btnUpdate);
 		
-		JLabel lblFamily = new JLabel("Family:");
-		lblFamily.setBounds(201, 93, 46, 14);
-		panel.add(lblFamily);
+		comboBoxTitle = new JComboBox();
+		comboBoxTitle.insertItemAt("", 0);
+		comboBoxTitle.addItem("Mr.");
+		comboBoxTitle.addItem("Dr.");
+		comboBoxTitle.addItem("Miss.");
+		comboBoxTitle.addItem("Mrs.");
+		comboBoxTitle.setBounds(263, 136, 86, 20);
+		panel.add(comboBoxTitle);
 		
-		textFieldFamily = new JTextField();
-		textFieldFamily.setBounds(263, 90, 86, 20);
-		panel.add(textFieldFamily);
-		textFieldFamily.setColumns(10);
+		JLabel lblTitle = new JLabel("Title:");
+		lblTitle.setBounds(201, 139, 46, 14);
+		panel.add(lblTitle);
+		
+		JLabel lblFamilyName = new JLabel("Family Name:");
+		lblFamilyName.setBounds(185, 93, 77, 14);
+		panel.add(lblFamilyName);
+		
+		 comboBoxFamilyName = new JComboBox();
+		 try {
+	    	 String sql_stmt = "SELECT * FROM [dbo].[FAMILY];";
+	    	 ResultSetTableModel sexCombo = new ResultSetTableModel(sql_stmt);
+	    	 for(int i=0; i< sexCombo.getRowCount(); i++){
+	    		 String s = (sexCombo.getValueAt(i, 0).toString());
+	    		 comboBoxFamilyName.addItem(s);
+	    	 }
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		comboBoxFamilyName.setBounds(263, 90, 86, 20);
+		panel.add(comboBoxFamilyName);
 		
 		JButton btnBack = new JButton("BACK");
 		btnBack.addActionListener(new ActionListener() {
@@ -178,7 +298,7 @@ private void loadRecords() throws SQLException  {
 				window.getFrmTables().setVisible(true);
 			}
 		});
-		btnBack.setBounds(297, 401, 89, 30);
+		btnBack.setBounds(297, 419, 89, 30);
 		getFrmOwner().getContentPane().add(btnBack);
 		
 		try {
@@ -188,7 +308,4 @@ private void loadRecords() throws SQLException  {
 			e1.printStackTrace();
 		}
 	}
-
-	
-
 }

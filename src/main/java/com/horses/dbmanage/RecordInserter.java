@@ -758,7 +758,7 @@ public class RecordInserter {
                 lines.add(strings);
             }
         }
-
+        lines.remove(0);
         for (String[] line : lines) {
             try (CallableStatement cstmt = getCallableStatementFromProcedureName("{call fieldTypeInsert(?)}")) {
                 cstmt.setString(1, line[0]);

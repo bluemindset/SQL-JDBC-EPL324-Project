@@ -80,6 +80,7 @@ INSERT INTO @horset
 			END
 		ELSE
 			BEGIN
+			Insert INTO @horset2 values(NULL,'START',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 			SET @c= 1
 			SET @pos1tf=0 
 			SET @pos2tf=0
@@ -108,7 +109,7 @@ DEALLOCATE HorseCursor2;
 	
 
 	Select   * from @horset2 h
-	ORDER BY h.owner_id ASC , h.meeting_date ASC
+	--ORDER BY h.owner_id ASC , h.meeting_date ASC
 
 END
 

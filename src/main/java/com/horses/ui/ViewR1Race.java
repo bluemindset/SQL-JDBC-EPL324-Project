@@ -63,28 +63,14 @@ public class ViewR1Race {
     }
     
     private void addNew() throws SQLException {
-    	
-//        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-//        //SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
-//        Date date = format1.parse(meet_date.toString());
-//        String finDate = format1.format(date).toString();
-//        
 
-    	SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
-    	Date t2 = new Date();
-    	try {
-			t2 = formatTime.parse(spinnerTime.getValue().toString());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-    	String fintime = t2.getHours()+ ":" + t2.getMinutes() + ":" + t2.getSeconds();
-    	System.out.println(fintime);
+        
+    	//SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
 
-//
-//		
-//		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-//		String finDate = format1.format(date1).toString();
-//		System.out.println(finDate);
+    	Date t2 = (Date) spinnerTime.getModel().getValue();
+    	System.out.println(t2.getHours()+":"+t2.getMinutes()+":"+t2.getSeconds());
+    	String finTime = t2.getHours()+":"+t2.getMinutes()+":"+t2.getSeconds();
+
 		
 //		String trainer ="";
 //		String owner ="";
@@ -125,12 +111,11 @@ public class ViewR1Race {
 //		}
 
         String sql_stmt = "INSERT INTO [dbo].[RACE] ([race_time],[distance],[prize_1],[prize_2],[prize_3],[race_type],[field_type],[meeting_date])";
-        sql_stmt += " VALUES ('" +  fintime + "','" +
+        sql_stmt += " VALUES ('" +  finTime + "','" +
         							comboBoxDistance.getSelectedItem().toString() + "','"+
 									textFieldPrize1.getText() + "','" +
 									textFieldPrize2.getText() + "','" +
 									textFieldPrize3.getText() + "','" +
-									
 									comboBoxRaceType.getSelectedItem().toString() + "','" +
 									comboBoxFieldType.getSelectedItem().toString() + "','" +
 									comboBoxMeeting.getSelectedItem().toString()+ "')";
@@ -141,79 +126,26 @@ public class ViewR1Race {
 		loadRecords();
     }
 
-//    private void updateRecord() throws SQLException {
-//    	
-//        Date date1 = null;
-//        try {
-//			date1 = new SimpleDateFormat("dd/MM/yyyy").parse(formattedTextField.getText());
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-//
-//		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-//		String finDate = format1.format(date1).toString();
-//
-//        String trainer ="";
-//        String owner ="";
-//        String breeder ="";
-//        String dad ="";
-//        String mom ="";
-//        String jockey ="";
-//        
-//		try {
-//			trainer = comboBoxTrainer.getSelectedItem().toString();
-//		} catch ( NullPointerException e) {
-//			trainer ="";
-//		}
-//		try {
-//			owner = comboBoxOwner.getSelectedItem().toString();					
-//		} catch ( NullPointerException e) {
-//			owner ="";
-//		}
-//		try {
-//			breeder =comboBoxBreeder.getSelectedItem().toString();		
-//		} catch ( NullPointerException e) {
-//			breeder ="";
-//		}
-//		try {						
-//			dad = comboBoxDad.getSelectedItem().toString();	
-//		} catch ( NullPointerException e) {
-//			dad ="";
-//		}
-//		try {
-//			mom =comboBoxMom.getSelectedItem().toString();							
-//		} catch ( NullPointerException e) {
-//			mom ="";
-//		}
-//		try {
-//			jockey =comboBoxJockey.getSelectedItem().toString();					
-//		} catch ( NullPointerException e) {
-//			jockey ="";
-//		}
-//        
-//        String sql_stmt = "UPDATE [dbo].[HORSE] SET [name] = '" + textFieldName.getText() + "'";
-//        sql_stmt += ",[cur_weight] = '" + textFieldWeight.getText() + "'";
-//        sql_stmt += ",[date_of_birth] = CONVERT(DATE, '" + finDate + "')";
-//        sql_stmt += ",[sex] = '" + comboBoxSex.getSelectedItem().toString() + "'";
-//        sql_stmt += ",[is_purebred] = '" + checkBoxIsPurebred.isSelected() + "'";
-//        sql_stmt += ",[record] = '" + textFieldRecord.getText() + "'";
-//        sql_stmt += ",[origin_country] = '" + textFieldOriginCountry.getText() + "'";
-//        sql_stmt += ",[mama_id] = '" + mom + "'";
-//        sql_stmt += ",[dad_id] = '" + dad + "'";
-//        sql_stmt += ",[jockey_id] = '" + jockey + "'";
-//        sql_stmt += ",[breeder_id] = '" + breeder + "'";
-//        sql_stmt += ",[color_name] = '" + comboBoxColor.getSelectedItem().toString() + "'";
-//        sql_stmt += ",[trainer_id] = '" + trainer + "'";
-//        sql_stmt += ",[owner_id] = '" + owner + "'";
-//        sql_stmt += " WHERE id = '" + textFieldID.getText() + "'";
-//
-//		CurrentUserData.executeSetUserId();
-//
-//        DBUtilities dbUtilities = new DBUtilities();
-//        dbUtilities.ExecuteSQLStatement(sql_stmt);
-//        
-//        loadRecords();
-//    }
+    private void updateRecord() throws SQLException {
+    	
+      	Date t2 = (Date) spinnerTime.getModel().getValue();
+    	System.out.println(t2.getHours()+":"+t2.getMinutes()+":"+t2.getSeconds());
+    	String finTime = t2.getHours()+":"+t2.getMinutes()+":"+t2.getSeconds();
+    
+        String sql_stmt = "UPDATE [dbo].[RACE] SET [distance] = '" + comboBoxDistance.getSelectedItem().toString() + "'";
+        sql_stmt += ",[prize_1] = '" + textFieldPrize1.getText() + "'";
+        sql_stmt += ",[prize_2] = '" + textFieldPrize2.getText() + "'";
+        sql_stmt += ",[prize_3] = '" + textFieldPrize3.getText() + "'";
+        sql_stmt += ",[race_type] = '" + comboBoxRaceType.getSelectedItem().toString() + "'";
+        sql_stmt += ",[field_type] = '" + comboBoxFieldType.getSelectedItem().toString() + "'";
+        sql_stmt += " WHERE race_time = '" + finTime + "' AND meeting_date = '"+comboBoxMeeting.getSelectedItem().toString()+"'";
+
+		CurrentUserData.executeSetUserId();
+        DBUtilities dbUtilities = new DBUtilities();
+        dbUtilities.ExecuteSQLStatement(sql_stmt);
+        
+        loadRecords();
+    }
 
 
     private void loadRecords() throws SQLException  {
@@ -506,7 +438,7 @@ public class ViewR1Race {
 					e.printStackTrace();
 				}
 				clearInputBoxesHorses();
-				spinnerTime.requestFocus();
+				//spinnerTime.requestFocus();
 			}
 		});
 		btnAddNew.setBounds(10, 259, 89, 31);
@@ -515,7 +447,12 @@ public class ViewR1Race {
 		JButton btnUpdate = new JButton("UPDATE");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//??????????????????????????????????
+				try {
+					updateRecord();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnUpdate.setBounds(107, 259, 89, 31);

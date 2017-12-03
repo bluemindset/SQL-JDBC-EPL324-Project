@@ -10,6 +10,8 @@ BEGIN
 --TEST FOR
 --'2010-01-29' 
 --'19:00:00'
+--declare @meeting_date_of_current_race date
+--declare @time_of_current_race time
  DECLARE @I int  = 0 ; 
  DECLARE @eighthorse table(horse int);
 DECLARE @horset table(horse_id int,trainer_id int, meeting_date date,race_time time,distance int,end_pos int,name varchar(20),pos1 int,pos2 int,pos3 int);
@@ -20,7 +22,9 @@ DECLARE @horset2 table(horse_id int,trainer_id int, meeting_date date,race_time 
  DECLARE @HorseCursor CURSOR;
  DECLARE @TrainerIt int;
  DECLARE @allpositions int;
-
+ --Set  @meeting_date_of_current_race = '2010-01-08';
+	
+--	Set  @time_of_current_race = '12:00:00';
 -- set @meeting_date_of_current_race ='2010-01-29'
 --set  @time_of_current_race = '12:00:00'
 SET NOCOUNT ON
@@ -105,7 +109,7 @@ Declare @namet varchar(25);
 
 
 		Declare HorseCursor2  CURSOR FOR
-    select * from @horset h
+    select DISTINCT *  from @horset h
 	ORDER BY h.trainer_id ASC , h.meeting_date ASC ,h.race_time ASC
 
 
@@ -161,6 +165,7 @@ DEALLOCATE HorseCursor2;
 
 END
 
+go
 
---EXECUTE Query9_b_Date;  
+EXECUTE Query9_b_Date;  
 

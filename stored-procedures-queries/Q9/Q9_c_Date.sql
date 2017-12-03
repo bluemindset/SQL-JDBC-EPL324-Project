@@ -23,7 +23,7 @@ DECLARE @horset2 table(horse_id int,owner_id int, meeting_date date,race_time ti
  DECLARE @ownerIt int;
  DECLARE @allpositions int;
 
- --set @meeting_date_of_current_race ='2010-01-29'
+-- set @meeting_date_of_current_race ='2010-01-29'
 --set  @time_of_current_race = '19:00:00'
 SET NOCOUNT ON
 
@@ -105,7 +105,7 @@ Declare @namet varchar(25);
 
 
 	Declare HorseCursor2  CURSOR FOR
-    select * from @horset h
+    select DISTINCT * from @horset h
 	ORDER BY h.owner_id ASC , h.meeting_date ASC ,h.race_time ASC
 
 
@@ -130,6 +130,7 @@ Declare @namet varchar(25);
 			END
 		ELSE
 			BEGIN
+			Insert INTO @horset2 values(NULL,'START',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 			SET @c= 1
 			SET @pos1tf=0 
 			SET @pos2tf=0

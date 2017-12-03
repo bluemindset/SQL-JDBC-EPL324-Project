@@ -14,15 +14,15 @@ BEGIN
  DECLARE @eighthorse table(horse int);
 DECLARE @horset table(horse_id int,owner_fam nvarchar (25), meeting_date date,race_time time,distance int,end_pos int,name varchar(20),pos1 int,pos2 int,pos3 int);
 DECLARE @horset2 table(horse_id int,owner_fam nvarchar (25), meeting_date date,race_time time,distance int,end_pos int,name varchar(20), pos1 int,pos2 int,pos3 int,all_pos int,perc money);
---  DECLARE @meeting_date_of_current_race date;
-  --DECLARE @time_of_current_race time;
+ --DECLARE @meeting_date_of_current_race date;
+ -- DECLARE @time_of_current_race time;
   Declare @race_time time;
  DECLARE @HorseCursor CURSOR;
  DECLARE @ownerIt int;
  DECLARE @allpositions int;
  Declare @owner_fam  nvarchar (25);
- -- @meeting_date_of_current_race ='2010-01-29'
---  @time_of_current_race = '19:00:00'
+ -- set @meeting_date_of_current_race ='2010-01-29'
+ --set  @time_of_current_race = '19:00:00'
 SET NOCOUNT ON
 
 
@@ -34,7 +34,7 @@ INSERT INTO @eighthorse
 			[Race].meeting_date=[PARTICIPATION].meeting_date AND [Race].meeting_date = @meeting_date_of_current_race 
 			AND	[Race].race_time = @time_of_current_race AND H.id = PARTICIPATION.horse_id
 	
-select * from	@eighthorse
+--select * from	@eighthorse
  SET @HorseCursor = CURSOR FOR
     select top 8 horse from @eighthorse h
 	
@@ -78,7 +78,7 @@ select * from	@eighthorse
     CLOSE @HorseCursor ;
     DEALLOCATE @HorseCursor;
 	
-	select * from @horset
+	--select * from @horset
 	Declare @horse_idt int;
 	Declare @pos1t int;
 	Declare @pos2t int;
@@ -104,8 +104,8 @@ Declare @namet varchar(25);
 	SET @perc = 0;
 
 
-		Declare HorseCursor2  CURSOR FOR
-    select * from @horset h
+	Declare HorseCursor2  CURSOR FOR
+    select DISTINCT *  from @horset h
 	ORDER BY h.owner_fam ASC , h.meeting_date ASC ,h.race_time ASC
 
 
@@ -130,6 +130,7 @@ Declare @namet varchar(25);
 			END
 		ELSE
 			BEGIN
+			Insert INTO @horset2 values(NULL,'START',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 			SET @c= 1
 			SET @pos1tf=0 
 			SET @pos2tf=0
@@ -142,6 +143,7 @@ Declare @namet varchar(25);
 
 			SET @perc =@pos1tf/@c
 			Insert INTO @horset2
+
 			SELECT @horse_idt ,@owner_famt, @meeting_datet,@race_timet ,@distancet ,@end_post,@namet, @pos1tf ,@pos2tf,@pos3tf,@c ,@perc
 			SET @same_owner = @owner_famt;
   
