@@ -18,7 +18,7 @@ AS
 			SUM(CASE WHEN P.end_pos = 3 THEN 1 ELSE 0 END) AS countThirdPositions,
 			COUNT(*) countParticipations,
 			ROUND( (CONVERT(FLOAT,SUM(CASE WHEN P.end_pos = 1 THEN 1 ELSE 0 END))/COUNT(*)),5,2) AS successRatio,
-			SUM(P.winnings) AS totalWinnings INTO #TEMP
+			SUM(P.winnings) AS totalWinnings INTO #TEMP_a
 		FROM PARTICIPATION P,HORSE H
 		WHERE H.id = P.horse_id AND  @year = DATEPART(yyyy, P.meeting_date)
 		GROUP BY H.id, H.name
@@ -31,10 +31,10 @@ AS
 --  SELECT COUNT(*) FROM #TEMP;
 
 		SELECT T.id, T.name, T.countFirstPositions, T.countSecondPositions, T.countThirdPositions, T.countParticipations, T.successRatio, T.totalWinnings
-		FROM #TEMP T
+		FROM #TEMP_a T
 		UNION
 		SELECT H.id, H.name, 0 AS countFirstPositions, 0 countSecondPositions, 0 countThirdPositions, 0 AS countParticipations, 0 AS successRatio, 0 AS totalWinnings
-		FROM HORSE H WHERE H.id NOT IN ( SELECT T2.id FROM #TEMP T2)
+		FROM HORSE H WHERE H.id NOT IN ( SELECT T2.id FROM #TEMP_a T2)
 		ORDER BY totalWinnings DESC;
 
 --     SELECT COUNT(*) FROM
@@ -43,10 +43,10 @@ AS
 --     UNION
 --     SELECT H.id, H.name, 0 AS countFirstPositions, 0 countSecondPositions, 0 countThirdPositions, 0 AS countParticipations, 0 AS successRatio, 0 AS totalWinnings
 --     FROM HORSE H WHERE H.id NOT IN ( SELECT T2.id FROM #TEMP T2)) TEST
-		DROP TABLE #TEMP;
+		DROP TABLE #TEMP_a;
 	END;
 GO
---EXEC query8_a 2010;
+-- EXEC query8_a 2010;
 --SELECT *
 --FROM PARTICIPATION P,HORSE H
 --WHERE H.id = P.horse_id
