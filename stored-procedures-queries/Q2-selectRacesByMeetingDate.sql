@@ -10,6 +10,6 @@ BEGIN
 	FROM RACE R
 	WHERE CONVERT(DATE, R.meeting_date) = CONVERT(DATE, @meetingDate)
 END;
-
+GO
 EXEC selectRacesByMeetingDate '2010-01-08';
 --How to compare dates? What is the format for dates ?
