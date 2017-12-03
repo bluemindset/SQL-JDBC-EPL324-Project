@@ -12,6 +12,7 @@ import javax.swing.UIManager;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -22,12 +23,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 
 public class ViewR1Race {
 
 	private JFrame frmRace;
 	private JTable table;
-	private JTextField textFieldRaceTime;
 	private JTextField textFieldPrize1;
 	private JTextField textFieldPrize2;
 	private JTextField textFieldPrize3;
@@ -36,7 +37,9 @@ public class ViewR1Race {
 	private JComboBox comboBoxRaceType;
 	private JComboBox comboBoxFieldType;
 	private JComboBox comboBoxMeeting;
-
+	private JSpinner spinnerTime;
+	
+	
 	boolean addRecord = false;
 	
 	public JFrame getFrmRace() {
@@ -48,7 +51,7 @@ public class ViewR1Race {
 	}
 	
     private void clearInputBoxesHorses() {
-    	textFieldRaceTime.setText("");
+    	spinnerTime.setValue("00:00:00");
     	textFieldPrize1.setText("");    	
     	textFieldPrize2.setText("");
     	textFieldPrize3.setText("");
@@ -59,17 +62,30 @@ public class ViewR1Race {
     	comboBoxMeeting.setSelectedItem("");
     }
     
-//    private void addNew() throws SQLException {
-//		Date date1 = null;
-//		try {
-//			date1 = new SimpleDateFormat("dd/MM/yyyy").parse(formattedTextField.getText());
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
+    private void addNew() throws SQLException {
+    	
+//        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+//        //SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
+//        Date date = format1.parse(meet_date.toString());
+//        String finDate = format1.format(date).toString();
+//        
+
+    	SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
+    	Date t2 = new Date();
+    	try {
+			t2 = formatTime.parse(spinnerTime.getValue().toString());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+    	String fintime = t2.getHours()+ ":" + t2.getMinutes() + ":" + t2.getSeconds();
+    	System.out.println(fintime);
+
 //
+//		
 //		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 //		String finDate = format1.format(date1).toString();
-//
+//		System.out.println(finDate);
+		
 //		String trainer ="";
 //		String owner ="";
 //		String breeder ="";
@@ -107,29 +123,24 @@ public class ViewR1Race {
 //		} catch ( NullPointerException e) {
 //			jockey ="";
 //		}
-//
-//        String sql_stmt = "INSERT INTO [dbo].[HORSE] ([id],[name],[is_purebred],[sex],[color_name],[date_of_birth],[cur_weight],[trainer_id],[owner_id],[breeder_id],[dad_id],[mama_id],[jockey_id])";
-//        sql_stmt += " VALUES ('" +  textFieldID.getText() + "','" +
-//        							textFieldName.getText() + "','"+
-//									checkBoxIsPurebred.isSelected() + "','" +
-//									comboBoxSex.getSelectedItem().toString() + "','" +
-//        							comboBoxColor.getSelectedItem().toString() + "','" +
-//									finDate + "','" +
-//        							textFieldWeight.getText() + "','" + 
-//        							trainer + "','" +
-//        							owner + "','" +
-//        							breeder + "','" +
-//        							dad + "','" +
-//									mom + "','" +
-//									jockey + "')";
-//
-//
-//		CurrentUserData.executeSetUserId();
-//        DBUtilities dbUtilities = new DBUtilities();
-//        dbUtilities.ExecuteSQLStatement(sql_stmt);
-//		loadRecords();
-//    }
-//
+
+        String sql_stmt = "INSERT INTO [dbo].[RACE] ([race_time],[distance],[prize_1],[prize_2],[prize_3],[race_type],[field_type],[meeting_date])";
+        sql_stmt += " VALUES ('" +  fintime + "','" +
+        							comboBoxDistance.getSelectedItem().toString() + "','"+
+									textFieldPrize1.getText() + "','" +
+									textFieldPrize2.getText() + "','" +
+									textFieldPrize3.getText() + "','" +
+									
+									comboBoxRaceType.getSelectedItem().toString() + "','" +
+									comboBoxFieldType.getSelectedItem().toString() + "','" +
+									comboBoxMeeting.getSelectedItem().toString()+ "')";
+        
+		CurrentUserData.executeSetUserId();
+        DBUtilities dbUtilities = new DBUtilities();
+        dbUtilities.ExecuteSQLStatement(sql_stmt);
+		loadRecords();
+    }
+
 //    private void updateRecord() throws SQLException {
 //    	
 //        Date date1 = null;
@@ -211,40 +222,43 @@ public class ViewR1Race {
 
         ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
         table.setModel(tableModel);
-//        table.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-//            try {
-//                if (table.getSelectedRow() >= 0) {
-//                	
-//                    Object id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 0);
-//                    Object name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 1);
-//                    Object compressed_name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 2);
-//                    Object cur_weight = tableHorses.getValueAt(tableHorses.getSelectedRow(), 3);
-//                    Object date_of_birth = tableHorses.getValueAt(tableHorses.getSelectedRow(), 4);
-//                    Object age = tableHorses.getValueAt(tableHorses.getSelectedRow(), 5);                    
-//                    Object sex = tableHorses.getValueAt(tableHorses.getSelectedRow(), 6);
-//                    Object is_purebred = tableHorses.getValueAt(tableHorses.getSelectedRow(), 7);
-//                    Object record = tableHorses.getValueAt(tableHorses.getSelectedRow(), 8);
-//                    Object origin_country = tableHorses.getValueAt(tableHorses.getSelectedRow(), 9);
-//                    Object mama_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 10);
-//                    Object dad_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 11); 
-//                    Object jockey_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 12);
-//                    Object breeder_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 13);
-//                    Object color_name = tableHorses.getValueAt(tableHorses.getSelectedRow(), 14);
-//                    Object trainer_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 15);
-//                    Object owner_id = tableHorses.getValueAt(tableHorses.getSelectedRow(), 16);
-//                    
-//                    SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-//                    SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
-//                    Date date = format1.parse(date_of_birth.toString());
-//                    String finDate = format2.format(date).toString();
-//                    
-//                    
-//                    textFieldID.setText(id.toString());
-//					textFieldName.setText(name.toString());
-//					textFieldWeight.setText(cur_weight.toString());
-//					formattedTextField.setText(finDate);
-//			    	textFieldAge.setText(age.toString());
-//					comboBoxSex.setSelectedItem(sex.toString());
+        table.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+            try {
+                if (table.getSelectedRow() >= 0) {
+                	
+
+                	
+                	
+                    Object time = table.getValueAt(table.getSelectedRow(), 0);
+                    Object distance = table.getValueAt(table.getSelectedRow(), 1);
+                    Object prize1 = table.getValueAt(table.getSelectedRow(), 2);
+                    Object prize2 = table.getValueAt(table.getSelectedRow(), 3);
+                    Object prize3 = table.getValueAt(table.getSelectedRow(), 4);
+                    Object totalwins = table.getValueAt(table.getSelectedRow(), 5);     
+                    Object race_type = table.getValueAt(table.getSelectedRow(), 6);
+                    Object field_type = table.getValueAt(table.getSelectedRow(), 7);
+                    Object meet_date = table.getValueAt(table.getSelectedRow(), 8);
+                   
+                    
+                    SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+                    //SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
+                    Date date = format1.parse(meet_date.toString());
+                    String finDate = format1.format(date).toString();
+                    
+                    SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
+                    Date time2 = formatTime.parse(time.toString());
+                    
+                    spinnerTime.setValue(time2);
+                	textFieldPrize1.setText(prize1.toString());    	
+                	textFieldPrize2.setText(prize2.toString());
+                	textFieldPrize3.setText(prize3.toString());
+                	textFieldTotalWinnings.setText(totalwins.toString());
+                	
+                	comboBoxDistance.setSelectedItem(distance.toString());
+                	comboBoxRaceType.setSelectedItem(race_type.toString());
+                	comboBoxFieldType.setSelectedItem(field_type.toString());
+                	comboBoxMeeting.setSelectedItem(finDate);
+                    
 //					try {
 //						checkBoxIsPurebred.setSelected(Boolean.parseBoolean(is_purebred.toString()));
 //					} catch ( NullPointerException e) {
@@ -295,12 +309,12 @@ public class ViewR1Race {
 //					} catch ( NullPointerException e) {
 //						comboBoxJockey.setSelectedItem(null);
 //					}
-//                }
-//            } catch (Exception ex) {
-//            	ex.printStackTrace();
-//                System.out.println(ex.getMessage());
-//            }
-//        });
+                }
+            } catch (Exception ex) {
+            	ex.printStackTrace();
+                System.out.println(ex.getMessage());
+            }
+        });
         DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
         rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
         table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
@@ -359,11 +373,6 @@ public class ViewR1Race {
 		panel.setBounds(10, 182, 454, 301);
 		getFrmRace().getContentPane().add(panel);
 		panel.setLayout(null);
-		
-		textFieldRaceTime = new JTextField();
-		textFieldRaceTime.setBounds(120, 40, 86, 20);
-		panel.add(textFieldRaceTime);
-		textFieldRaceTime.setColumns(10);
 		
 		JLabel lblRaceTime = new JLabel("Race Time:");
 		lblRaceTime.setBounds(10, 43, 73, 14);
@@ -451,7 +460,7 @@ public class ViewR1Race {
 		panel.add(lblFieldType);
 		
 		comboBoxFieldType = new JComboBox();
-		comboBoxRaceType.insertItemAt("", 0);
+		comboBoxFieldType.insertItemAt("", 0);
 		try {
 		   	 String sql_stmt_mom = "SELECT * FROM [dbo].[FIELD_TYPE];";
 		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt_mom);
@@ -471,13 +480,33 @@ public class ViewR1Race {
 		panel.add(lblMeetingDate);
 		
 		comboBoxMeeting = new JComboBox();
-		comboBoxMeeting.setBounds(120, 216, 86, 20);
+		comboBoxMeeting.insertItemAt("", 0);
+		try {
+		   	 String sql_stmt_mom = "SELECT * FROM [dbo].[MEETING];";
+		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt_mom);
+		   	 for(int i=0; i< Combo.getRowCount(); i++){
+		   		 String s = (Combo.getValueAt(i, 0).toString());
+		   		comboBoxMeeting.addItem(s);
+		   	 }
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		comboBoxMeeting.setBounds(120, 216, 116, 20);
 		panel.add(comboBoxMeeting);
 		
 		JButton btnAddNew = new JButton("ADD NEW");
 		btnAddNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				/////////?????????????????????????????????
+				addRecord = true;
+				try {
+					addNew();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				clearInputBoxesHorses();
+				spinnerTime.requestFocus();
 			}
 		});
 		btnAddNew.setBounds(10, 259, 89, 31);
@@ -491,6 +520,18 @@ public class ViewR1Race {
 		});
 		btnUpdate.setBounds(107, 259, 89, 31);
 		panel.add(btnUpdate);
+		
+		
+		
+		spinnerTime = new JSpinner( new SpinnerDateModel());
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(spinnerTime, "HH:mm:ss");
+		spinnerTime.setEditor(timeEditor);
+		spinnerTime.setValue(new Date());
+		spinnerTime.setBounds(120, 40, 86, 20);
+		panel.add(spinnerTime);
+		
+		
+		
 		
 		JButton btnBack = new JButton("BACK");
 		btnBack.addActionListener(new ActionListener() {
