@@ -5,19 +5,52 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class ViewR1HorseColor {
 
 	private JFrame frmColorName;
 	private JTextField textFieldColorName;
 	private JTable table;
+	
+	boolean addRecord = false;
+	
+	private void clearInputBoxesHorses() {
+		
+		textFieldColorName.setText("");
+	    	
+	    }
+	
+	public JFrame getFrmColorName() {
+		return frmColorName;
+	}
+
+	public void setFrmColorName(JFrame frmColorName) {
+		this.frmColorName = frmColorName;
+	}
+	
+	private void loadRecords() throws SQLException  {
+		
+	    String sql_stmt = "SELECT * FROM [dbo].[HORSE_COLOR];";
+
+	    ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
+	    table.setModel(tableModel);
+	    //////////////////////////////
+	    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+	    rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+	    table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+	    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		}
 
 	/**
 	 * Launch the application.
@@ -104,13 +137,14 @@ public class ViewR1HorseColor {
 				//???????????????????????????????
 			}
 		});
+		
+		try {
+			loadRecords();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
-	public JFrame getFrmColorName() {
-		return frmColorName;
-	}
-
-	public void setFrmColorName(JFrame frmColorName) {
-		this.frmColorName = frmColorName;
-	}
+	
 }

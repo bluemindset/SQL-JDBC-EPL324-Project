@@ -7,13 +7,16 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class ViewR1Jockey {
@@ -24,6 +27,39 @@ public class ViewR1Jockey {
 	private JTextField textFirstName;
 	private JTextField textLastName;
 	private JLabel lblFirstName;
+	
+	boolean addRecord = false;
+	
+private void clearInputBoxesHorses() {
+		
+	textFieldId.setText("");
+	textFirstName.setText("");
+	textLastName.setText("");
+  }
+	
+public JFrame getFrmJockey() {
+	return frmJockey;
+}
+
+public void setFrmJockey(JFrame frmJockey) {
+	this.frmJockey = frmJockey;
+}
+
+
+private void loadRecords() throws SQLException  {
+	
+    String sql_stmt = "SELECT * FROM [dbo].[JOCKEY];";
+
+    ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
+    table.setModel(tableModel);
+    //////////////////////////////
+    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+    rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+    table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+	}
+	
 
 	/**
 	 * Launch the application.
@@ -128,14 +164,14 @@ public class ViewR1Jockey {
 				//??????????????????????
 			}
 		});
+		
+		try {
+			loadRecords();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
-	public JFrame getFrmJockey() {
-		return frmJockey;
-	}
-
-	public void setFrmJockey(JFrame frmJockey) {
-		this.frmJockey = frmJockey;
-	}
-
+	
 }

@@ -7,11 +7,14 @@ import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class ViewR1SystemUser {
@@ -24,6 +27,41 @@ public class ViewR1SystemUser {
 	private JTextField textFieldFirstName;
 	private JTextField textFieldLastName;
 
+	boolean addRecord = false;
+	
+	private void clearInputBoxesHorses() {
+		
+		textFieldId.setText("");
+		textFieldUsername.setText("");
+		textFieldPassword.setText("");
+		textFieldFirstName.setText("");
+		textFieldLastName.setText("");			
+	  }
+	
+	public JFrame getFrmSystemUser() {
+		return frmSystemUser;
+	}
+
+	public void setFrmSystemUser(JFrame frmSystemUser) {
+		this.frmSystemUser = frmSystemUser;
+	}
+	
+	private void loadRecords() throws SQLException  {
+		
+	    String sql_stmt = "SELECT * FROM [dbo].[SYSTEM_USER];";
+
+	    ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
+	    table.setModel(tableModel);
+	    //////////////////////////////
+	    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+	    rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+	    table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+	    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		}
+
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -154,14 +192,15 @@ public class ViewR1SystemUser {
 		});
 		btnBack.setBounds(401, 382, 89, 38);
 		getFrmSystemUser().getContentPane().add(btnBack);
+		
+		try {
+			loadRecords();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
-	public JFrame getFrmSystemUser() {
-		return frmSystemUser;
-	}
-
-	public void setFrmSystemUser(JFrame frmSystemUser) {
-		this.frmSystemUser = frmSystemUser;
-	}
+	
 
 }
