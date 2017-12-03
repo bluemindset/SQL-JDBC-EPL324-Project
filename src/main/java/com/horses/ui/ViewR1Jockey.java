@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.UIManager;
 import java.awt.Color;
@@ -45,6 +46,33 @@ public void setFrmJockey(JFrame frmJockey) {
 	this.frmJockey = frmJockey;
 }
 
+private void addNew() throws SQLException {
+	
+	String sql_stmt = "INSERT INTO [dbo].[JOCKEY] ([id],[first_name],[last_name])";
+    sql_stmt += " VALUES ('" +  textFieldId.getText() + "','" +
+    		textFirstName.getText() + "','"+						
+    		textLastName.getText()  
+    					+ "')";
+
+		CurrentUserData.executeSetUserId();
+       DBUtilities dbUtilities = new DBUtilities();
+       dbUtilities.ExecuteSQLStatement(sql_stmt);
+		loadRecords();
+   }
+private void updateRecord() throws SQLException {
+	
+    
+    
+    String sql_stmt = "UPDATE [dbo].[JOCKEY] SET [first_name] = '" + textFirstName.getText() + "'";
+    sql_stmt += ",[last_name] = '" + textLastName.getText() + "'";
+    sql_stmt += " WHERE id = '" + textFieldId.getText() + "'";
+
+
+    DBUtilities dbUtilities = new DBUtilities();
+    dbUtilities.ExecuteSQLStatement(sql_stmt);
+    
+    loadRecords();
+}
 
 private void loadRecords() throws SQLException  {
 	
@@ -52,14 +80,34 @@ private void loadRecords() throws SQLException  {
 
     ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
     table.setModel(tableModel);
-    //////////////////////////////
-    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-    rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
-    table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
-    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+  
+    table.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+     try {
+         if (table.getSelectedRow() >= 0) {
+         
+                 	
+             Object id = table.getValueAt(table.getSelectedRow(), 0);
+             Object First_name = table.getValueAt(table.getSelectedRow(), 1);
+                Object Last_name = table.getValueAt(table.getSelectedRow(), 2);
 
-	}
-	
+                textFieldId.setText(id.toString());  
+                textFirstName.setText(First_name.toString()); 
+                textLastName.setText(Last_name.toString()); 
+ 
+         }
+     } catch (Exception ex) {
+     	ex.printStackTrace();
+         System.out.println(ex.getMessage());
+     }
+ });
+ DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+ rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+ table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+ table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+}
+
+
+
 
 	/**
 	 * Launch the application.
@@ -156,12 +204,26 @@ private void loadRecords() throws SQLException  {
 		panel.add(btnAddNew);
 		btnAddNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//????????????????????????????????
+				addRecord = true;
+				try {
+					addNew();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				clearInputBoxesHorses();
+				textFieldId.requestFocus();
+			
 			}
 		});
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//??????????????????????
+				try {
+					updateRecord();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+			}
 			}
 		});
 		
