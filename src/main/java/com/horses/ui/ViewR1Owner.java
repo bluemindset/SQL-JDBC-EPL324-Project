@@ -139,9 +139,6 @@ private void loadRecords() throws SQLException  {
 }
 
 
-
-
-
 	/**
 	 * Launch the application.
 	 */
