@@ -136,7 +136,6 @@ CREATE TABLE [dbo].[PARTICIPATION](
 	[cur_horse_age][tinyint] NULL,
 	[star_pos][int] NOT NULL,
 	[end_pos][int] NOT NULL,
-	[winnings][MONEY] NOT NULL,
 	--USER-CHANGES--
 	[created_by][char](8) NULL,
 	[date_created][date] NULL,

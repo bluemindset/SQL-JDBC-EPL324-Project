@@ -433,7 +433,7 @@ public class RecordInserter {
                 java.sql.Date sDate = convertUtilToSql(jDate);
                 cstmt.setDate(++k, sDate);
 
-                System.out.println("Date " + sDate);
+//                System.out.println("Date " + sDate);
             }
             cstmt.execute();
             k = 0;
@@ -719,7 +719,7 @@ public class RecordInserter {
             while ((line = br.readLine()) != null) {
                 strings = line.split("\t");
                 lines.add(strings);
-                System.out.println("<" + line +">");
+                //System.out.println("<" + line +">");
             }
         }
 
