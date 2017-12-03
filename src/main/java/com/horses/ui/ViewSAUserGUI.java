@@ -3,6 +3,7 @@ package com.horses.ui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -57,6 +58,21 @@ public class ViewSAUserGUI {
 		frmSystemAdminInterface.getContentPane().add(btnExportDatabase);
 		
 		JButton btnDeleteDatabase = new JButton("DELETE DATABASE");
+		btnDeleteDatabase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the database?", "", JOptionPane.YES_NO_OPTION);
+			        if (reply == JOptionPane.YES_OPTION) {
+			          JOptionPane.showMessageDialog(null, "DATABASE DELETED");
+			          
+			          //TODO DELETE DATABASE
+			          
+			          
+			          
+			          
+			          
+			        }
+			}
+		});
 		btnDeleteDatabase.setBounds(12, 80, 261, 23);
 		frmSystemAdminInterface.getContentPane().add(btnDeleteDatabase);
 		
