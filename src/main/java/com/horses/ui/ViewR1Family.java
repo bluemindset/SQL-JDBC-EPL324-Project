@@ -6,11 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class ViewR1Family {
@@ -18,6 +21,39 @@ public class ViewR1Family {
 	private JFrame frmFamily;
 	private JTable table;
 	private JTextField textFieldFamilyName;
+	
+	boolean addRecord = false;
+	
+	private void clearInputBoxesHorses() {
+		
+	textFieldFamilyName.setText("");
+    	
+    }
+	
+	public JFrame getFrmFamily() {
+	return frmFamily;
+	}
+
+	public void setFrmFamily(JFrame frmFamily) {
+	this.frmFamily = frmFamily;
+	}
+
+	private void loadRecords() throws SQLException  {
+	
+    String sql_stmt = "SELECT * FROM [dbo].[FAMILY];";
+
+    ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
+    table.setModel(tableModel);
+    //////////////////////////////
+    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+    rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+    table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+	}
+	
+	
+	
 
 	/**
 	 * Launch the application.
@@ -108,14 +144,15 @@ public class ViewR1Family {
 		});
 		btnBack.setBounds(303, 377, 89, 30);
 		getFrmFamily().getContentPane().add(btnBack);
+		
+
+		try {
+			loadRecords();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
-	public JFrame getFrmFamily() {
-		return frmFamily;
-	}
-
-	public void setFrmFamily(JFrame frmFamily) {
-		this.frmFamily = frmFamily;
-	}
-
+	
 }

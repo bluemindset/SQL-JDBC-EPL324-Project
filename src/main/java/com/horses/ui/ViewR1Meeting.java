@@ -6,12 +6,15 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.UIManager;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 
@@ -25,7 +28,38 @@ public class ViewR1Meeting {
 	private JButton btnBack;
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_1;
+	
+	boolean addRecord = false;
 
+	private void clearInputBoxesHorses() {
+		
+		textFieldDate.setText("");
+		
+	  }
+	
+	public JFrame getFrmMeeting() {
+		return frmMeeting;
+	}
+
+	public void setFrmMeeting(JFrame frmMeeting) {
+		this.frmMeeting = frmMeeting;
+	}
+	
+	private void loadRecords() throws SQLException  {
+		
+	    String sql_stmt = "SELECT * FROM [dbo].[MEETING];";
+
+	    ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
+	    table.setModel(tableModel);
+	    //////////////////////////////
+	    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+	    rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+	    table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+	    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		}
+
+	
 	/**
 	 * Launch the application.
 	 */
@@ -105,14 +139,15 @@ public class ViewR1Meeting {
 		});
 		btnBack.setBounds(360, 372, 96, 37);
 		getFrmMeeting().getContentPane().add(btnBack);
+		
+		try {
+			loadRecords();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
-	public JFrame getFrmMeeting() {
-		return frmMeeting;
-	}
-
-	public void setFrmMeeting(JFrame frmMeeting) {
-		this.frmMeeting = frmMeeting;
-	}
+	
 
 }

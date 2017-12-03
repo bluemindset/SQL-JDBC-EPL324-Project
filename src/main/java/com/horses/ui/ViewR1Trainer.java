@@ -6,11 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 
 public class ViewR1Trainer {
@@ -20,6 +23,40 @@ public class ViewR1Trainer {
 	private JTextField textFieldID;
 	private JTextField textFieldFirstName;
 	private JTextField textFieldLastName;
+	
+	
+	boolean addRecord = false;
+	
+private void clearInputBoxesHorses() {
+		
+		textFieldID.setText("");
+		textFieldFirstName.setText("");
+		textFieldLastName.setText("");			
+	  }
+	
+public JFrame getFrmTrainer() {
+	return frmTrainer;
+}
+
+public void setFrmTrainer(JFrame frmTrainer) {
+	this.frmTrainer = frmTrainer;
+}
+
+private void loadRecords() throws SQLException  {
+	
+    String sql_stmt = "SELECT * FROM [dbo].[TRAINER];";
+
+    ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
+    table.setModel(tableModel);
+    //////////////////////////////
+    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+    rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+    table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+	}
+
+
 
 	/**
 	 * Launch the application.
@@ -123,14 +160,15 @@ public class ViewR1Trainer {
 		});
 		btnBack.setBounds(344, 383, 95, 32);
 		getFrmTrainer().getContentPane().add(btnBack);
+		
+		try {
+			loadRecords();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
-	public JFrame getFrmTrainer() {
-		return frmTrainer;
-	}
-
-	public void setFrmTrainer(JFrame frmTrainer) {
-		this.frmTrainer = frmTrainer;
-	}
+	
 
 }
