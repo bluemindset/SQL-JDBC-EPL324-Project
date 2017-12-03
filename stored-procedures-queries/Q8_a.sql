@@ -6,8 +6,8 @@ CREATE PROCEDURE query8_a
 AS
 	BEGIN
 --     for test
---     DECLARE @year INT;
---     SET @year = 2010;
+    DECLARE @year INT;
+    SET @year = 2010;
 --     SELECT * FROM PARTICIPATION WHERE @year = DATEPART(yyyy, PARTICIPATION.meeting_date)
 --     SELECT * FROM PARTICIPATION
 
