@@ -26,7 +26,6 @@ public class ViewR1Owner {
 	private JTextField textFieldFirstName;
 	private JTextField textFieldLastName;
 	private JTextField textFieldUniform;
-	private JTextField textFieldFamily;
 	private JComboBox comboBoxTitle;
 	private JComboBox comboBoxFamilyName ;
 	
@@ -38,7 +37,6 @@ private void clearInputBoxesHorses() {
 	textFieldFirstName.setText("");
 	textFieldLastName.setText("");
 	textFieldUniform.setText("");
-	textFieldFamily.setText("");
 	comboBoxTitle.setSelectedItem("");	
 	comboBoxFamilyName.setSelectedItem("");	
 	  }
@@ -68,7 +66,7 @@ private void addNew() throws SQLException {
     						textFieldLastName.getText()  + "','" + 
     					textFieldUniform.getText() + "','" + 
     					comboBoxTitle.getSelectedItem().toString() +"','" +
-    					comboBoxFamilyName.getSelectedItem().toString() +"','" +
+    					comboBoxFamilyName.getSelectedItem().toString() +
     					"')";
 
 		CurrentUserData.executeSetUserId();
@@ -87,7 +85,7 @@ private void updateRecord() throws SQLException {
 	}
 
     
-    String sql_stmt = "UPDATE [dbo].[JOCKEY] SET [first_name] = '" + textFieldFirstName.getText() + "'";
+    String sql_stmt = "UPDATE [dbo].[OWNER] SET [first_name] = '" + textFieldFirstName.getText() + "'";
     sql_stmt += ",[last_name] = '" + textFieldLastName.getText() + "'";
     sql_stmt += ",[uniform] = '" + textFieldUniform.getText() + "'";
     sql_stmt += ",[title] = '" + comboBoxTitle.getSelectedItem().toString() + "'";
@@ -117,7 +115,7 @@ private void loadRecords() throws SQLException  {
              Object id = table.getValueAt(table.getSelectedRow(), 0);
              Object First_name = table.getValueAt(table.getSelectedRow(), 1);
                Object Last_name = table.getValueAt(table.getSelectedRow(), 2);
-               Object uniform = table.getValueAt(table.getSelectedRow(),3 );
+               Object uniform = table.getValueAt(table.getSelectedRow(),4 );
                Object title = table.getValueAt(table.getSelectedRow(), 5);
                Object family = table.getValueAt(table.getSelectedRow(), 6);
 
@@ -260,15 +258,6 @@ private void loadRecords() throws SQLException  {
 		btnUpdate.setBounds(109, 217, 89, 23);
 		panel.add(btnUpdate);
 		
-		JLabel lblFamily = new JLabel("Family:");
-		lblFamily.setBounds(201, 93, 46, 14);
-		panel.add(lblFamily);
-		
-		textFieldFamily = new JTextField();
-		textFieldFamily.setBounds(263, 90, 86, 20);
-		panel.add(textFieldFamily);
-		textFieldFamily.setColumns(10);
-		
 		comboBoxTitle = new JComboBox();
 		comboBoxTitle.insertItemAt("", 0);
 		comboBoxTitle.addItem("Mr.");
@@ -283,7 +272,7 @@ private void loadRecords() throws SQLException  {
 		panel.add(lblTitle);
 		
 		JLabel lblFamilyName = new JLabel("Family Name:");
-		lblFamilyName.setBounds(10, 182, 77, 14);
+		lblFamilyName.setBounds(185, 93, 77, 14);
 		panel.add(lblFamilyName);
 		
 		 comboBoxFamilyName = new JComboBox();
@@ -298,7 +287,7 @@ private void loadRecords() throws SQLException  {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		comboBoxFamilyName.setBounds(85, 176, 86, 20);
+		comboBoxFamilyName.setBounds(263, 90, 86, 20);
 		panel.add(comboBoxFamilyName);
 		
 		JButton btnBack = new JButton("BACK");
