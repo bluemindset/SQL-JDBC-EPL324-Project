@@ -41,8 +41,7 @@ public class ViewQ2HorseRaceResults extends JDialog {
 	}
 
     private void loadRecords(String stringDate) throws SQLException  {
-    	
-    	System.out.println(stringDate);
+       	System.out.println(stringDate);
         String cstmtString = "{call selectRacesByMeetingDate(?)}";
         Date date1 = null;
         try {
@@ -53,7 +52,6 @@ public class ViewQ2HorseRaceResults extends JDialog {
         ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, date1);
         
         table.setModel(tableModel);
-
         
         DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
         rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
@@ -62,9 +60,6 @@ public class ViewQ2HorseRaceResults extends JDialog {
         
         //************************ TIMESTAMP*************************
         table.getColumnModel().getColumn(1).setCellRenderer(new TimeStampCellRenderer());
-        
-    
-    
     }
 
 	
