@@ -70,13 +70,11 @@ public class ViewR1Jockey {
 		btnBack.setBounds(382, 406, 97, 40);
 		getFrmJockey().getContentPane().add(btnBack);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 11, 471, 184);
-		getFrmJockey().getContentPane().add(scrollPane_1);
-		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane_1.setViewportView(scrollPane);
-		
+		scrollPane.setBounds(10, 11, 471, 184);	
+		getFrmJockey().getContentPane().add(scrollPane);
+				
+	
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		

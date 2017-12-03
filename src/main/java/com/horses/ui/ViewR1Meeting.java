@@ -59,12 +59,10 @@ public class ViewR1Meeting {
 		getFrmMeeting().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrmMeeting().getContentPane().setLayout(null);
 		
-		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 11, 446, 223);
-		getFrmMeeting().getContentPane().add(scrollPane_1);
-		
-		scrollPane = new JScrollPane();
-		scrollPane_1.setViewportView(scrollPane);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 446, 223);
+		getFrmMeeting().getContentPane().add(scrollPane);
+
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);

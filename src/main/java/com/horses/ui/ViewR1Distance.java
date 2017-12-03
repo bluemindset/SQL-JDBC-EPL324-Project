@@ -54,12 +54,10 @@ public class ViewR1Distance {
 		getFrmRaceDistance().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrmRaceDistance().getContentPane().setLayout(null);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 11, 392, 233);
-		getFrmRaceDistance().getContentPane().add(scrollPane_1);
-		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane_1.setViewportView(scrollPane);
+		scrollPane.setBounds(10, 11, 392, 233);
+		getFrmRaceDistance().getContentPane().add(scrollPane);
+				
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);

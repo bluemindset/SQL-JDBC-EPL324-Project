@@ -54,15 +54,15 @@ public class ViewR1Breeder {
 		getFrmBreeder().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrmBreeder().getContentPane().setLayout(null);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 11, 379, 159);
-		getFrmBreeder().getContentPane().add(scrollPane_1);
-		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane_1.setViewportView(scrollPane);
-		
+		scrollPane.setBounds(10, 11, 379, 159);
+		getFrmBreeder().getContentPane().add(scrollPane);
+				
+	
 		table = new JTable();
 		scrollPane.setViewportView(table);
+		
+	
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Breeder Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));

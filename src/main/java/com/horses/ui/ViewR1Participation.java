@@ -53,13 +53,11 @@ public class ViewR1Participation {
 		getFrmParticipation().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrmParticipation().getContentPane().setLayout(null);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 11, 497, 148);
-		getFrmParticipation().getContentPane().add(scrollPane_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane_1.setViewportView(scrollPane);
-		
+		scrollPane.setBounds(10, 11, 497, 148);
+		getFrmParticipation().getContentPane().add(scrollPane);
+
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
