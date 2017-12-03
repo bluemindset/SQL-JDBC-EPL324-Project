@@ -46,9 +46,12 @@ public class ViewR1Breeder {
 	
 	private void addNew() throws SQLException {
     	
-	       String sql_stmt = "INSERT INTO [dbo].[RACE_TYPE] ([type])";
-	       sql_stmt += " VALUES ('" +  	textFieldId.getText() + "')";
-	       
+		String sql_stmt = "INSERT INTO [dbo].[BREEDER] ([id],[first_name],[last_name])";
+        sql_stmt += " VALUES ('" +  textFieldId.getText() + "','" +
+        						textFieldFirstName.getText() + "','"+						
+        						textFieldLastName.getText()  
+        					+ "')";
+
 			CurrentUserData.executeSetUserId();
 	       DBUtilities dbUtilities = new DBUtilities();
 	       dbUtilities.ExecuteSQLStatement(sql_stmt);
