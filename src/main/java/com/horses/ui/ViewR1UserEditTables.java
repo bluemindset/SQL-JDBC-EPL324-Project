@@ -371,7 +371,7 @@ public class ViewR1UserEditTables {
 	 */
 	private void initialize() {
 		frmEditTables = new JFrame();
-		frmEditTables.setTitle("EDIT TABLES");
+		frmEditTables.setTitle("HORSE TABLE");
 		frmEditTables.setBounds(100, 100, 777, 590);
 		frmEditTables.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEditTables.getContentPane().setLayout(null);

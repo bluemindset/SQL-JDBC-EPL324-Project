@@ -51,6 +51,7 @@ public class ViewQ2HorseRaceResults extends JDialog {
 			e.printStackTrace();
 		}  
         ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, date1);
+        
         table.setModel(tableModel);
 
         
@@ -58,6 +59,12 @@ public class ViewQ2HorseRaceResults extends JDialog {
         rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
         table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        
+        //************************ TIMESTAMP*************************
+        table.getColumnModel().getColumn(1).setCellRenderer(new TimeStampCellRenderer());
+        
+    
+    
     }
 
 	
