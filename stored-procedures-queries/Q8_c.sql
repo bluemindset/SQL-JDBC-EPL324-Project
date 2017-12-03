@@ -65,9 +65,9 @@ AS
     --for test
 --     DECLARE @inpYear INT;
 --     SET @inpYear = 2010;
-
-    INSERT INTO #HORSES_STATS
-    EXEC query8_a @inpYear;
+    SELECT * INTO  #HORSES_STATS FROM query8_a_fn(@inpYear);
+--     INSERT INTO #HORSES_STATS
+--     EXEC query8_a @inpYear;
 
 --     SELECT *  FROM #FATHER_ONLY_KID_STATS;
 --     SELECT * FROM #FATHERS_SONS;
