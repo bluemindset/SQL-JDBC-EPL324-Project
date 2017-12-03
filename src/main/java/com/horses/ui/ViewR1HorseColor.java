@@ -48,7 +48,7 @@ public class ViewR1HorseColor {
 	private void initialize() {
 		frmColorName = new JFrame();
 		frmColorName.setTitle("COLOR NAME");
-		frmColorName.setBounds(100, 100, 416, 454);
+		frmColorName.setBounds(100, 100, 416, 459);
 		frmColorName.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmColorName.getContentPane().setLayout(null);
 		
@@ -56,32 +56,14 @@ public class ViewR1HorseColor {
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			
-				frmColorName.dispose();
+					frmColorName.dispose();
 					ViewR1UserGUI window = new ViewR1UserGUI();
 					window.frmPleaseChooseA.setVisible(true);
 			
 			}
 		});
-		btnBack.setBounds(266, 350, 99, 36);
+		btnBack.setBounds(288, 373, 99, 36);
 		frmColorName.getContentPane().add(btnBack);
-		
-		JButton btnAddNew = new JButton("ADD NEW");
-		btnAddNew.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//???????????????????????????????
-			}
-		});
-		btnAddNew.setBounds(27, 350, 89, 36);
-		frmColorName.getContentPane().add(btnAddNew);
-		
-		JButton btnUpdate = new JButton("UPDATE");
-		btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//???????????????????????????????????????
-			}
-		});
-		btnUpdate.setBounds(126, 350, 89, 36);
-		frmColorName.getContentPane().add(btnUpdate);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(10, 11, 377, 240);
@@ -95,17 +77,35 @@ public class ViewR1HorseColor {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Color Name Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 253, 375, 84);
+		panel.setBounds(10, 253, 375, 120);
 		frmColorName.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel LblColorName = new JLabel("Color Name:");
-		LblColorName.setBounds(0, 38, 82, 14);
+		LblColorName.setBounds(10, 38, 82, 14);
 		panel.add(LblColorName);
 		
 		textFieldColorName = new JTextField();
 		textFieldColorName.setBounds(92, 35, 86, 20);
 		panel.add(textFieldColorName);
 		textFieldColorName.setColumns(10);
+		
+		JButton btnAddNew = new JButton("ADD NEW");
+		btnAddNew.setBounds(10, 80, 89, 31);
+		panel.add(btnAddNew);
+		
+		JButton btnUpdate = new JButton("UPDATE");
+		btnUpdate.setBounds(109, 80, 89, 31);
+		panel.add(btnUpdate);
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//???????????????????????????????????????
+			}
+		});
+		btnAddNew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//???????????????????????????????
+			}
+		});
 	}
 }

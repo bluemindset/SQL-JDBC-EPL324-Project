@@ -54,7 +54,7 @@ public class ViewR1Jockey {
 	private void initialize() {
 		frmJockey = new JFrame();
 		frmJockey.setTitle("JOCKEY");
-		frmJockey.setBounds(100, 100, 525, 472);
+		frmJockey.setBounds(100, 100, 525, 495);
 		frmJockey.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmJockey.getContentPane().setLayout(null);
 		
@@ -67,26 +67,8 @@ public class ViewR1Jockey {
 		
 			}
 		});
-		btnBack.setBounds(384, 357, 97, 40);
+		btnBack.setBounds(382, 406, 97, 40);
 		frmJockey.getContentPane().add(btnBack);
-		
-		JButton btnAddNew = new JButton("ADD NEW");
-		btnAddNew.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//????????????????????????????????
-			}
-		});
-		btnAddNew.setBounds(10, 357, 97, 32);
-		frmJockey.getContentPane().add(btnAddNew);
-		
-		JButton btnUpdate = new JButton("UPDATE");
-		btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//??????????????????????
-			}
-		});
-		btnUpdate.setBounds(131, 357, 97, 32);
-		frmJockey.getContentPane().add(btnUpdate);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(10, 11, 471, 184);
@@ -100,7 +82,7 @@ public class ViewR1Jockey {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Jockey Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(10, 206, 471, 135);
+		panel.setBounds(10, 206, 471, 189);
 		frmJockey.getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -130,6 +112,24 @@ public class ViewR1Jockey {
 		textLastName.setBounds(93, 90, 86, 20);
 		panel.add(textLastName);
 		textLastName.setColumns(10);
+		
+		JButton btnUpdate = new JButton("UPDATE");
+		btnUpdate.setBounds(128, 146, 97, 32);
+		panel.add(btnUpdate);
+		
+		JButton btnAddNew = new JButton("ADD NEW");
+		btnAddNew.setBounds(10, 146, 97, 32);
+		panel.add(btnAddNew);
+		btnAddNew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//????????????????????????????????
+			}
+		});
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//??????????????????????
+			}
+		});
 	}
 
 }
