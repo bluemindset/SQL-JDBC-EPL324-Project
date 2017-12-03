@@ -6,11 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class ViewR1FieldType {
@@ -18,6 +21,36 @@ public class ViewR1FieldType {
 	private JFrame frmFieldType;
 	private JTable table;
 	private JTextField textField;
+
+	boolean addRecord = false;
+	
+	private void clearInputBoxesHorses() {
+		
+		textField.setText("");
+	    	
+	    }
+
+	public JFrame getFrmFieldType() {
+		return frmFieldType;
+	}
+
+	public void setFrmFieldType(JFrame frmFieldType) {
+		this.frmFieldType = frmFieldType;
+	}
+	
+	private void loadRecords() throws SQLException  {
+		
+	    String sql_stmt = "SELECT * FROM [dbo].[FIELD_TYPE];";
+
+	    ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
+	    table.setModel(tableModel);
+	    //////////////////////////////
+	    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+	    rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+	    table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+	    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		}
 
 	/**
 	 * Launch the application.
@@ -104,14 +137,17 @@ public class ViewR1FieldType {
 		});
 		btnNewButton.setBounds(297, 399, 89, 34);
 		getFrmFieldType().getContentPane().add(btnNewButton);
+		
+		
+		
+		try {
+			loadRecords();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
-	public JFrame getFrmFieldType() {
-		return frmFieldType;
-	}
-
-	public void setFrmFieldType(JFrame frmFieldType) {
-		this.frmFieldType = frmFieldType;
-	}
+	
 
 }

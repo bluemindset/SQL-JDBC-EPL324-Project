@@ -8,17 +8,53 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class ViewR1RaceType {
 
+	
 	private JFrame frmRaceType;
 	private JTable table;
 	private JTextField textFieldRaceType;
 
+	
+	boolean addRecord = false;
+	
+	private void clearInputBoxesHorses() {
+		textFieldRaceType.setText("");
+    	
+    }
+
+	public JFrame getFrame() {
+		return frmRaceType;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frmRaceType = frame;
+		frmRaceType.setTitle("RACE TYPE");
+	}
+	
+	
+	 private void loadRecords() throws SQLException  {
+	    	
+	        String sql_stmt = "SELECT * FROM [dbo].[RACE_TYPE];";
+
+	        ResultSetTableModel tableModel = new ResultSetTableModel(sql_stmt);
+	        table.setModel(tableModel);
+	        //////////////////////////////
+	        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+	        rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+	        table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+	        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+	
+	 }
+	
 	/**
 	 * Launch the application.
 	 */
@@ -94,15 +130,15 @@ public class ViewR1RaceType {
 		});
 		btnBack.setBounds(298, 385, 89, 30);
 		getFrame().getContentPane().add(btnBack);
+		
+		try {
+			loadRecords();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
-	public JFrame getFrame() {
-		return frmRaceType;
-	}
-
-	public void setFrame(JFrame frame) {
-		this.frmRaceType = frame;
-		frmRaceType.setTitle("RACE TYPE");
-	}
+	
 
 }

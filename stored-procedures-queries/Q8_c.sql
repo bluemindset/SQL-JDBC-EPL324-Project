@@ -32,8 +32,9 @@ AS
     ORDER BY totalWinnings DESC;
 
     --for test
---       SELECT * FROM HORSE;
---     	SELECT * FROM #FATHERS_SONS;
+--     SELECT * FROM HORSE;
+--     SELECT * FROM #FATHERS_SONS WHERE #FATHERS_SONS.dadId = 9;
+--     SELECT * FROM HORSE H, PARTICIPATION P WHERE H.id = P.horse_id AND H.id = 9;
 
     SELECT
       FS.dadId                     AS father_id,
@@ -45,6 +46,9 @@ AS
     INTO #FATHER_ONLY_KID_STATS
     FROM #FATHERS_SONS FS
     GROUP BY FS.dadId;
+
+    --for test
+    --SELECT * FROM #FATHER_ONLY_KID_STATS FS WHERE FS.father_id = 9;
 
     -- Get the statistics of all the individual horses. this table is to be used with #FATHERS so individual father statistics are taken into consideration.
     CREATE TABLE #HORSES_STATS (
@@ -65,11 +69,11 @@ AS
     INSERT INTO #HORSES_STATS
     EXEC query8_a @inpYear;
 
-    SELECT *
-    FROM #HORSES_STATS;
-    SELECT *
-    FROM #HORSES_STATS HS, #FATHER_ONLY_KID_STATS F
-    WHERE HS.id = F.father_id;
+--     SELECT *  FROM #FATHER_ONLY_KID_STATS;
+--     SELECT * FROM #FATHERS_SONS;
+--     SELECT *
+--     FROM #HORSES_STATS HS, #FATHER_ONLY_KID_STATS F
+--     WHERE HS.id = F.father_id;
 
     --	Add individual father statistics to the statistics of his sons.
     SELECT
@@ -92,8 +96,10 @@ AS
       HS.countParticipations, FOKS.countParticipations,
       HS.totalWinnings, FOKS.totalWinnings;
 
-    SELECT *
-    FROM #FATHERS;
+--     SELECT * FROM #HORSES_STATS HS WHERE HS.id = 9;
+--     SELECT * FROM #FATHERS F WHERE F.father_id = 9;
+
+    SELECT * FROM #FATHERS;
 
     --get all individual horse stats.
     DROP TABLE #HORSES_STATS;
@@ -105,5 +111,5 @@ AS
     DROP TABLE #FATHERS;
   END;
 GO
---EXEC query8_c  2010;
+EXEC query8_c  2010;
 GO
