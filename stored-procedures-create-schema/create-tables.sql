@@ -51,7 +51,8 @@ CREATE TABLE [dbo].[JOCKEY](
 	[first_name][nvarchar](25)  NULL,
 	[last_name][nvarchar](25)  NULL,
 	[compressed_name]AS cast(SUBSTRING([first_name],1,1)+'.'+[last_name] AS [nvarchar](15)) ,
-	[total_number_of_wins][smallint] NULL,
+	[total_number_of_wins][smallint] NULL, 
+	--total numbers of wins do we need this shit???????????????????????????????
 	--USER-CHANGES--
 	[created_by][char](8)  NULL,
 	[date_created][date]  NULL,
@@ -94,6 +95,7 @@ CREATE TABLE [dbo].[RACE](
 )
 GO
 
+
 --insert into [RACE] ([prize_1],[prize_2],[prize_3],[meeting_id]) VALUES ('120','100','10','1')
 
 --RACE_DISTANCE
@@ -106,6 +108,7 @@ CREATE TABLE [dbo].[RACE_DISTANCE](
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_RACE_DISTANCE] PRIMARY KEY ([distance] ASC)
 )
+
 GO
 --RACE_TYPE
 CREATE TABLE [dbo].[RACE_TYPE](
@@ -129,6 +132,7 @@ CREATE TABLE [dbo].[FIELD_TYPE](
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_FIELD_TYPE] PRIMARY KEY ([type] ASC)
 )
+
 GO
 --PARTICIPATION
 CREATE TABLE [dbo].[PARTICIPATION](
@@ -151,6 +155,7 @@ CREATE TABLE [dbo].[PARTICIPATION](
 	CONSTRAINT [PK_PARTICIPATION] PRIMARY KEY ([race_time] ASC, [meeting_date] ASC, [horse_id] ASC, [jockey_id] ASC, [trainer_id] ASC)
 )
 GO
+--select * from PARTICIPATION
 --TRAINER
 CREATE TABLE [dbo].[TRAINER](
 	[id][char](6) NOT NULL,
@@ -187,6 +192,8 @@ CREATE TABLE [dbo].[OWNER](
 	[compressed_name] AS cast(SUBSTRING([first_name],1,1)+'.'+[last_name] AS [nvarchar](15)),
 	[uniform][nvarchar](50)  NULL,
 	[title][nvarchar](5)  NULL,
+	--number of horses? posa aloga exei o kathe idioktitis?
+	--title  do we need this shit???????????????????????????????
 	--FOREIGN KEY--
 	[onwer_family][nvarchar](35)  NULL,
 	--USER-CHANGES--
@@ -203,6 +210,9 @@ CREATE TABLE [dbo].[FAMILY](
 	[name][nvarchar](35) ,
 	[compressed_name] AS cast([name] AS [nvarchar](15)),
 	[no_of_owners][int] NULL,
+
+	--compressed name  do we need this shit???????????????????????????????
+	--no_of_owners  do we need this shit???????????????????????????????
 	--USER-CHANGES--
 	[created_by][char](8)  NULL ,
 	[date_created][date]  NULL,
@@ -211,6 +221,7 @@ CREATE TABLE [dbo].[FAMILY](
 	CONSTRAINT [PK_FAMILY] PRIMARY KEY ([name] ASC)
 )
 GO
+
 --SYSTEM_USER
 CREATE TABLE [dbo].[SYSTEM_USER](
 	[id][char](8) NOT NULL,
@@ -227,6 +238,7 @@ CREATE TABLE [dbo].[SYSTEM_USER](
 	CONSTRAINT [PK_USER] PRIMARY KEY ([id] ASC)
 )
 GO
+--select * from [SYSTEM_USER]
 ----------------------------NEW TABLES-------------------------------------------------
 --HORSE SEX--
 CREATE TABLE [dbo].[HORSE_SEX](
