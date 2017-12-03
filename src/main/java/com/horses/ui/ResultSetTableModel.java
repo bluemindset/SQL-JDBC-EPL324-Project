@@ -130,7 +130,7 @@ public class ResultSetTableModel extends AbstractTableModel {
 	public ResultSetTableModel(String cstmtString, String date, String time) throws SQLException{
 		this();
 		
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat tf = new SimpleDateFormat("HH:mm:ss");
         Date dateRace;
         java.sql.Date dateInsert = null;
