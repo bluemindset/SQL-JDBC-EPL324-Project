@@ -1,7 +1,7 @@
 IF OBJECT_ID (N'Query9_c_Date', N'P')IS NOT NULL  
     DROP PROCEDURE Query9_c_Date;  
 GO
-CREATE PROCEDURE Query9_c_Date-- @meeting_date_of_current_race date, @time_of_current_race time
+CREATE PROCEDURE Query9_c_Date @meeting_date_of_current_race date, @time_of_current_race time
 
 AS 
 BEGIN
@@ -10,19 +10,21 @@ BEGIN
 --TEST FOR
 --'2010-01-29' 
 --'19:00:00'
- DECLARE @I int  = 0 ; 
- DECLARE @eighthorse table(horse int);
+--DECLARE @meeting_date_of_current_race date;
+--DECLARE @time_of_current_race time;
+
+DECLARE @I int  = 0 ; 
+DECLARE @eighthorse table(horse int);
 DECLARE @horset table(horse_id int,owner_id int, meeting_date date,race_time time,distance int,end_pos int,name varchar(20),pos1 int,pos2 int,pos3 int);
 DECLARE @horset2 table(horse_id int,owner_id int, meeting_date date,race_time time,distance int,end_pos int,name varchar(20), pos1 int,pos2 int,pos3 int,all_pos int,perc money);
-  DECLARE @meeting_date_of_current_race date;
-  DECLARE @time_of_current_race time;
+
   Declare @race_time time;
  DECLARE @HorseCursor CURSOR;
  DECLARE @ownerIt int;
  DECLARE @allpositions int;
 
- set @meeting_date_of_current_race ='2010-01-29'
-set  @time_of_current_race = '19:00:00'
+ --set @meeting_date_of_current_race ='2010-01-29'
+--set  @time_of_current_race = '19:00:00'
 SET NOCOUNT ON
 
 
@@ -50,12 +52,10 @@ INSERT INTO @eighthorse
 	Insert into @horset(meeting_date,horse_id,owner_id,race_time,end_pos,distance,name,pos1,pos2,pos3)
 		SELECT   [PARTICIPATION].meeting_date ,[PARTICIPATION].horse_id,HORSE.owner_id, [Race].Race_time,  [PARTICIPATION].end_pos , RACE.distance, HORSE.name	,
 
-		
 			SUM(CASE WHEN [PARTICIPATION].end_pos = 1 THEN 1 ELSE 0 END) AS countFirstPositions,
 			SUM(CASE WHEN [PARTICIPATION].end_pos = 2 THEN 1 ELSE 0 END) AS countSecondPositions,
 			SUM(CASE WHEN [PARTICIPATION].end_pos = 3 THEN 1 ELSE 0 END) AS countThirdPositions
 		
-
 		FROM  [PARTICIPATION],[RACE],HORSE
 		
 		WHERE HORSE.owner_id = @ownerIt AND (([PARTICIPATION].meeting_date = @meeting_date_of_current_race AND
@@ -104,7 +104,7 @@ Declare @namet varchar(25);
 	SET @perc = 0;
 
 
-		Declare HorseCursor2  CURSOR FOR
+	Declare HorseCursor2  CURSOR FOR
     select * from @horset h
 	ORDER BY h.owner_id ASC , h.meeting_date ASC ,h.race_time ASC
 
@@ -161,7 +161,7 @@ DEALLOCATE HorseCursor2;
 
 END
 
-go
+--go
 
-EXECUTE Query9_c_Date;  
+--EXECUTE Query9_c_Date;  
 

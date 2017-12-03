@@ -1,8 +1,12 @@
 package com.horses.ui;
 
 import com.horses.dbmanage.Config;
+import com.horses.dbmanage.RecordInserter;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.table.AbstractTableModel;
@@ -115,6 +119,44 @@ public class ResultSetTableModel extends AbstractTableModel {
     	fireTableStructureChanged();
 	}
 
+	
+	
+	/**
+	 * FOR QUERY 9 C)
+	 * @param cstmtString
+	 * @param date
+	 * @param time
+	 */
+	public ResultSetTableModel(String cstmtString, String date, String time) throws SQLException{
+		this();
+		
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat tf = new SimpleDateFormat("HH:mm:ss");
+        Date dateRace;
+        java.sql.Date dateInsert = null;
+        java.sql.Time timeInsert = null;
+        java.util.Date  runTime ;
+        try {
+            dateRace = df.parse(date);
+            runTime = tf.parse(time);
+            dateInsert = RecordInserter.convertUtilToSql(dateRace);
+            timeInsert = RecordInserter.convertUtilToSqlTime(runTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+		
+    	CallableStatement cstmt = connection.prepareCall(cstmtString, ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+    	cstmt.setDate(1, dateInsert);
+    	cstmt.setTime(2, timeInsert);
+//TODO
+    	resultSet = cstmt.executeQuery();
+    	metaData = resultSet.getMetaData();
+    	resultSet.last();
+    	numberOfRows = resultSet.getRow();
+    	fireTableStructureChanged();
+	}
+
+	
 	@Override
     public Class getColumnClass(int column) throws IllegalStateException {
         if (!connectedToDatabase) {

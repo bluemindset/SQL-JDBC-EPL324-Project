@@ -14,8 +14,10 @@ import java.util.function.BinaryOperator;
  * Created by tomis on 26/11/2017.
  */
 public class QueryExecutor {
-    private static final String USERNAME = "cchadj01";
-    private static final String DEFAULT_PASS = "s3agazuhespU";
+    public static final String USERNAME = "ntzior01";
+    public static final String DEFAULT_PASS = "swuYezukA6RE";
+    //private static final String USERNAME = "cchadj01";
+   // private static final String DEFAULT_PASS = "s3agazuhespU";
     private static final String PASSWORD = DEFAULT_PASS;
     private ConnectionManager connectionManager;
     private Connection conn;
@@ -127,11 +129,11 @@ public class QueryExecutor {
         while (rs.next()) {
             if (rs.getInt(1) == horse)
                 System.out.println(rs.getString(1) + "\t\t\t\t" + rs.getString(2) + "\t\t\t" + rs.getString(3) + "\t\t\t" +rs.getString(4) + "\t\t\t\t"
-                        + rs.getString(5) + "\t\t\t" + rs.getString(6)+"\t\t\t" + rs.getString(7)+"\t\t\t" + rs.getString(8)+"\t\t\t" + rs.getString(9));
+                        + rs.getString(5) + "\t\t\t" + rs.getString(6)+"\t\t\t" + rs.getString(7)+"\t\t\t" + rs.getString(8)+"\t\t\t" + rs.getString(9)+"\t\t\t" + rs.getString(10));
             else {
-                System.out.println("\nSTART HORSE\t\tMEETING DATE|\t\tDISTANCE|\t\tEND POS \t\t|POS1\t\t|POS2\t\tPOS3|\t\tTIMES|\t\tPERCENT%" + "\n");
-                System.out.println(rs.getString(1) + "\t\t\t\t" + rs.getString(2) + "\t\t\t" + rs.getString(3) + "\t\t\t" +rs.getString(4) + "\t\t\t\t"
-                        + rs.getString(5) + "\t\t\t" + rs.getString(6)+"\t\t\t" + rs.getString(7)+"\t\t\t" + rs.getString(8)+"\t\t\t" + rs.getString(9));
+                System.out.println("\nSTART HORSE\t\tMEETING DATE|\t\tRACETIME\tDISTANCE|\t\tEND POS \t\t|POS1\t\t|POS2\t\tPOS3|\t\tTIMES|\t\tPERCENT%" + "\n");
+                System.out.println(rs.getString(1) + "\t\t\t" + rs.getString(2) + "\t" + rs.getString(3) + "\t\t" +rs.getString(4) + "\t\t"
+                        + rs.getString(5) + "\t\t" + rs.getString(6)+"\t\t\t" + rs.getString(7)+"\t\t\t" + rs.getString(8)+"\t\t\t" + rs.getString(9)+"\t\t\t" + rs.getString(10));
                 horse = rs.getInt(1);
             }
         }
@@ -154,11 +156,11 @@ public class QueryExecutor {
         while (rs.next()) {
             if (rs.getInt(1) == horse)
                 System.out.println(rs.getString(1) + "\t\t\t\t" + rs.getString(2) + "\t\t\t" + rs.getString(3) + "\t\t\t" + rs.getString(4) + "\t\t\t\t"
-                        + rs.getString(5) + "\t\t\t" + rs.getString(6) + "\t\t\t" + rs.getString(7) + "\t\t\t" + rs.getString(8) + "\t\t\t" + rs.getString(9));
+                        + rs.getString(5) + "\t\t\t" + rs.getString(6) + "\t\t\t" + rs.getString(7) + "\t\t\t" + rs.getString(8) + "\t\t\t" + rs.getString(9)+"\t\t\t" );
             else {
-                System.out.println("\nSTART HORSE\t\tMEETING DATE|\t\tDISTANCE|\t\tEND POS \t\t|POS1\t\t|POS2\t\tPOS3|\t\tTIMES|\t\tPERCENT%" + "\n");
-                System.out.println(rs.getString(1) + "\t\t\t\t" + rs.getString(2) + "\t\t\t" + rs.getString(3) + "\t\t\t" + rs.getString(4) + "\t\t\t\t"
-                        + rs.getString(5) + "\t\t\t" + rs.getString(6) + "\t\t\t" + rs.getString(7) + "\t\t\t" + rs.getString(8) + "\t\t\t" + rs.getString(9));
+                System.out.println("\nSTART HORSE\t\tMEETING DATE|\t\tRACETIME\\tDISTANCE|\t\tEND POS \t\t|POS1\t\t|POS2\t\tPOS3|\t\tTIMES|\t\tPERCENT%" + "\n");
+                System.out.println(rs.getString(1) + "\t" + rs.getString(2) + "\t" + rs.getString(3) + "\t" + rs.getString(4) + "\t\t\t\t"
+                        + rs.getString(5) + "\t\t\t" + rs.getString(6) + "\t\t\t" + rs.getString(7) + "\t\t\t" + rs.getString(8) + "\t\t\t" + rs.getString(9)+"\t\t\t");
                 horse = rs.getInt(1);
             }
         }
@@ -179,12 +181,12 @@ public class QueryExecutor {
         ResultSet rs = cstmt.getResultSet();
 
 
-        System.out.println("\nSTART HORSE\t\tMEETING DATE|\t\tDISTANCE|\t\tEND POS \t\t|POS1\t\t|POS2\t\tPOS3|\t\tTIMES|\t\tPERCENT%" + "\n");
+        System.out.println("\nSTART HORSE\t\tMEETING DATE|\t\t\\RaceTime\\tDISTANCE|\t\tEND POS \t\t|POS1\t\t|POS2\t\tPOS3|\t\tTIMES|\t\tPERCENT%" + "\n");
         while (rs.next()) {
 
 
                 System.out.println(rs.getString(1) + "\t\t\t\t" + rs.getString(2) + "\t\t\t" + rs.getString(3) + "\t\t\t" +rs.getString(4) + "\t\t\t\t"
-                        + rs.getString(5) + "\t\t\t" + rs.getString(6)+"\t\t\t" + rs.getString(7)+"\t\t\t" + rs.getString(8)+"\t\t\t" + rs.getString(9));
+                        + rs.getString(5) + "\t\t\t" + rs.getString(6)+"\t\t\t" + rs.getString(7)+"\t\t\t" + rs.getString(8)+"\t\t\t" + rs.getString(9)+"\t\t\t" + rs.getString(10));
 
 
         }
@@ -321,8 +323,8 @@ public class QueryExecutor {
 
 
     public static void main(String args[]) throws SQLException, ParseException {
-//        String dbConnString = "jdbc:sqlserver://apollo.in.cs.ucy.ac.cy:1433;databaseName="+USERNAME+";user="+USERNAME+";password="+PASSWORD+";";
-        String dbConnString = "jdbc:sqlserver://\\DOCTOR\\SQLEXPRESS:1433;databaseName=master;integratedSecurity=true;user=DOCTOR\\stefanos";
+        String dbConnString = "jdbc:sqlserver://apollo.in.cs.ucy.ac.cy:1433;databaseName="+USERNAME+";user="+USERNAME+";password="+PASSWORD+";";
+     //   String dbConnString = "jdbc:sqlserver://\\DOCTOR\\SQLEXPRESS:1433;databaseName=master;integratedSecurity=true;user=DOCTOR\\stefanos";
 
         QueryExecutor qe = new QueryExecutor(new ConnectionManager(dbConnString));
 //        //Q1
@@ -337,7 +339,7 @@ public class QueryExecutor {
         boolean Q9A_oneHorse = false;
         boolean Q9A_allHorses = false;
 
-      qe.executeQuery9Horse(false,false,true);
+      qe.executeQuery9Horse(true,false,false);
 
     }
 }

@@ -2,7 +2,7 @@ IF OBJECT_ID (N'Query9_c_oneOwner', N'P')IS NOT NULL
     DROP PROCEDURE Query9_c_oneOwner;  
 
 GO
-CREATE PROCEDURE Query9_c_oneOwner  
+CREATE PROCEDURE Query9_c_oneOwner  @owner_id int
 
 
 
@@ -12,7 +12,6 @@ BEGIN
 
 	SET NOCOUNT ON
 
-DECLARE @owner_id int;
 set @owner_id = 110423;
 DECLARE @horsett table(horse_id int, meeting_date date,distance int,end_pos int);
 DECLARE @horset table(horse_id int,owner_id int, meeting_date date,race_time time,distance int,end_pos int,name varchar(20));
@@ -113,8 +112,4 @@ DEALLOCATE HorseCursor2;
 
 END
 
-Go
-
-
-
-execute  Query9_c_oneOwner;
+--execute  Query9_c_oneOwner;

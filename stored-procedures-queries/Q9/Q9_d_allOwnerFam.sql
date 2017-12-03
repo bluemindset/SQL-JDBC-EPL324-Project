@@ -110,6 +110,6 @@ DEALLOCATE HorseCursor2;
 
 END
 
-Go
+--Go
 
-EXECUTE Query9_d_allOwnersFam;
+--EXECUTE Query9_d_allOwnersFam;

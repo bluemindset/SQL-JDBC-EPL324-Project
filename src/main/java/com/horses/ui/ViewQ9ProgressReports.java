@@ -48,7 +48,10 @@ public class ViewQ9ProgressReports extends JDialog {
         DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
         rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
         table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);            
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);      
+        
+        //************************ TIMESTAMP*************************
+        table.getColumnModel().getColumn(2).setCellRenderer(new TimeStampCellRenderer());
 	}
 	
 	private void loadRecords_a(String year) throws SQLException  {
@@ -73,7 +76,10 @@ public class ViewQ9ProgressReports extends JDialog {
             DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
             rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
             table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
-            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);            
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);        
+            
+          //************************ TIMESTAMP*************************
+            table.getColumnModel().getColumn(2).setCellRenderer(new TimeStampCellRenderer());
         }
     }
 	
@@ -99,9 +105,34 @@ public class ViewQ9ProgressReports extends JDialog {
             DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
             rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
             table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
-            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);            
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);     
+            
+          //************************ TIMESTAMP*************************
+            table.getColumnModel().getColumn(2).setCellRenderer(new TimeStampCellRenderer());
         }
     }
+	
+	
+	private void loadRecords_c(String date, String time) throws SQLException  {
+
+        if(date == null || time == null){
+    		initialLoadRecords();
+    	}
+        else{
+        	String cstmtString = "{call Query9_c_oneHorse(?,?)}";
+            ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, date, time);
+            table.setModel(tableModel);
+            DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+            rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+            table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);     
+            
+          //************************ TIMESTAMP*************************
+            table.getColumnModel().getColumn(2).setCellRenderer(new TimeStampCellRenderer());
+        }
+    }
+	
+	
 	
 	
 	/**
@@ -109,14 +140,14 @@ public class ViewQ9ProgressReports extends JDialog {
 	 */
 	public ViewQ9ProgressReports() {
 		setTitle("Progress Reports");
-		setBounds(100, 100, 519, 533);
+		setBounds(100, 100, 519, 602);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 11, 482, 439);
+		tabbedPane.setBounds(10, 11, 482, 509);
 		contentPanel.add(tabbedPane);
 		
 		JPanel panel_Horses = new JPanel();
@@ -127,68 +158,97 @@ public class ViewQ9ProgressReports extends JDialog {
 		lblPleaseSelectA.setBounds(10, 11, 153, 14);
 		panel_Horses.add(lblPleaseSelectA);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.addActionListener(new ActionListener() {
+		JComboBox comboBox_horse = new JComboBox();
+		comboBox_horse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					loadRecords_a(comboBox.getSelectedItem().toString());
+					loadRecords_a(comboBox_horse.getSelectedItem().toString());
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		});
-		comboBox.insertItemAt("", 0);
+		comboBox_horse.insertItemAt("", 0);
 		try {
 		   	 String sql_stmt = "SELECT * FROM [dbo].[HORSE];";
 		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt);
 		   	 for(int i=0; i< Combo.getRowCount(); i++){
 		   		 String s = (Combo.getValueAt(i, 0).toString());
-		   		comboBox.addItem(s);
+		   		comboBox_horse.addItem(s);
 		   	 }
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		comboBox.setBounds(228, 8, 239, 20);
-		panel_Horses.add(comboBox);
+		comboBox_horse.setBounds(228, 8, 239, 20);
+		panel_Horses.add(comboBox_horse);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 86, 457, 314);
+		scrollPane.setBounds(10, 156, 457, 314);
 		panel_Horses.add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
 		JLabel lblPleaseSelectA_3 = new JLabel("Please select a meeting date:");
-		lblPleaseSelectA_3.setBounds(10, 49, 208, 14);
+		lblPleaseSelectA_3.setBounds(10, 66, 208, 14);
 		panel_Horses.add(lblPleaseSelectA_3);
 		
-		JComboBox comboBox_4 = new JComboBox();
-		comboBox_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					loadRecords_a(comboBox_4.getSelectedItem().toString());
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		comboBox_4.insertItemAt("", 0);
+		JComboBox comboBox_date = new JComboBox();
+		comboBox_date.insertItemAt("", 0);
 		try {
 		   	 String sql_stmt = "SELECT * FROM [dbo].[MEETING];";
 		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt);
 		   	 for(int i=0; i< Combo.getRowCount(); i++){
 		   		 String s = (Combo.getValueAt(i, 0).toString());
-		   		comboBox_4.addItem(s);
+		   		comboBox_date.addItem(s);
 		   	 }
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		comboBox_4.setBounds(228, 46, 239, 17);
-		panel_Horses.add(comboBox_4);
+		comboBox_date.setBounds(228, 63, 239, 20);
+		panel_Horses.add(comboBox_date);
+		
+		JLabel lblPleaseSelectA_4 = new JLabel("Please select a race time:");
+		lblPleaseSelectA_4.setBounds(10, 91, 196, 14);
+		panel_Horses.add(lblPleaseSelectA_4);
+		
+		JComboBox comboBox_time = new JComboBox();
+		comboBox_time.insertItemAt("", 0);
+		try {
+		   	 String sql_stmt = "SELECT * FROM [dbo].[RACE];";
+		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt);
+		   	 for(int i=0; i< Combo.getRowCount(); i++){
+		   		 String s = (Combo.getValueAt(i, 0).toString());
+		   		comboBox_time.addItem(s);
+		   	 }
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		comboBox_time.setBounds(228, 88, 239, 20);
+		panel_Horses.add(comboBox_time);
+		
+		JLabel lblOr = new JLabel("OR");
+		lblOr.setBounds(68, 36, 46, 14);
+		panel_Horses.add(lblOr);
+		
+		JButton btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					loadRecords_c(comboBox_date.getSelectedItem().toString(), comboBox_time.getSelectedItem().toString());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}
+		});
+		btnOk.setBounds(227, 122, 89, 23);
+		panel_Horses.add(btnOk);
 		
 		JPanel panel_Trainers = new JPanel();
 		tabbedPane.addTab("TRAINERS", null, panel_Trainers, null);
