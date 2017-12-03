@@ -18,7 +18,7 @@ public class ConnectionManager {
         return dbConnString;
     }
 
-    ConnectionManager(String dbConnString) {
+    public ConnectionManager(String dbConnString) {
         this.dbConnString = dbConnString;
     }
     /**
@@ -51,7 +51,7 @@ public class ConnectionManager {
         return conn;
     }
 
-    void closeConnection(){
+    public void closeConnection(){
         try {
             if (!conn.isClosed()) {
                 System.out.print("Disconnecting from database...");

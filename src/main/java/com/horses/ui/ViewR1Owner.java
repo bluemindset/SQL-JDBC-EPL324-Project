@@ -28,6 +28,7 @@ public class ViewR1Owner {
 	private JTextField textFieldUniform;
 	private JTextField textFieldFamily;
 	private JComboBox comboBoxTitle;
+	private JComboBox comboBoxFamilyName ;
 	
 	boolean addRecord = false;
 	
@@ -39,6 +40,7 @@ private void clearInputBoxesHorses() {
 	textFieldUniform.setText("");
 	textFieldFamily.setText("");
 	comboBoxTitle.setSelectedItem("");	
+	comboBoxFamilyName.setSelectedItem("");	
 	  }
 
 public JFrame getFrmOwner() {
@@ -60,12 +62,13 @@ private void addNew() throws SQLException {
 		title ="";
 	}
 	
-	String sql_stmt = "INSERT INTO [dbo].[OWNER] ([id],[first_name],[last_name],[uniform],[title])";
+	String sql_stmt = "INSERT INTO [dbo].[OWNER] ([id],[first_name],[last_name],[uniform],[title],[onwer_family])";
     sql_stmt += " VALUES ('" +  textFieldId.getText() + "','" +
     						textFieldFirstName.getText() + "','"+						
     						textFieldLastName.getText()  + "','" + 
     					textFieldUniform.getText() + "','" + 
-    					comboBoxTitle.getSelectedItem().toString() +
+    					comboBoxTitle.getSelectedItem().toString() +"','" +
+    					comboBoxFamilyName.getSelectedItem().toString() +"','" +
     					"')";
 
 		CurrentUserData.executeSetUserId();
@@ -88,6 +91,8 @@ private void updateRecord() throws SQLException {
     sql_stmt += ",[last_name] = '" + textFieldLastName.getText() + "'";
     sql_stmt += ",[uniform] = '" + textFieldUniform.getText() + "'";
     sql_stmt += ",[title] = '" + comboBoxTitle.getSelectedItem().toString() + "'";
+    sql_stmt += ",[onwer_family] = '" + comboBoxFamilyName.getSelectedItem().toString() + "'";
+    
     sql_stmt += " WHERE id = '" + textFieldId.getText() + "'";
 
 
@@ -114,12 +119,14 @@ private void loadRecords() throws SQLException  {
                Object Last_name = table.getValueAt(table.getSelectedRow(), 2);
                Object uniform = table.getValueAt(table.getSelectedRow(),3 );
                Object title = table.getValueAt(table.getSelectedRow(), 5);
+               Object family = table.getValueAt(table.getSelectedRow(), 6);
 
                 textFieldId.setText(id.toString());  
                 textFieldFirstName.setText(First_name.toString()); 
                 textFieldLastName.setText(Last_name.toString()); 
                 textFieldUniform.setText(uniform.toString());
                 comboBoxTitle.setSelectedItem(title.toString());
+                comboBoxFamilyName.setSelectedItem(family.toString());
  
          }
      } catch (Exception ex) {
@@ -179,7 +186,7 @@ private void loadRecords() throws SQLException  {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Owner Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 167, 376, 241);
+		panel.setBounds(10, 167, 376, 251);
 		getFrmOwner().getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -236,7 +243,7 @@ private void loadRecords() throws SQLException  {
 				
 			}
 		});
-		btnAddNew.setBounds(10, 207, 89, 23);
+		btnAddNew.setBounds(10, 217, 89, 23);
 		panel.add(btnAddNew);
 		
 		JButton btnUpdate = new JButton("UPDATE");
@@ -250,7 +257,7 @@ private void loadRecords() throws SQLException  {
 				}
 			}
 		});
-		btnUpdate.setBounds(108, 207, 89, 23);
+		btnUpdate.setBounds(109, 217, 89, 23);
 		panel.add(btnUpdate);
 		
 		JLabel lblFamily = new JLabel("Family:");
@@ -276,12 +283,23 @@ private void loadRecords() throws SQLException  {
 		panel.add(lblTitle);
 		
 		JLabel lblFamilyName = new JLabel("Family Name:");
-		lblFamilyName.setBounds(201, 179, 77, 14);
+		lblFamilyName.setBounds(10, 182, 77, 14);
 		panel.add(lblFamilyName);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(288, 176, 61, 20);
-		panel.add(comboBox);
+		 comboBoxFamilyName = new JComboBox();
+		 try {
+	    	 String sql_stmt = "SELECT * FROM [dbo].[FAMILY];";
+	    	 ResultSetTableModel sexCombo = new ResultSetTableModel(sql_stmt);
+	    	 for(int i=0; i< sexCombo.getRowCount(); i++){
+	    		 String s = (sexCombo.getValueAt(i, 0).toString());
+	    		 comboBoxFamilyName.addItem(s);
+	    	 }
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		comboBoxFamilyName.setBounds(85, 176, 86, 20);
+		panel.add(comboBoxFamilyName);
 		
 		JButton btnBack = new JButton("BACK");
 		btnBack.addActionListener(new ActionListener() {

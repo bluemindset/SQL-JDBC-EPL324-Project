@@ -4,8 +4,14 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import com.horses.dbmanage.Config;
+import com.horses.dbmanage.ConnectionManager;
+import com.horses.dbmanage.SchemaCreator;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.awt.event.ActionEvent;
 
 public class ViewSAUserGUI {
@@ -72,11 +78,16 @@ public class ViewSAUserGUI {
 			          JOptionPane.showMessageDialog(null, "DATABASE DELETED");
 			          
 			          //TODO DELETE DATABASE
-			          
-			          
-			          
-			          
-			          
+			          ConnectionManager cm = new ConnectionManager(Config.connection_url);
+			          SchemaCreator sc = new SchemaCreator(cm);
+			          try {
+						sc.setDropDbFile("stored-procedures-create-schema/drop-db.sql");
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			          sc.dropSchema();
+			          cm.closeConnection();
 			        }
 			}
 		});
