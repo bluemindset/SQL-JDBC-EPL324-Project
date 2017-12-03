@@ -144,7 +144,6 @@ CREATE TABLE [dbo].[PARTICIPATION](
 	[date_updated][date] NULL,
 	CONSTRAINT [PK_PARTICIPATION] PRIMARY KEY ([race_time] ASC, [meeting_date] ASC, [horse_id] ASC, [jockey_id] ASC, [trainer_id] ASC)
 )
---SELECT * FROM PARTICIPATION
 
 GO
 --TRAINER
