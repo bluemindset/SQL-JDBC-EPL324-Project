@@ -43,6 +43,17 @@ public class ViewR1Breeder {
 		this.frmBreeder = frmBreeder;
 	}
 	
+	
+	private void addNew() throws SQLException {
+    	
+	       String sql_stmt = "INSERT INTO [dbo].[RACE_TYPE] ([type])";
+	       sql_stmt += " VALUES ('" +  	textFieldId.getText() + "')";
+	       
+			CurrentUserData.executeSetUserId();
+	       DBUtilities dbUtilities = new DBUtilities();
+	       dbUtilities.ExecuteSQLStatement(sql_stmt);
+			loadRecords();
+	   }
 	private void loadRecords() throws SQLException  {
     	
         String sql_stmt = "SELECT * FROM [dbo].[BREEDER];";
@@ -136,6 +147,21 @@ public class ViewR1Breeder {
 		textFieldLastName.setColumns(10);
 		
 		JButton btnAddNew = new JButton("ADD NEW");
+		btnAddNew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+				addRecord = true;
+				try {
+					addNew();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				clearInputBoxesHorses();
+				textFieldId.requestFocus();
+				
+			}
+		});
 		btnAddNew.setBounds(10, 162, 89, 23);
 		panel.add(btnAddNew);
 		
