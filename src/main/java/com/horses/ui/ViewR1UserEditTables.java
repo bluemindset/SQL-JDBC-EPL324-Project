@@ -83,32 +83,32 @@ public class ViewR1UserEditTables {
 		try {
 			trainer = comboBoxTrainer.getSelectedItem().toString();
 		} catch ( NullPointerException e) {
-			trainer ="";
+			trainer ="NULL";
 		}
 		try {
 			owner = comboBoxOwner.getSelectedItem().toString();
 		} catch ( NullPointerException e) {
-			owner ="";
+			owner ="NULL";
 		}
 		try {
 			breeder =comboBoxBreeder.getSelectedItem().toString();
 		} catch ( NullPointerException e) {
-			breeder ="";
+			breeder ="NULL";
 		}
 		try {
 			dad = comboBoxDad.getSelectedItem().toString();
 		} catch ( NullPointerException e) {
-			dad ="";
+			dad = "NULL";
 		}
 		try {
 			mom =comboBoxMom.getSelectedItem().toString();
 		} catch ( NullPointerException e) {
-			mom ="";
+			mom = "NULL";
 		}
 		try {
-			jockey =comboBoxJockey.getSelectedItem().toString();
+			jockey = "'" + comboBoxJockey.getSelectedItem().toString() + "'";
 		} catch ( NullPointerException e) {
-			jockey ="";
+			jockey = "NULL";
 		}
 //		try {
 //			textFieldOriginCountry.setText(origin_country.toString());
@@ -121,7 +121,6 @@ public class ViewR1UserEditTables {
 //			textFieldRecord.setText(null);
 //		}
 
-
         String sql_stmt = "INSERT INTO [dbo].[HORSE] ([id],[name],[is_purebred],[sex],[color_name],[date_of_birth],[cur_weight],[trainer_id],[owner_id],[breeder_id],[dad_id],[mama_id],[jockey_id])";
         sql_stmt += " VALUES ('" +  textFieldID.getText() + "','" +
         							textFieldName.getText() + "','"+
@@ -129,13 +128,13 @@ public class ViewR1UserEditTables {
 									comboBoxSex.getSelectedItem().toString() + "','" +
         							comboBoxColor.getSelectedItem().toString() + "','" +
 									finDate + "','" +
-        							textFieldWeight.getText() + "','" + 
-        							trainer + "','" +
-        							owner + "','" +
-        							breeder + "','" +
-        							dad + "','" +
-									mom + "','" +
-									jockey + "')";
+        							textFieldWeight.getText() + "'," + 
+        							trainer + "," +
+        							owner + "," +
+        							breeder + "," +
+        							dad + "," +
+									mom + "," +
+									jockey + ")";
 
 
 		CurrentUserData.executeSetUserId();
@@ -166,32 +165,32 @@ public class ViewR1UserEditTables {
 		try {
 			trainer = comboBoxTrainer.getSelectedItem().toString();
 		} catch ( NullPointerException e) {
-			trainer ="";
+			trainer ="NULL";
 		}
 		try {
 			owner = comboBoxOwner.getSelectedItem().toString();					
 		} catch ( NullPointerException e) {
-			owner ="";
+			owner ="NULL";
 		}
 		try {
 			breeder =comboBoxBreeder.getSelectedItem().toString();		
 		} catch ( NullPointerException e) {
-			breeder ="";
+			breeder ="NULL";
 		}
 		try {						
 			dad = comboBoxDad.getSelectedItem().toString();	
 		} catch ( NullPointerException e) {
-			dad ="";
+			dad ="NULL";
 		}
 		try {
 			mom =comboBoxMom.getSelectedItem().toString();							
 		} catch ( NullPointerException e) {
-			mom ="";
+			mom ="NULL";
 		}
 		try {
 			jockey =comboBoxJockey.getSelectedItem().toString();					
 		} catch ( NullPointerException e) {
-			jockey ="";
+			jockey ="NULL";
 		}
 //		try {
 //			textFieldOriginCountry.setText(origin_country.toString());
@@ -212,13 +211,13 @@ public class ViewR1UserEditTables {
         sql_stmt += ",[is_purebred] = '" + checkBoxIsPurebred.isSelected() + "'";
         sql_stmt += ",[record] = '" + textFieldRecord.getText() + "'";
         sql_stmt += ",[origin_country] = '" + textFieldOriginCountry.getText() + "'";
-        sql_stmt += ",[mama_id] = '" + mom + "'";
-        sql_stmt += ",[dad_id] = '" + dad + "'";
-        sql_stmt += ",[jockey_id] = '" + jockey + "'";
-        sql_stmt += ",[breeder_id] = '" + breeder + "'";
+        sql_stmt += ",[mama_id] = " + mom + "";
+        sql_stmt += ",[dad_id] = " + dad + "";
+        sql_stmt += ",[jockey_id] = " + jockey + "";
+        sql_stmt += ",[breeder_id] = " + breeder + "";
         sql_stmt += ",[color_name] = '" + comboBoxColor.getSelectedItem().toString() + "'";
-        sql_stmt += ",[trainer_id] = '" + trainer + "'";
-        sql_stmt += ",[owner_id] = '" + owner + "'";
+        sql_stmt += ",[trainer_id] = " + trainer + "";
+        sql_stmt += ",[owner_id] = " + owner + "";
         sql_stmt += " WHERE id = '" + textFieldID.getText() + "'";
 
 

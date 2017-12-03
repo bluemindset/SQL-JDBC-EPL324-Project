@@ -239,24 +239,16 @@ public class ViewQ9ProgressReports extends JDialog {
 	
 	
 	
-	private void loadRecords_d(String year) throws SQLException  {
-		boolean err = false;
-    	int sel_year = 0;
-        try { 
-        	sel_year =  Integer.parseInt(year); 
-        } catch(NumberFormatException e) { 
-       	 	err=true;
-        } catch(NullPointerException e) {
-       	 	err=true;
-        }
+	private void loadRecords_d(String s) throws SQLException  {
+	
+        System.out.println(s);
         
-        if(err==true || sel_year==0){
-    		
+        if(s == ""){
     		initialLoadRecords();
     	}
         else{
-        	String cstmtString = "{call Query9_d_oneOwnerFam(?)}";
-            ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, year);
+        	String cstmtString = "{call Query9_d_oneOwnerFam1(?)}";
+            ResultSetTableModel tableModel = new ResultSetTableModel(cstmtString, s);
             tableFamilies.setModel(tableModel);
             DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
             rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
@@ -264,7 +256,7 @@ public class ViewQ9ProgressReports extends JDialog {
             tableFamilies.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);     
             
           //************************ TIMESTAMP*************************
-            tableFamilies.getColumnModel().getColumn(3).setCellRenderer(new TimeStampCellRenderer());
+          //  tableFamilies.getColumnModel().getColumn(3).setCellRenderer(new TimeStampCellRenderer());
         }
     }
 	

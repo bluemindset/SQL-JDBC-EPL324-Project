@@ -85,8 +85,9 @@ INSERT INTO @horset
 			IF @end_post = 1 SET @pos1tf =@pos1tf+1
 			   ELSE IF @end_post = 2 SET @pos2tf=@pos2tf+1
 				ELSE IF  @end_post = 3 SET @pos3tf=@pos3tf+1
-
+				
 			
+			Insert INTO @horset2 values(NULL,'START',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 			END
 			SET @perc =@pos1tf/@c
 			
@@ -106,10 +107,10 @@ DEALLOCATE HorseCursor2;
 	
 
 	Select   * from @horset2 h
-	ORDER BY h.owner_fam ASC , h.meeting_date ASC
+--ORDER BY h.owner_fam ASC , h.meeting_date ASC
 
 END
 
---Go
+Go
 
---EXECUTE Query9_d_allOwnersFam;
+EXECUTE Query9_d_allOwnersFam;
