@@ -19,7 +19,6 @@ public class CreateUser {
 	private JTextField txtUsernameSignUp;
 	private JTextField txtUserIdSignUp;
 	private JTextField txtPasswordSignUp;
-	private JTextField txtConfirmPasswordSignUp;
 	private Connection connection;
 	private JTextField lblFirstNameSignUp;
 	private JTextField txtLastNameSignUp;
@@ -92,13 +91,14 @@ public class CreateUser {
 	 */
 	private void initialize() {
 		frmCreateUser = new JFrame();
-		frmCreateUser.setBounds(100, 100, 470, 409);
+		frmCreateUser.setTitle("SIGN UP NEW USER");
+		frmCreateUser.setBounds(100, 100, 492, 356);
 		frmCreateUser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCreateUser.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
-		panel.setBounds(12, 12, 442, 358);
+		panel.setBounds(12, 12, 449, 296);
 		frmCreateUser.getContentPane().add(panel);
 		
 		JLabel label = new JLabel("Username:");
@@ -106,16 +106,12 @@ public class CreateUser {
 		panel.add(label);
 		
 		JLabel label_1 = new JLabel("User Id:");
-		label_1.setBounds(57, 81, 94, 14);
+		label_1.setBounds(57, 53, 94, 14);
 		panel.add(label_1);
 		
 		JLabel label_2 = new JLabel("Password:");
-		label_2.setBounds(57, 205, 94, 14);
+		label_2.setBounds(57, 160, 94, 14);
 		panel.add(label_2);
-		
-		JLabel label_3 = new JLabel("ConfirmPassword:");
-		label_3.setBounds(57, 237, 129, 14);
-		panel.add(label_3);
 		
 		txtUsernameSignUp = new JTextField();
 		txtUsernameSignUp.setColumns(10);
@@ -125,21 +121,15 @@ public class CreateUser {
 		
 		txtUserIdSignUp = new JTextField();
 		txtUserIdSignUp.setColumns(10);
-		txtUserIdSignUp.setBounds(209, 79, 184, 20);
+		txtUserIdSignUp.setBounds(209, 50, 184, 20);
 		txtUserIdSignUp.setDocument(new JTextFieldLimit(ID_LIMIT));
 		panel.add(txtUserIdSignUp);
 		
 		txtPasswordSignUp = new JTextField();
 		txtPasswordSignUp.setColumns(10);
-		txtPasswordSignUp.setBounds(209, 203, 184, 20);
+		txtPasswordSignUp.setBounds(209, 157, 184, 20);
 		txtPasswordSignUp.setDocument(new JTextFieldLimit(PASSWORD_LIMIT));
 		panel.add(txtPasswordSignUp);
-		
-		txtConfirmPasswordSignUp = new JTextField();
-		txtConfirmPasswordSignUp.setColumns(10);
-		txtConfirmPasswordSignUp.setBounds(209, 235, 184, 20);
-		txtConfirmPasswordSignUp.setDocument(new JTextFieldLimit(PASSWORD_LIMIT));
-		panel.add(txtConfirmPasswordSignUp);
 		
 		JButton button = new JButton("Sign Up");
 		button.addActionListener(new ActionListener() {
@@ -147,27 +137,38 @@ public class CreateUser {
 				addUser();
 			}
 		});
-		button.setBounds(57, 272, 336, 25);
+		button.setBounds(57, 201, 336, 25);
 		panel.add(button);
 		
 		lblFirstNameSignUp = new JTextField();
 		lblFirstNameSignUp.setColumns(10);
-		lblFirstNameSignUp.setBounds(209, 173, 184, 20);
+		lblFirstNameSignUp.setBounds(209, 124, 184, 20);
 		lblFirstNameSignUp.setDocument(new JTextFieldLimit(FIRSTNAME_LIMIT));
 		panel.add(lblFirstNameSignUp);
 		
 		JLabel lblFirstName = new JLabel("First Name:");
-		lblFirstName.setBounds(57, 175, 94, 14);
+		lblFirstName.setBounds(57, 127, 94, 14);
 		panel.add(lblFirstName);
 		
 		JLabel lblLastName = new JLabel("Last Name:");
-		lblLastName.setBounds(57, 131, 94, 14);
+		lblLastName.setBounds(57, 91, 94, 14);
 		panel.add(lblLastName);
 		
 		txtLastNameSignUp = new JTextField();
 		txtLastNameSignUp.setColumns(10);
-		txtLastNameSignUp.setBounds(209, 129, 184, 20);
+		txtLastNameSignUp.setBounds(209, 88, 184, 20);
 		txtLastNameSignUp.setDocument(new JTextFieldLimit(LASTNAME_LIMIT));
 		panel.add(txtLastNameSignUp);
+		
+		JButton btnBack = new JButton("BACK");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frmCreateUser.dispose();
+				ViewSAUserGUI window = new ViewSAUserGUI();
+				window.frmSystemAdminInterface.setVisible(true);
+			}
+		});
+		btnBack.setBounds(304, 251, 89, 23);
+		panel.add(btnBack);
 	}
 }

@@ -33,7 +33,7 @@ public class ViewR1Jockey {
 			public void run() {
 				try {
 					ViewR1Jockey window = new ViewR1Jockey();
-					window.frmJockey.setVisible(true);
+					window.getFrmJockey().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -52,38 +52,36 @@ public class ViewR1Jockey {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmJockey = new JFrame();
-		frmJockey.setTitle("JOCKEY");
-		frmJockey.setBounds(100, 100, 525, 495);
-		frmJockey.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmJockey.getContentPane().setLayout(null);
+		setFrmJockey(new JFrame());
+		getFrmJockey().setTitle("JOCKEY");
+		getFrmJockey().setBounds(100, 100, 525, 495);
+		getFrmJockey().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrmJockey().getContentPane().setLayout(null);
 		
 		JButton btnBack = new JButton("BACK");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmJockey.dispose();
-				ViewR1UserGUI window = new ViewR1UserGUI();
-				window.frmPleaseChooseA.setVisible(true);
+				getFrmJockey().dispose();
+				ViewR1GeneralTables window = new ViewR1GeneralTables();
+				window.getFrmTables().setVisible(true);
 		
 			}
 		});
 		btnBack.setBounds(382, 406, 97, 40);
-		frmJockey.getContentPane().add(btnBack);
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 11, 471, 184);
-		frmJockey.getContentPane().add(scrollPane_1);
+		getFrmJockey().getContentPane().add(btnBack);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane_1.setViewportView(scrollPane);
-		
+		scrollPane.setBounds(10, 11, 471, 184);	
+		getFrmJockey().getContentPane().add(scrollPane);
+				
+	
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Jockey Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel.setBounds(10, 206, 471, 189);
-		frmJockey.getContentPane().add(panel);
+		getFrmJockey().getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblId = new JLabel("ID:");
@@ -130,6 +128,14 @@ public class ViewR1Jockey {
 				//??????????????????????
 			}
 		});
+	}
+
+	public JFrame getFrmJockey() {
+		return frmJockey;
+	}
+
+	public void setFrmJockey(JFrame frmJockey) {
+		this.frmJockey = frmJockey;
 	}
 
 }

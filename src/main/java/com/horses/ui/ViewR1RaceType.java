@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 
 public class ViewR1RaceType {
 
-	private JFrame frame;
+	private JFrame frmRaceType;
 	private JTable table;
 	private JTextField textFieldRaceType;
 
@@ -27,7 +27,7 @@ public class ViewR1RaceType {
 			public void run() {
 				try {
 					ViewR1RaceType window = new ViewR1RaceType();
-					window.frame.setVisible(true);
+					window.getFrame().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -46,14 +46,14 @@ public class ViewR1RaceType {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 415, 465);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		setFrame(new JFrame());
+		getFrame().setBounds(100, 100, 415, 465);
+		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrame().getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(10, 6, 377, 222);
-		frame.getContentPane().add(scrollPane_1);
+		getFrame().getContentPane().add(scrollPane_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane_1.setViewportView(scrollPane);
@@ -64,7 +64,7 @@ public class ViewR1RaceType {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Race Type Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.setBounds(10, 239, 377, 135);
-		frame.getContentPane().add(panel);
+		getFrame().getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblRaceType = new JLabel("Race Type:");
@@ -87,13 +87,22 @@ public class ViewR1RaceType {
 		JButton btnBack = new JButton("BACK");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				ViewR1UserGUI window = new ViewR1UserGUI();
-				window.frmPleaseChooseA.setVisible(true);
+				getFrame().dispose();
+				ViewR1GeneralTables window = new ViewR1GeneralTables();
+				window.getFrmTables().setVisible(true);
 			}
 		});
 		btnBack.setBounds(298, 385, 89, 30);
-		frame.getContentPane().add(btnBack);
+		getFrame().getContentPane().add(btnBack);
+	}
+
+	public JFrame getFrame() {
+		return frmRaceType;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frmRaceType = frame;
+		frmRaceType.setTitle("RACE TYPE");
 	}
 
 }

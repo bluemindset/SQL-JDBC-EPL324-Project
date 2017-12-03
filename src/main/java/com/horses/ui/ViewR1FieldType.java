@@ -27,7 +27,7 @@ public class ViewR1FieldType {
 			public void run() {
 				try {
 					ViewR1FieldType window = new ViewR1FieldType();
-					window.frmFieldType.setVisible(true);
+					window.getFrmFieldType().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -46,18 +46,16 @@ public class ViewR1FieldType {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmFieldType = new JFrame();
-		frmFieldType.setTitle("FIELD TYPE");
-		frmFieldType.setBounds(100, 100, 424, 478);
-		frmFieldType.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmFieldType.getContentPane().setLayout(null);
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 11, 376, 239);
-		frmFieldType.getContentPane().add(scrollPane_1);
+		setFrmFieldType(new JFrame());
+		getFrmFieldType().setTitle("FIELD TYPE");
+		getFrmFieldType().setBounds(100, 100, 424, 478);
+		getFrmFieldType().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrmFieldType().getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane_1.setViewportView(scrollPane);
+		scrollPane.setBounds(10, 11, 376, 239);		
+		getFrmFieldType().getContentPane().add(scrollPane);
+		
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
@@ -65,7 +63,7 @@ public class ViewR1FieldType {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Field Type Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.setBounds(20, 266, 365, 133);
-		frmFieldType.getContentPane().add(panel);
+		getFrmFieldType().getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblFieldType = new JLabel("Field Type:");
@@ -99,13 +97,21 @@ public class ViewR1FieldType {
 		JButton btnNewButton = new JButton("BACK");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmFieldType.dispose();
-				ViewR1UserGUI window = new ViewR1UserGUI();
-				window.frmPleaseChooseA.setVisible(true);
+				getFrmFieldType().dispose();
+				ViewR1GeneralTables window = new ViewR1GeneralTables();
+				window.getFrmTables().setVisible(true);
 			}
 		});
 		btnNewButton.setBounds(297, 399, 89, 34);
-		frmFieldType.getContentPane().add(btnNewButton);
+		getFrmFieldType().getContentPane().add(btnNewButton);
+	}
+
+	public JFrame getFrmFieldType() {
+		return frmFieldType;
+	}
+
+	public void setFrmFieldType(JFrame frmFieldType) {
+		this.frmFieldType = frmFieldType;
 	}
 
 }

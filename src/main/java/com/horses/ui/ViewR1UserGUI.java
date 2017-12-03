@@ -47,10 +47,9 @@ public class ViewR1UserGUI {
 		JButton btnEditTables = new JButton("EDIT TABLES");
 		btnEditTables.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				frmPleaseChooseA.dispose();
-				ViewR1UserEditTables window = new ViewR1UserEditTables();
-				window.frmEditTables.setVisible(true);
+				ViewR1GeneralTables window = new ViewR1GeneralTables();
+				window.frmTables.setVisible(true);
 			}
 		});
 		btnEditTables.setBounds(80, 29, 246, 23);

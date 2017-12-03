@@ -371,13 +371,13 @@ public class ViewR1UserEditTables {
 	 */
 	private void initialize() {
 		frmEditTables = new JFrame();
-		frmEditTables.setTitle("EDIT TABLES");
-		frmEditTables.setBounds(100, 100, 777, 648);
+		frmEditTables.setTitle("HORSE TABLE");
+		frmEditTables.setBounds(100, 100, 777, 590);
 		frmEditTables.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEditTables.getContentPane().setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 11, 741, 554);
+		tabbedPane.setBounds(10, 11, 741, 538);
 		frmEditTables.getContentPane().add(tabbedPane);
 		
 		JPanel panelHorses = new JPanel();
@@ -687,46 +687,9 @@ public class ViewR1UserEditTables {
 		btnDelete.setBounds(208, 476, 89, 23);
 		panelHorses.add(btnDelete);
 		
-		JPanel panelHorseColor = new JPanel();
-		tabbedPane.addTab("Horse Color", null, panelHorseColor, null);
-		
-		JPanel panelJockey = new JPanel();
-		tabbedPane.addTab("Jockey", null, panelJockey, null);
-		
-		JPanel panelMeeting = new JPanel();
-		tabbedPane.addTab("Meeting", null, panelMeeting, null);
-		
-		JPanel panelRace = new JPanel();
-		tabbedPane.addTab("Race", null, panelRace, null);
-		
-		JPanel panelRaceDistance = new JPanel();
-		tabbedPane.addTab("Race Distances", null, panelRaceDistance, null);
-		
-		JPanel panelRaceType = new JPanel();
-		tabbedPane.addTab("Race Type", null, panelRaceType, null);
-		
-		JPanel panelFieldType = new JPanel();
-		tabbedPane.addTab("Field Type", null, panelFieldType, null);
-		
-		JPanel panelParticipation = new JPanel();
-		tabbedPane.addTab("Participation", null, panelParticipation, null);
-		
-		JPanel panelTrainer = new JPanel();
-		tabbedPane.addTab("Trainer", null, panelTrainer, null);
-		
-		JPanel panelBreeder = new JPanel();
-		tabbedPane.addTab("Breeder", null, panelBreeder, null);
-		
-		JPanel panelOwner = new JPanel();
-		tabbedPane.addTab("Owner", null, panelOwner, null);
-		
-		JPanel panelFamily = new JPanel();
-		tabbedPane.addTab("Family", null, panelFamily, null);
-		
-		JPanel panelSystemUser = new JPanel();
-		tabbedPane.addTab("System User", null, panelSystemUser, null);
-		
 		JButton btnBack = new JButton("BACK");
+		btnBack.setBounds(637, 476, 89, 23);
+		panelHorses.add(btnBack);
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmEditTables.dispose();
@@ -734,8 +697,6 @@ public class ViewR1UserEditTables {
 				window.frmPleaseChooseA.setVisible(true);
 			}
 		});
-		btnBack.setBounds(662, 576, 89, 23);
-		frmEditTables.getContentPane().add(btnBack);
 		try {
 			loadRecords();
 		} catch (SQLException e1) {

@@ -34,7 +34,7 @@ public class ViewR1Meeting {
 			public void run() {
 				try {
 					ViewR1Meeting window = new ViewR1Meeting();
-					window.frmMeeting.setVisible(true);
+					window.getFrmMeeting().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -53,18 +53,16 @@ public class ViewR1Meeting {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmMeeting = new JFrame();
-		frmMeeting.setTitle("MEETING");
-		frmMeeting.setBounds(100, 100, 482, 458);
-		frmMeeting.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmMeeting.getContentPane().setLayout(null);
+		setFrmMeeting(new JFrame());
+		getFrmMeeting().setTitle("MEETING");
+		getFrmMeeting().setBounds(100, 100, 482, 458);
+		getFrmMeeting().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrmMeeting().getContentPane().setLayout(null);
 		
-		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 11, 446, 223);
-		frmMeeting.getContentPane().add(scrollPane_1);
-		
-		scrollPane = new JScrollPane();
-		scrollPane_1.setViewportView(scrollPane);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 446, 223);
+		getFrmMeeting().getContentPane().add(scrollPane);
+
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
@@ -73,7 +71,7 @@ public class ViewR1Meeting {
 		panel.setToolTipText("");
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Meeting Record Editor", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel.setBounds(10, 245, 436, 116);
-		frmMeeting.getContentPane().add(panel);
+		getFrmMeeting().getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblDate = new JLabel("Date: ");
@@ -98,8 +96,23 @@ public class ViewR1Meeting {
 		});
 		
 		btnBack = new JButton("BACK");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				getFrmMeeting().dispose();
+				ViewR1GeneralTables window = new ViewR1GeneralTables();
+				window.getFrmTables().setVisible(true);
+			}
+		});
 		btnBack.setBounds(360, 372, 96, 37);
-		frmMeeting.getContentPane().add(btnBack);
+		getFrmMeeting().getContentPane().add(btnBack);
+	}
+
+	public JFrame getFrmMeeting() {
+		return frmMeeting;
+	}
+
+	public void setFrmMeeting(JFrame frmMeeting) {
+		this.frmMeeting = frmMeeting;
 	}
 
 }
