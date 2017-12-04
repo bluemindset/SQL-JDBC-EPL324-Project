@@ -62,12 +62,13 @@ public class TableExporter {
         tableNames.add( "RACE");
         tableNames.add( "RACE_DISTANCE");
         tableNames.add("RACE_TYPE");
-        tableNames.add("SYSTEM_USER");
+
         tableNames.add("TRAINER");
         
         for(String tn :tableNames) {
         	te.exportTable(tn, tn + ".txt");
         }
+        te.exportTable("[SYSTEM_USER]", "USER.txt");
         
         cm.closeConnection();
     }
