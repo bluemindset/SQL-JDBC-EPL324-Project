@@ -18,7 +18,7 @@ import com.horses.dbmanage.RecordInserter;
 
 public class ViewSAImport {
 
-	private JFrame frmSetPathFor;
+	public JFrame frmSetPathFor;
 
 	
 	private JButton btnChoosebreeder;
@@ -369,6 +369,13 @@ public class ViewSAImport {
 		frmSetPathFor.getContentPane().add(btnTrainer);
 		
 		JButton btnBack = new JButton("BACK");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmSetPathFor.dispose();
+				ViewSAUserGUI window = new ViewSAUserGUI();
+				window.frmSystemAdminInterface.setVisible(true);
+			}
+		});
 		btnBack.setBounds(497, 770, 130, 23);
 		frmSetPathFor.getContentPane().add(btnBack);
 		
@@ -398,7 +405,6 @@ public class ViewSAImport {
 				
 				ConnectionManager cm = new ConnectionManager(Config.connection_url);
 				RecordInserter ri = new RecordInserter(cm);
-				
 				ri.fileHorsesColor = lblHorsColors.getText();
 				ri.fileHorses = lblHorses.getText();
 				ri.fileBreeders = lblBreeder.getText();

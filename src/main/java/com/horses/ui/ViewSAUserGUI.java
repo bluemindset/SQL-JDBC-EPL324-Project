@@ -55,9 +55,9 @@ public class ViewSAUserGUI {
 		JButton btnImportDatabase = new JButton("IMPORT DATABASE");
 		btnImportDatabase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				
-				
+				frmSystemAdminInterface.dispose();
+				ViewSAImport window = new ViewSAImport();
+				window.frmSetPathFor.setVisible(true);
 			}
 		});
 		btnImportDatabase.setBounds(12, 12, 261, 23);
