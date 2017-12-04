@@ -1,13 +1,8 @@
 package com.horses.dbmanage;
 
-import com.horses.dbobjects.SystemUser;
-import com.horses.dbobjects.SystemUserRole;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class App {
 //    private static final String USERNAME = "achrys16";
@@ -55,9 +50,9 @@ public class App {
         schemaCreator.setCreateTriggersFile("stored-procedures-create-schema/create-triggers.sql");
         schemaCreator.createSchema();
 
-        RecordInserter recordInserter = new RecordInserter(connectionManager);
-        //insertSystemAdmins(recordInserter);
-        recordInserter.insert();
+//        RecordInserter recordInserter = new RecordInserter(connectionManager);
+//        //insertSystemAdmins(recordInserter);
+//        recordInserter.insert();
 
         connectionManager.closeConnection();
     }
