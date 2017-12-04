@@ -47,7 +47,7 @@ public class ViewSAUserGUI {
 	private void initialize() {
 		frmSystemAdminInterface = new JFrame();
 		frmSystemAdminInterface.setTitle("System Admin Interface");
-		frmSystemAdminInterface.setBounds(100, 100, 304, 239);
+		frmSystemAdminInterface.setBounds(100, 100, 304, 265);
 		frmSystemAdminInterface.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSystemAdminInterface.getContentPane().setLayout(null);
 		
@@ -102,7 +102,7 @@ public class ViewSAUserGUI {
 				window.frmChooseAUser.setVisible(true);
 			}
 		});
-		btnBack.setBounds(184, 160, 89, 23);
+		btnBack.setBounds(184, 183, 89, 23);
 		frmSystemAdminInterface.getContentPane().add(btnBack);
 		
 		JButton btnAddNewUser = new JButton("ADD NEW USER");
@@ -115,5 +115,16 @@ public class ViewSAUserGUI {
 		});
 		btnAddNewUser.setBounds(12, 115, 261, 23);
 		frmSystemAdminInterface.getContentPane().add(btnAddNewUser);
+		
+		JButton btnEditTables = new JButton("EDIT TABLES - QUERIES");
+		btnEditTables.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmSystemAdminInterface.dispose();
+				ViewR1UserGUI window = new ViewR1UserGUI();
+				window.frmPleaseChooseA.setVisible(true);
+			}
+		});
+		btnEditTables.setBounds(12, 149, 261, 23);
+		frmSystemAdminInterface.getContentPane().add(btnEditTables);
 	}
 }
