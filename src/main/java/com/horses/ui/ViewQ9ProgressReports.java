@@ -1,24 +1,12 @@
 package com.horses.ui;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.JTabbedPane;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
 
 public class ViewQ9ProgressReports extends JDialog {
 
@@ -518,7 +506,7 @@ public class ViewQ9ProgressReports extends JDialog {
 		});
 		comboBox_owners.insertItemAt("", 0);
 		try {
-		   	 String sql_stmt = "SELECT * FROM [dbo].[TRAINER];";
+		   	 String sql_stmt = "SELECT * FROM [dbo].[OWNER];";
 		   	 ResultSetTableModel Combo = new ResultSetTableModel(sql_stmt);
 		   	 for(int i=0; i< Combo.getRowCount(); i++){
 		   		 String s = (Combo.getValueAt(i, 0).toString());
