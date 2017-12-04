@@ -58,6 +58,7 @@ public class ConnectionManager {
                 conn.close();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Cannot Close connection");
 
         }
