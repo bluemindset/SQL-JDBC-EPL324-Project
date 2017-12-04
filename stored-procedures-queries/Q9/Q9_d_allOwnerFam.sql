@@ -54,7 +54,7 @@ INSERT INTO @horset
 	SET @perc = 0;
 	
 	Declare HorseCursor2  CURSOR FOR
-    select * from @horset h
+    select DISTINCT * from @horset h
 	ORDER BY h.owner_fam ASC , h.meeting_date ASC ,h.race_time ASC
 
 
@@ -87,7 +87,7 @@ INSERT INTO @horset
 				ELSE IF  @end_post = 3 SET @pos3tf=@pos3tf+1
 				
 			
-			Insert INTO @horset2 values(NULL,'START',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+			Insert INTO @horset2 values(NULL,null,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 			END
 			SET @perc =@pos1tf/@c
 			
@@ -111,6 +111,7 @@ DEALLOCATE HorseCursor2;
 
 END
 
-Go
+--Go
 
-EXECUTE Query9_d_allOwnersFam;
+--EXECUTE Query9_d_allOwnersFam;
+--DONE

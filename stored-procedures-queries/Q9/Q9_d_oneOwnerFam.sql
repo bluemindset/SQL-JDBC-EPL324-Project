@@ -35,9 +35,9 @@ Declare @c float;
 Declare @race_timet time;
 Declare @owner_fam nvarchar (25);
 Declare @namet varchar(25);
---Declare @ownerFam nvarchar(20);
+
 SET NOCOUNT ON
---set @ownerFam ='Cork family';
+
 
 /*GET ALL owner  fams OF  ALL RACES*/
 INSERT INTO @horset
@@ -55,7 +55,7 @@ INSERT INTO @horset
 	SET @perc = 0;
 	
 	Declare HorseCursor2  CURSOR FOR
-    select * from @horset h
+    select DISTINCT * from @horset h
 	ORDER BY h.owner_fam ASC , h.meeting_date ASC ,h.race_time ASC
 
 
@@ -86,7 +86,7 @@ INSERT INTO @horset
 			IF @end_post = 1 SET @pos1tf =@pos1tf+1
 			   ELSE IF @end_post = 2 SET @pos2tf=@pos2tf+1
 				ELSE IF  @end_post = 3 SET @pos3tf=@pos3tf+1
-				Insert INTO @horset2 values(NULL,'START',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+				
 			
 			END
 			SET @perc =@pos1tf/@c
@@ -107,12 +107,12 @@ DEALLOCATE HorseCursor2;
 	
 
 	Select   * from @horset2 h
-	ORDER BY h.owner_fam ASC , h.meeting_date ASC
+	--ORDER BY h.owner_fam ASC , h.meeting_date ASC
 
 END
 
-Go
 
 
 
+--DONE
 --execute  Query9_d_oneOwnerFam1;

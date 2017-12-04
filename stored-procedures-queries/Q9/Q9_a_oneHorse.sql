@@ -4,13 +4,12 @@ IF OBJECT_ID (N'Query9_a_oneHorse', N'P')IS NOT NULL
 GO
 CREATE PROCEDURE Query9_a_oneHorse  @horseid int
 
-
 AS 
 BEGIN
 
 	SET NOCOUNT ON
 
-
+	
 
 DECLARE @horsett table(horse_id int, meeting_date date,distance int,end_pos int);
 
@@ -52,9 +51,9 @@ INSERT INTO @horset
 	SET @c = 0;
 	SET @perc = 0;
 	Declare HorseCursor2  CURSOR FOR
-    select * from @horset h
+    select DISTINCT * from @horset h
 	 ORDER BY h.horse_id ASC
-	OPEN HorseCursor2 
+	OPEN HorseCursor2	
     FETCH NEXT FROM HorseCursor2 
     INTO @horse_idt,@meeting_datet,@race_timet,@distancet,@end_post
 
@@ -74,6 +73,7 @@ INSERT INTO @horset
 			END
 		ELSE
 			BEGIN
+				
 			SET @c= 1
 			SET @pos1tf=0 
 			SET @pos2tf=0
@@ -106,5 +106,6 @@ DEALLOCATE HorseCursor2;
 
 END
 
-
+--GO
+--DONE
 --EXECUTE Query9_a_oneHorse

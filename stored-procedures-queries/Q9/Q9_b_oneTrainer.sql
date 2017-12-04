@@ -37,9 +37,9 @@ Declare @trainer_idt int;
 Declare @namet varchar(25);
 
 SET NOCOUNT ON
-Set  @meeting_date = '8-1-2010';
-	
-	Set  @race_time = '12:00:00';
+--Set  @meeting_date = '8-1-2010';
+
+	--Set  @race_time = '12:00:00';
 
 /*GET ALL Trainers OF  ALL RACES*/
 INSERT INTO @horset
@@ -57,7 +57,7 @@ INSERT INTO @horset
 	SET @perc = 0;
 	
 	Declare HorseCursor2  CURSOR FOR
-    select * from @horset h
+    select DISTINCT* from @horset h
 	ORDER BY h.trainer_id ASC , h.meeting_date ASC ,h.race_time ASC
 
 
@@ -70,7 +70,7 @@ INSERT INTO @horset
     WHILE @@FETCH_STATUS = 0  
     BEGIN  
 	  
-		IF @same_trainer = @trainer_idt &&  @horse_idt = @trainer_idt 
+		IF @same_trainer = @trainer_idt 
 			BEGIN
 			SET @c= @c+1
 			
@@ -81,6 +81,7 @@ INSERT INTO @horset
 			END
 		ELSE
 			BEGIN
+				Insert INTO @horset2 values(NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 			SET @c= 1
 			SET @pos1tf=0 
 			SET @pos2tf=0
@@ -109,7 +110,7 @@ DEALLOCATE HorseCursor2;
 	
 
 	Select   * from @horset2 h
-	ORDER BY h.trainer_id ASC , h.meeting_date ASC
+	--ORDER BY h.trainer_id ASC , h.meeting_date ASC
 
 END
 
@@ -117,3 +118,4 @@ END
 --go
 
 --EXECUTE Query9_b_oneTrainer;  
+--DONE
