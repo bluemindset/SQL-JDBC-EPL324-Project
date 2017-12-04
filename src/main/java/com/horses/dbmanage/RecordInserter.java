@@ -21,84 +21,97 @@ public class RecordInserter {
     private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     private Connection conn;
     private ConnectionManager connectionManager;
-
-    RecordInserter(ConnectionManager connectionManager) {
+    
+    public String fileHorses = "DataTables/Horses.txt";
+    public String fileTrainers = "DataTables/Trainer.txt";
+    public String fileBreeders = "DataTables/Breeders.txt";
+    public String fileRaces = "DataTables/RacesNew.txt";
+    public String fileOwners = "DataTables/Owners.txt";
+    public String fileMeetings = "DataTables/Meetings.txt";
+    public String fileJockeys = "DataTables/Jockeys.txt";
+    public String fileHorsesSex = "DataTables/HorsesSex.txt";
+    public String fileFamilies = "DataTables/Families.txt";
+    public String fileRacesDistances = "DataTables/RacesDistances.txt";
+    public String fileHorsesColor = "DataTables/HorsesColors.txt";
+    public String fileRacesTypes = "DataTables/RacesTypes.txt";
+    public String fileFieldTypes = "DataTables/RacesFieldTypes.txt";
+    public String fileRaceResults = "DataTables/RacesResultsNew.txt";
+    
+    public RecordInserter(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
         conn = connectionManager.getDBConnection();
     }
 
-    void insert() throws SQLException, ParseException, IOException {
+    public void insert() throws SQLException, ParseException, IOException {
         //Used to ignore foreign key constraints until inserts are over with.
         ignoreConstraints();
 
 		/*HORSES*/
-        String fileHorses = "DataTables/Horses.txt";
+        
         String recordsHorses = FileParser.getFileContentAsString(fileHorses);
         String HorseStorProcVal = "{call horseInsert(?,?,?,?,?,?,?,?,?,?,?)}";
         HorsesInsertion(insertData(recordsHorses), HorseStorProcVal);
 
 		/*TRAINERS*/
-        String fileTrainers = "DataTables/Trainer.txt";
+       
         String recordsTrainers = FileParser.getFileContentAsString(fileTrainers);
         String TrainersStorProcVal = "{call dbo.trainersInsert(?,?,?)}";
         TrainersInsertion(insertData(recordsTrainers), TrainersStorProcVal);
 
 		/*BREEDERS*/
-        String fileBreeders = "DataTables/Breeders.txt";
+        
         String recordsBreeders = FileParser.getFileContentAsString(fileBreeders);
         String BreedersStorProcVal = "{call dbo.breedersInsert(?,?,?)}";
         BreedersInsertion(insertData(recordsBreeders), BreedersStorProcVal);
 
 		/*RACES*/
-        String fileRaces = "DataTables/RacesNew.txt";
+        
         String recordsRaces = FileParser.getFileContentAsString(fileRaces);
         String RacesStorProcVal = "{call dbo.racesInsert(?,?,?,?,?,?,?,?)}";
         RacesInsertion(insertData(recordsRaces), RacesStorProcVal);
 
 		/*OWNERS*/
-        String fileOwners = "DataTables/Owners.txt";
+        
         String recordsOwners = FileParser.getFileContentAsString(fileOwners);
         String OwnersStorProcVal = "{call dbo.onwersInsert(?,?,?,?,?,?)}";
         onwersInsertion(insertData(recordsOwners), OwnersStorProcVal);
 
 		/*MEETINGS*/
-        String fileMeetings = "DataTables/Meetings.txt";
+        
         String MeetingsStorProcVal = "{call dbo.meetingsInsert(?)}";
         String recordsMeetings = FileParser.getFileContentAsString(fileMeetings);
         meetingsInsertion(insertData(recordsMeetings), MeetingsStorProcVal);
 
 		/*JOCKEYS*/
-        String fileJockeys = "DataTables/Jockeys.txt";
+        
         String recordsJockeys = FileParser.getFileContentAsString(fileJockeys);
         String JockeysStorProcVal = "{call dbo.jockeysInsert(?,?,?)}";
         jockeysInsertion(insertData(recordsJockeys), JockeysStorProcVal);
 
 		/*HORSE SEX*/
-        String fileHorsesSex = "DataTables/HorsesSex.txt";
+        
         String HorsesSexStorProcVal = "{call dbo.horseSexInsert(?)}";
         String recordsHorsesSex = FileParser.getFileContentAsString(fileHorsesSex);
         horseSexInsertion(insertData(recordsHorsesSex), HorsesSexStorProcVal);
 
 		/*FAMILIES*/
-        String fileFamilies = "DataTables/Families.txt";
+        
         String recordsFamilies = FileParser.getFileContentAsString(fileFamilies);
         String FamiliesStorProcVal = "{call dbo.familyHorseInsert(?)}";
         familyInsertion(insertData(recordsFamilies), FamiliesStorProcVal);
 
 		/*RACE DISTANCE*/
-        String fileRacesDistances = "DataTables/RacesDistances.txt";
+        
         String recordsRaceDistances = FileParser.getFileContentAsString(fileRacesDistances);
         String RaceDistancesStorProcVal = "{call dbo.raceDistancesInsert(?)}";
         racesDistanceInsertion(insertData(recordsRaceDistances), RaceDistancesStorProcVal);
 
 		/*HORSE COLOR*/
-        String fileHorsesColor = "DataTables/HorsesColors.txt";
         String recordsHorseColor = FileParser.getFileContentAsString(fileHorsesColor);
         String HorseColorStorProcVal = "{call dbo.horseColorInsert(?)}";
         horseColorInsertion(insertData(recordsHorseColor), HorseColorStorProcVal);
 
 		/*--RACES TYPES --*/
-        String fileRacesTypes = "DataTables/RacesTypes.txt";
         String RaceTypesStorProcVal = "{call dbo.raceTypeInsert(?)}";
         String recordsRaceTypes = FileParser.getFileContentAsString(fileRacesTypes);
         raceTypesInsertion(insertData(recordsRaceTypes), RaceTypesStorProcVal);
@@ -713,7 +726,7 @@ public class RecordInserter {
     void participationInsertion() throws IOException, SQLException, ParseException {
         List<String[]> lines = new ArrayList<>();
         String[] strings = null;
-        try (BufferedReader br = new BufferedReader(new FileReader("DataTables/RacesResultsNew.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileRaceResults))) {
             String line;
             br.readLine();
             while ((line = br.readLine()) != null) {
@@ -751,7 +764,8 @@ public class RecordInserter {
     void fieldTypeInsertion() throws IOException, SQLException, ParseException {
         List<String[]> lines = new ArrayList<>();
         String[] strings = null;
-        try (BufferedReader br = new BufferedReader(new FileReader("DataTables/RacesFieldTypes.txt"))) {
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(fileFieldTypes))) {
             String line;
             while ((line = br.readLine()) != null) {
                 strings = line.split("\n");
