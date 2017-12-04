@@ -24,8 +24,9 @@ public class ViewR1Participation {
 	private JComboBox comboBox_jockey;
 	private JComboBox comboBox_horse;
 	private JSpinner spinner ;
-	
+	private JTextField textFieldWinnings;
 	boolean addRecord = false;
+
 	
 private void clearInputBoxesHorses() {
 
@@ -49,45 +50,46 @@ public void setFrmParticipation(JFrame frmParticipation) {
 
 private void addNew() throws SQLException {
 	
-	String trainer ="";
-	String horse ="";
-	String meeting ="";
-	String jockey ="";
-
-	try {
-		trainer = comboBox_trainer.getSelectedItem().toString();
-	} catch ( NullPointerException e) {
-		trainer ="NULL";
-	}
-	try {
-		horse = comboBox_horse.getSelectedItem().toString();
-	} catch ( NullPointerException e) {
-		horse ="NULL";
-	}
-	try {
-		jockey =comboBox_jockey.getSelectedItem().toString();
-	} catch ( NullPointerException e) {
-		jockey ="NULL";
-	}
-	try {
-		meeting = comboBox_meeting.getSelectedItem().toString();
-	} catch ( NullPointerException e) {
-		meeting = "NULL";
-	}
+//	String trainer ="";
+//	String horse ="";
+//	String meeting ="";
+//	String jockey ="";
+//
+//	try {
+//		trainer = comboBox_trainer.getSelectedItem().toString();
+//	} catch ( NullPointerException e) {
+//		trainer ="NULL";
+//	}
+//	try {
+//		horse = comboBox_horse.getSelectedItem().toString();
+//	} catch ( NullPointerException e) {
+//		horse ="NULL";
+//	}
+//	try {
+//		jockey =comboBox_jockey.getSelectedItem().toString();
+//	} catch ( NullPointerException e) {
+//		jockey ="NULL";
+//	}
+//	try {
+//		meeting = comboBox_meeting.getSelectedItem().toString();
+//	} catch ( NullPointerException e) {
+//		meeting = "NULL";
+//	}
 	Date t2 = (Date) spinner.getModel().getValue();
 	System.out.println(t2.getHours()+":"+t2.getMinutes()+":"+t2.getSeconds());
 	String finTime = t2.getHours()+":"+t2.getMinutes()+":"+t2.getSeconds();
 	
-	String sql_stmt = "INSERT INTO [dbo].[PARTICIPATION] ([race_time],[meeting_date],[horse_id],[jockey_id],[trainer_id],[cur_horse_weight],[cur_horse_age],[star_pos],[end_pos])";
+	String sql_stmt = "INSERT INTO [dbo].[PARTICIPATION] ([race_time],[meeting_date],[horse_id],[jockey_id],[trainer_id],[cur_horse_weight],[cur_horse_age],[star_pos],[end_pos],[winnings])";
     sql_stmt += " VALUES ('" + finTime+  "','" +
-    		comboBox_meeting.getSelectedItem().toString()   + "','" +
+    						comboBox_meeting.getSelectedItem().toString()   + "','" +
     						comboBox_horse.getSelectedItem().toString() + "','"+	
     						comboBox_jockey.getSelectedItem().toString() + "','"+						
     						comboBox_trainer.getSelectedItem().toString()  + "','" + 
     						textFieldHorseWeight.getText() + "','" + 
     						textFieldHorseAge.getText() + "','" + 
     						textFieldStartPos.getText() + "','" + 
-    						textFieldEndPos.getText() +	"')";
+    						textFieldEndPos.getText() + "','" + 
+    						"0" +	"')";
 
 		CurrentUserData.executeSetUserId();
        DBUtilities dbUtilities = new DBUtilities();
@@ -134,7 +136,7 @@ private void updateRecord() throws SQLException {
     sql_stmt += ",[cur_horse_age] = '" + textFieldHorseAge.getText() + "'";
     sql_stmt += ",[star_pos] = '" + textFieldStartPos.getText() + "'";
     sql_stmt += ",[end_pos] = '" + textFieldEndPos.getText() + "'";
-    
+    sql_stmt += ",[winnings] = '" + textFieldWinnings.getText() + "'";
     sql_stmt += " WHERE race_time = '" + finTime + "' AND meeting_date = '"+comboBox_meeting.getSelectedItem().toString()+"'";
 
 
@@ -177,6 +179,7 @@ private void loadRecords() throws SQLException  {
                 textFieldHorseAge.setText(horse_age.toString());
                 textFieldStartPos.setText(start_pos.toString());
                 textFieldEndPos.setText(end_pos.toString());
+                textFieldWinnings.setText(winnings.toString());
                 
                 SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
                 //SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
@@ -251,11 +254,11 @@ private void loadRecords() throws SQLException  {
 		panel.setLayout(null);
 		
 		JLabel lblRaceTime = new JLabel("Race Time:");
-		lblRaceTime.setBounds(10, 44, 89, 14);
+		lblRaceTime.setBounds(10, 44, 131, 14);
 		panel.add(lblRaceTime);
 		
 		JLabel lblMeetingDate = new JLabel("Meeting Date:");
-		lblMeetingDate.setBounds(10, 88, 108, 14);
+		lblMeetingDate.setBounds(10, 88, 131, 14);
 		panel.add(lblMeetingDate);
 		
 		JButton btnAddNew = new JButton("ADD NEW");
@@ -275,7 +278,7 @@ private void loadRecords() throws SQLException  {
 				
 			}
 		});
-		btnAddNew.setBounds(10, 314, 89, 23);
+		btnAddNew.setBounds(10, 314, 105, 23);
 		panel.add(btnAddNew);
 		
 		JButton btnUpdate = new JButton("UPDATE");
@@ -290,23 +293,23 @@ private void loadRecords() throws SQLException  {
 				}
 			}
 		});
-		btnUpdate.setBounds(125, 314, 89, 23);
+		btnUpdate.setBounds(125, 314, 104, 23);
 		panel.add(btnUpdate);
 		
 		JLabel lblHorseId = new JLabel("Horse ID:");
-		lblHorseId.setBounds(10, 140, 89, 14);
+		lblHorseId.setBounds(10, 140, 233, 14);
 		panel.add(lblHorseId);
 		
 		JLabel lblJockeyId = new JLabel("Jockey ID:");
-		lblJockeyId.setBounds(10, 190, 89, 14);
+		lblJockeyId.setBounds(10, 190, 161, 14);
 		panel.add(lblJockeyId);
 		
 		JLabel lblTrainerId = new JLabel("Trainer ID:");
-		lblTrainerId.setBounds(10, 241, 89, 14);
+		lblTrainerId.setBounds(10, 241, 161, 14);
 		panel.add(lblTrainerId);
 		
 		JLabel lblHorseWeight = new JLabel("Horse Weight:");
-		lblHorseWeight.setBounds(276, 44, 86, 14);
+		lblHorseWeight.setBounds(276, 44, 131, 14);
 		panel.add(lblHorseWeight);
 		
 		textFieldHorseWeight = new JTextField();
@@ -316,7 +319,7 @@ private void loadRecords() throws SQLException  {
 		textFieldHorseWeight.setColumns(10);
 		
 		JLabel lblHorseAge = new JLabel("Horse Age:");
-		lblHorseAge.setBounds(276, 88, 66, 14);
+		lblHorseAge.setBounds(276, 88, 161, 14);
 		panel.add(lblHorseAge);
 		
 		textFieldHorseAge = new JTextField();
@@ -326,7 +329,7 @@ private void loadRecords() throws SQLException  {
 		textFieldHorseAge.setColumns(10);
 		
 		JLabel lblStartPosition = new JLabel("Start Position:");
-		lblStartPosition.setBounds(276, 140, 86, 14);
+		lblStartPosition.setBounds(276, 140, 180, 14);
 		panel.add(lblStartPosition);
 		
 		textFieldStartPos = new JTextField();
@@ -336,7 +339,7 @@ private void loadRecords() throws SQLException  {
 		textFieldStartPos.setColumns(10);
 		
 		JLabel lblEndPosition = new JLabel("End Position:");
-		lblEndPosition.setBounds(276, 190, 66, 14);
+		lblEndPosition.setBounds(276, 190, 131, 14);
 		panel.add(lblEndPosition);
 		
 		textFieldEndPos = new JTextField();
@@ -415,6 +418,16 @@ private void loadRecords() throws SQLException  {
 		}
 		comboBox_trainer.setBounds(109, 238, 120, 23);
 		panel.add(comboBox_trainer);
+		
+		JLabel lblWinnings = new JLabel("Winnings:");
+		lblWinnings.setBounds(276, 241, 120, 14);
+		panel.add(lblWinnings);
+		
+		textFieldWinnings = new JTextField();
+		textFieldWinnings.setEditable(false);
+		textFieldWinnings.setColumns(10);
+		textFieldWinnings.setBounds(387, 238, 86, 20);
+		panel.add(textFieldWinnings);
 		
 		JButton btnBack = new JButton("BACK");
 		btnBack.addActionListener(new ActionListener() {
