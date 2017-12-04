@@ -50,7 +50,7 @@ INSERT INTO @horset
 	SET @c = 0;
 	SET @perc = 0;
 	Declare HorseCursor2  CURSOR FOR
-    select * from @horset h
+    select DISTINCT * from @horset h
 	 ORDER BY h.horse_id ASC
 	OPEN HorseCursor2 
     FETCH NEXT FROM HorseCursor2 
@@ -72,6 +72,7 @@ INSERT INTO @horset
 			END
 		ELSE
 			BEGIN
+				Insert INTO @horset2 values(NULL,null,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 			SET @c= 1
 			SET @pos1tf=0 
 			SET @pos2tf=0
@@ -102,7 +103,6 @@ DEALLOCATE HorseCursor2;
 	
 
 END
-
---Go
-
+--DONE
+--GO
 --EXECUTE Query9_a_allHorses;

@@ -4,7 +4,6 @@ IF OBJECT_ID (N'Query9_c_allOwners', N'P')IS NOT NULL
 GO
 CREATE PROCEDURE Query9_c_allOwners
 
-
 AS 
 BEGIN
 
@@ -54,7 +53,7 @@ INSERT INTO @horset
 	SET @perc = 0;
 	
 	Declare HorseCursor2  CURSOR FOR
-    select * from @horset h
+    select DISTINCT * from @horset h
 	ORDER BY h.owner_id ASC , h.meeting_date ASC ,h.race_time ASC
 
 
@@ -78,7 +77,7 @@ INSERT INTO @horset
 			END
 		ELSE
 			BEGIN
-			Insert INTO @horset2 values(NULL,NULL,NULL,NULL,NULL,'START',NULL,NULL,NULL,NULL,NULL,NULL);
+			Insert INTO @horset2 values(NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 			SET @c= 1
 			SET @pos1tf=0 
 			SET @pos2tf=0
@@ -111,6 +110,7 @@ DEALLOCATE HorseCursor2;
 
 END
 
-Go
-
-EXECUTE Query9_c_allOwners;
+--Go
+--
+--EXECUTE Query9_c_allOwners;
+--DONE

@@ -7,11 +7,7 @@ AS
 BEGIN
 
 	SET NOCOUNT ON
---TEST FOR
---'2010-01-29' 
---'19:00:00'
---DECLARE @meeting_date_of_current_race date;
---DECLARE @time_of_current_race time;
+
 
 DECLARE @I int  = 0 ; 
 DECLARE @eighthorse table(horse int);
@@ -23,8 +19,7 @@ DECLARE @horset2 table(horse_id int,owner_id int, meeting_date date,race_time ti
  DECLARE @ownerIt int;
  DECLARE @allpositions int;
 
--- set @meeting_date_of_current_race ='2010-01-29'
---set  @time_of_current_race = '19:00:00'
+
 SET NOCOUNT ON
 
 
@@ -130,7 +125,7 @@ Declare @namet varchar(25);
 			END
 		ELSE
 			BEGIN
-			Insert INTO @horset2 values(NULL,'START',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+			Insert INTO @horset2 values(NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 			SET @c= 1
 			SET @pos1tf=0 
 			SET @pos2tf=0
@@ -158,7 +153,7 @@ DEALLOCATE HorseCursor2;
 	
 
 	Select   * from @horset2 h
-	ORDER BY h.owner_id ASC , h.meeting_date ASC
+	--ORDER BY h.owner_id ASC , h.meeting_date ASC
 
 END
 
@@ -166,3 +161,4 @@ END
 
 --EXECUTE Query9_c_Date;  
 
+--DONE

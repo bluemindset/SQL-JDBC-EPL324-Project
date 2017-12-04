@@ -12,7 +12,7 @@ BEGIN
 
 	SET NOCOUNT ON
 
-set @owner_id = 110423;
+
 DECLARE @horsett table(horse_id int, meeting_date date,distance int,end_pos int);
 DECLARE @horset table(horse_id int,owner_id int, meeting_date date,race_time time,distance int,end_pos int,name varchar(20));
 DECLARE @horset2 table(horse_id int,owner_id int, meeting_date date,race_time time,distance int,name varchar(20),end_pos int, pos1 int,pos2 int,pos3 int,all_pos int,perc money);
@@ -56,7 +56,7 @@ INSERT INTO @horset
 	SET @perc = 0;
 	
 	Declare HorseCursor2  CURSOR FOR
-    select * from @horset h
+    select DISTINCT * from @horset h
 	ORDER BY h.owner_id ASC , h.meeting_date ASC ,h.race_time ASC
 
 
@@ -80,7 +80,6 @@ INSERT INTO @horset
 			END
 		ELSE
 			BEGIN
-			Insert INTO @horset2 values(NULL,'START',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 			SET @c= 1
 			SET @pos1tf=0 
 			SET @pos2tf=0
@@ -112,5 +111,5 @@ DEALLOCATE HorseCursor2;
 	--ORDER BY h.owner_id ASC , h.meeting_date ASC
 
 END
-
+--DONE
 --execute  Query9_c_oneOwner;
