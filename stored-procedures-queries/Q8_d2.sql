@@ -1,7 +1,7 @@
-IF OBJECT_ID('query8_d2', 'P') IS NOT NULL
-  DROP PROCEDURE query8_d2
+IF OBJECT_ID('query8_d', 'P') IS NOT NULL
+  DROP PROCEDURE query8_d
 GO
-CREATE PROCEDURE query8_d2
+CREATE PROCEDURE query8_d
 @inpYear INT
 AS
   BEGIN
