@@ -7,8 +7,8 @@ AS
   BEGIN
     SET NOCOUNT ON;
     -- for test
-    DECLARE @inpYear INT;
-    SET @inpYear = 2010;
+--     DECLARE @inpYear INT;
+--     SET @inpYear = 2010;
 
     -- when I say sons I mean kids :P.
     -- Get the statistics of all the individual horses. this table is to be used with #FATHERS and #MOTHERS so individual father statistics are taken into consideration.

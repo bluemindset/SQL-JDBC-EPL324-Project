@@ -36,6 +36,11 @@ GO
 IF OBJECT_ID('[dbo].[PRIZE2_CONSTR_RACE]') IS NOT NULL 
 ALTER TABLE [dbo].[RACE] DROP CONSTRAINT [PRIZE2_CONSTR_RACE]
 GO
+-- DROP [OWNER_TITLE_DOMAIN]
+IF OBJECT_ID('[dbo].[ID_CONSTR_SYSTEM_USER]') IS NOT NULL
+  ALTER TABLE [dbo].[SYSTEM_USER] DROP CONSTRAINT [ID_CONSTR_SYSTEM_USER]
+GO
+
 
 -- ***********************************************************************************************************************************************************************
 ---- DROP FOREIGN KEY CONSTRAINTS ---- DROP FOREIGN KEY CONSTRAINTS ---- DROP FOREIGN KEY CONSTRAINTS ---- DROP FOREIGN KEY CONSTRAINTS ---- DROP FOREIGN KEY CONSTRAINTS-

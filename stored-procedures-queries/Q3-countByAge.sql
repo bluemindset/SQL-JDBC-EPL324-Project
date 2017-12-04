@@ -7,20 +7,12 @@ CREATE PROCEDURE countHorsesByAgeProc
 @minAge  AS INTEGER , @maxAge	AS INTEGER
 AS
 BEGIN
-	DECLARE @MIN_AGE INTEGER;
-	DECLARE @MAX_AGE INTEGER;
-	SET @MIN_AGE = @minAge;
-	SET @MAX_AGE = (SELECT MAX(H.age) AS oldestHorse
-				    FROM HORSE H);
-	IF @maxAge != 0
-		SET @MAX_AGE = @max_age;
-
 	SELECT H.age, COUNT(*) countHorsesByAge
 	FROM HORSE H
-	WHERE H.age BETWEEN @MIN_AGE AND @MAX_AGE
+	WHERE H.age BETWEEN @minAge AND @maxAge
 	GROUP BY H.age
 	ORDER BY H.age;
 END;
 GO
-EXEC countHorsesByAgeProc @minAge = 1, @maxAge =  0;
+EXEC countHorsesByAgeProc @minAge = 9, @maxAge =  9;
 

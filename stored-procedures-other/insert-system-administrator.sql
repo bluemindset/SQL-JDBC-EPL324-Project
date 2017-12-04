@@ -8,3 +8,5 @@ CREATE PROCEDURE insertSystemAdministrator
 			INSERT INTO [SYSTEM_USER] (id, username, first_name, last_name, [role])
 			VALUES (@id, @username, @firstName, @lastName, 'SA')
 		END
+
+	EXEC insertSystemAdministrator 'dbo', 'tomis', 'chrysostomos', 'chadiminas';
