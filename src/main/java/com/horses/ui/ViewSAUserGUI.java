@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import com.horses.dbmanage.Config;
 import com.horses.dbmanage.ConnectionManager;
 import com.horses.dbmanage.SchemaCreator;
+import com.horses.dbmanage.TableExporter;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -65,6 +66,7 @@ public class ViewSAUserGUI {
 		JButton btnExportDatabase = new JButton("EXPORT DATABASE");
 		btnExportDatabase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TableExporter.exportDB();
 			}
 		});
 		btnExportDatabase.setBounds(12, 46, 261, 23);

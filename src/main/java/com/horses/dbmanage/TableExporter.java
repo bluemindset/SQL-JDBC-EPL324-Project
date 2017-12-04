@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tomis on 04/12/2017.
@@ -40,6 +42,34 @@ public class TableExporter {
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public static void exportDB() {
+        ConnectionManager cm = new ConnectionManager(Config.connection_url);
+        TableExporter te = new TableExporter(cm);
+        List<String> tableNames = new ArrayList<>();
+        tableNames.add("BREEDER");
+        tableNames.add("FAMILY");
+        tableNames.add("FIELD_TYPE");
+        tableNames.add("HORSE");
+        tableNames.add("HORSE_COLOR");
+        tableNames.add("HORSE_SEX");
+        tableNames.add("JOCKEY");
+        tableNames.add("LOG_HISTORY");
+        tableNames.add( "MEETING");
+        tableNames.add( "OWNER");
+        tableNames.add( "PARTICIPATION");
+        tableNames.add( "RACE");
+        tableNames.add( "RACE_DISTANCE");
+        tableNames.add("RACE_TYPE");
+        tableNames.add("SYSTEM_USER");
+        tableNames.add("TRAINER");
+        
+        for(String tn :tableNames) {
+        	te.exportTable(tn, tn + ".txt");
+        }
+        
+        cm.closeConnection();
     }
 
     public static void main (String args[]) {
